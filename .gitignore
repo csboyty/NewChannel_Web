@@ -5,9 +5,15 @@
 *.pydevproject
 .project
 .metadata
+<<<<<<< HEAD
 .idea
 bin/
 tmp/
+=======
+bin/
+tmp/
+.idea
+>>>>>>> ef96d0a6f4f3fb02b19c120964fcbb0538bcc57d
 *.tmp
 *.bak
 *.swp
