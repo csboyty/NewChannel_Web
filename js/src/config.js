@@ -29,6 +29,9 @@ ZY.config={
         postsError:"无法从服务器获取文章摘要。",
         articleError:"无法从服务器获取文章详情。"
     },
+	deviceCode:{
+		iOS : navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false
+	},
     defaultWrapZindex:9996 //遮挡层的默认z-index
 };
 Object.freeze(ZY.config);

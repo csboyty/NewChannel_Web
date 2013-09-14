@@ -174,4 +174,13 @@ $(document).ready(function(){
     $(window).scroll(function(){
         ZY.controllerManager.scrollingHandler();
     });
+	
+	/*=====iOS触屏滚动支持=================*/
+	if(ZY.config.deviceCode.iOS){
+		$(".zy_article_content").addClass("zy_touch_hscroll");
+		$("#zy_landscape_list_container").addClass("zy_touch_hscroll");
+		$("#zy_people_list_container").addClass("zy_touch_hscroll");
+		$("#zy_artifact_list_container").addClass("zy_touch_hscroll");
+		$("#zy_community_list_container").addClass("zy_touch_hscroll");		
+	}
 });

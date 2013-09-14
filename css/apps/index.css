@@ -14,7 +14,12 @@ img{border:none;}
 a{
     text-decoration: none;
 }
-
+/*背景固定*/
+.zy_bg_fixed {
+	position: fixed !important;
+	top: 90px;
+	left: 0;
+}
 /*--音乐播放器,z-index：100--*/
 .zy_music_section{
     position:fixed;
@@ -364,7 +369,7 @@ a{
 }
 .zy_featured_articles li .excerpt{
     text-align: left;
-    color:#dbdab8;
+    color:#666;
     height: 25%;
     overflow: hidden;
 }
@@ -397,13 +402,30 @@ a{
     line-height: 68px;
     background: url(../../images/apps/sprite.png) no-repeat -1286px -679px;
 }
+/*主题背景*/
+
 .zy_section_bg{
     height:720px;
     overflow:hidden;
     font-size:0;
     width:100%;
     position:relative;
+	z-index:1;
 }
+.zy_theme_bg_content{
+	position:absolute;
+	top:0;
+	min-width: 100%;
+	min-height: 720px;
+	opacity:0;
+	-webkit-transition:opacity 1s;
+	-moz-transition:opacity 1s;
+	-ms-transition:opacity 1s;
+	transition:opacity 1s;
+	}
+.zy_theme_bg_default{
+	opacity:1;
+	}
 /*向前向后两个按钮*/
 .zy_contain_prev,.zy_contain_next{
     position: absolute;
@@ -502,6 +524,7 @@ a{
     left:150px ;
     position: absolute;
     width: 100%;
+	z-index:8;
 }
 .zy_landscape_contain{
     width: 100%;
@@ -514,6 +537,7 @@ a{
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+	z-index:8;
 }
 .zy_landscape_contain>.zy_list_container{
     border:none;
@@ -627,6 +651,7 @@ a{
     top:564px;
     left: 175px;
     width: 100%;
+	z-index:8;
 }
 
 /*---------人文和社区共用部分--------*/
@@ -643,6 +668,7 @@ a{
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+	z-index:8;
 }
 .zy_people_list,.zy_community_list{
     padding: 0;
@@ -770,6 +796,7 @@ a{
     left: 175px;
     top:664px;
     width: 100%;
+	z-index:8;
 }
 .zy_artifact_contain{
     width: 100%;
@@ -784,6 +811,7 @@ a{
     white-space: nowrap;
     overflow: hidden;
     position: relative;
+	z-index:8;
 }
 .zy_artifact_list{
     margin:0;
@@ -891,6 +919,7 @@ a{
     position: absolute;
     right: 175px;
     width: 100%;
+	z-index:8;
 }
 /*--z-index:1--*/
 .zy_community_heading{
@@ -926,6 +955,7 @@ a{
     top:564px;
     left: 175px;
     width: 100%;
+	z-index:8;
 }
 
 /*------------------------------------footer部分--------------------------*/
@@ -1169,7 +1199,7 @@ a{
 	bottom:30px;
 	left:50%;	
 	margin-left:-60px;
-	color:#E83A00;
+	color:#ca2e3a;
 	font-weight:bold;
 	cursor:pointer;
 	}
@@ -1231,7 +1261,7 @@ a{
 }
 /* 滚动条滑块 */
 .zy_article_content::-webkit-scrollbar-thumb {
-    background: #E83A00;
+    background: #ca2e3a;
 }
 .zy_article_content_close{
 	cursor:pointer;
@@ -1261,7 +1291,7 @@ a{
 }
 /* 滚动条滑块 */
 .zy_show_load_container::-webkit-scrollbar-thumb {
-    background: #E83A00;
+    background: #ca2e3a;
 }
 .zy_show_load_container img{
 	margin:auto;
@@ -1390,7 +1420,7 @@ a{
 .article-content-post::first-letter{
     display:inline-block;
     font-size:32px;
-    color:#E83A00;
+    color:#ca2e3a;
 }
 .article-content-post img{
     width:100%;
@@ -1399,7 +1429,7 @@ a{
 	margin:0 10px;
 	}
 .article-content-post figcaption{
-	color:#E83A00;
+	color:#ca2e3a;
 	font-size:12px;
 	font-style:italic;
 	line-height:1.4em;
@@ -1465,7 +1495,7 @@ a{
 .article-abstract-slide::first-letter{
     display:inline-block;
     font-size:32px;
-    color:#E83A00;
+    color:#ca2e3a;
 }
 .allslides-slide{
     display:block;

@@ -401,10 +401,10 @@ ZY.controllerManager={
         var sy=window.pageYOffset;
         var topH=$("#zy_top_post").height();
         var winH=$(window).height();
-        var landScapeBG=$("#zy_landscape_theme");
-        var peopleBG=$("#zy_people_theme");
-        var artifactBG=$("#zy_artifact_theme");
-        var communityBG=$("#zy_community_theme");
+        var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
+        var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
+        var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+        var communityBG=$("#zy_community_bg .zy_theme_bg_content");
 
         var menu=$("#zy_nav");
         var landScapeY=$("#zy_landscape").offset().top;
@@ -440,9 +440,9 @@ ZY.controllerManager={
 
         //设置背景状态
         if(sy>landScapeY-winH && sy<=landScapeY+720){
-            if(landScapeBG.hasClass("zy_hidden")){
-                landScapeBG.removeClass("zy_hidden")
-            }
+            if(!ZY.config.deviceCode.iOS){
+					landScapeBG.addClass("zy_bg_fixed");
+				}
             if(!ZY.dataManager.landscapeLoaded){
                 //获取第1个分类(风景）文章
                 ZY.dataManager.getCategoryPosts({
@@ -456,15 +456,13 @@ ZY.controllerManager={
             }
 
         }else{
-            if(!landScapeBG.hasClass("zy_hidden")){
-                landScapeBG.addClass("zy_hidden")
-            }
+            landScapeBG.removeClass("zy_bg_fixed");
         }
 
         if(sy>peopleY-winH && sy<=peopleY+720){
-            if(peopleBG.hasClass("zy_hidden")){
-                peopleBG.removeClass("zy_hidden")
-            }
+            if(!ZY.config.deviceCode.iOS){
+					peopleBG.addClass("zy_bg_fixed");
+				}
 
             if(!ZY.dataManager.peopleLoaded){
                 /*====获取第2个分类（人文）文章===*/
@@ -478,15 +476,13 @@ ZY.controllerManager={
                 ZY.dataManager.peopleLoaded=true;
             }
         }else{
-            if(!peopleBG.hasClass("zy_hidden")){
-                peopleBG.addClass("zy_hidden")
-            }
+            peopleBG.removeClass("zy_bg_fixed");
         }
 
         if(sy>artifactY-winH && sy<=artifactY+720){
-            if(artifactBG.hasClass("zy_hidden")){
-                artifactBG.removeClass("zy_hidden")
-            }
+            if(!ZY.config.deviceCode.iOS){
+					artifactBG.addClass("zy_bg_fixed");
+				}
             if(!ZY.dataManager.artifactLoaded){
                 /*====获取第3个分类(物语）文章===*/
                 ZY.dataManager.getCategoryPosts({
@@ -500,14 +496,12 @@ ZY.controllerManager={
                 ZY.dataManager.artifactLoaded=true;
             }
         }else{
-            if(!artifactBG.hasClass("zy_hidden")){
-                artifactBG.addClass("zy_hidden")
-            }
+            artifactBG.removeClass("zy_bg_fixed");
         }
         if(sy>communityY-winH && sy<=communityY+720){
-            if(communityBG.hasClass("zy_hidden")){
-                communityBG.removeClass("zy_hidden")
-            }
+            if(!ZY.config.deviceCode.iOS){
+					communityBG.addClass("zy_bg_fixed");
+				}
 
             if(!ZY.dataManager.communityLoaded){
                 /*====获取第4个分类(社区）文章===*/
@@ -521,9 +515,7 @@ ZY.controllerManager={
                 ZY.dataManager.communityLoaded=true;
             }
         }else{
-            if(!communityBG.hasClass("zy_hidden")){
-                communityBG.addClass("zy_hidden")
-            }
+            communityBG.removeClass("zy_bg_fixed");
         }
     },
 
