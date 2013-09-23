@@ -74,7 +74,7 @@ ZY.uiManager=(function(){
                 //第一次才换背景
                 if(data["background"]["type"]!="mp4"){
                     target.append($("<img class='zy_theme_bg_content' src='"+data["background"]["filepath"]+
-                        "' onload='ZY.UIManager.fadingIn(this)' />"));
+                        "' onload='ZY.uiManager.fadingIn(this)' />"));
                 }else if(!ZY.config.deviceCode.iOS){
                     //视频作为背景
                     target.append($("<video class='zy_theme_bg_content' autoplay loop muted "+
