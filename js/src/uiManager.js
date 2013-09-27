@@ -89,7 +89,7 @@ ZY.uiManager=(function(){
          * @param {Object} target 需要淡入的元素dom
          */
         fadingIn:function(target){
-            $(target).css("opacity",1)
+            $(target).css("opacity",1);
         },
 
         /**

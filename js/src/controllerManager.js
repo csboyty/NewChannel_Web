@@ -104,10 +104,10 @@ ZY.controllerManager=(function(){
                 if(args.categoryId==ZY.config.categoryIds.artifactId){
 
                     //物语有一个大图，这个位置要计算出来
-                    if($("body").width()>=400){
+                    if($("body").width()>=ZY.config.articleWidths.artifactWidth*2){
 
                         //当页面大于等于400的时候，会显示一个大图,每一个li一个两个小图
-                        limit=parseInt(($("body").width()-400)/args.width)*2+limit*2*2+1;
+                        limit=parseInt(($("body").width()-ZY.config.articleWidths.artifactWidth*2)/args.width)*2+limit*2*2+1;
                     }
                 }else if(args.categoryId==ZY.config.categoryIds.landscapeId){
 
@@ -310,11 +310,22 @@ ZY.controllerManager=(function(){
                     //显示前面一个按钮
                     prevBtn.removeClass("zy_disable");
 
-                    if(parseInt(list.css("left"))<=-(list.find("li").length-limit)*width){
+                    if(categoryId==ZY.config.categoryIds.artifactId){
 
-                        //如果left的值已经到了总数的前一页，说明当前显示的就是最后一页那么就让这个按钮disable。
-                        nextBtn.addClass("zy_disable");
+                        //物语有一个大图是其他的两倍
+                        if(parseInt(list.css("left"))<=-(list.find("li").length-limit+1)*width){
+
+                            //如果left的值已经到了总数的前一页，说明当前显示的就是最后一页那么就让这个按钮disable。
+                            nextBtn.addClass("zy_disable");
+                        }
+                    }else{
+                        if(parseInt(list.css("left"))<=-(list.find("li").length-limit)*width){
+
+                            //如果left的值已经到了总数的前一页，说明当前显示的就是最后一页那么就让这个按钮disable。
+                            nextBtn.addClass("zy_disable");
+                        }
                     }
+
                 });
             }else{
 
@@ -465,7 +476,7 @@ ZY.controllerManager=(function(){
             }
 
             //设置背景状态
-            if(sy>landScapeY-winH && sy<=landScapeY+720){
+            if(sy>landScapeY-winH && sy<=landScapeY+710){
                 if(!ZY.config.deviceCode.iOS){
                         landScapeBG.addClass("zy_bg_fixed");
                     }
@@ -485,7 +496,7 @@ ZY.controllerManager=(function(){
                 landScapeBG.removeClass("zy_bg_fixed");
             }
 
-            if(sy>peopleY-winH && sy<=peopleY+720){
+            if(sy>peopleY-winH && sy<=peopleY+480){
                 if(!ZY.config.deviceCode.iOS){
                         peopleBG.addClass("zy_bg_fixed");
                     }
@@ -505,7 +516,7 @@ ZY.controllerManager=(function(){
                 peopleBG.removeClass("zy_bg_fixed");
             }
 
-            if(sy>artifactY-winH && sy<=artifactY+720){
+            if(sy>artifactY-winH && sy<=artifactY+450){
                 if(!ZY.config.deviceCode.iOS){
                         artifactBG.addClass("zy_bg_fixed");
                     }
@@ -524,7 +535,7 @@ ZY.controllerManager=(function(){
             }else{
                 artifactBG.removeClass("zy_bg_fixed");
             }
-            if(sy>communityY-winH && sy<=communityY+720){
+            if(sy>communityY-winH && sy<=communityY+480){
                 if(!ZY.config.deviceCode.iOS){
                         communityBG.addClass("zy_bg_fixed");
                     }
