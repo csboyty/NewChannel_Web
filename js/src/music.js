@@ -73,11 +73,6 @@ ZY.music={
         $("#zy_music_author").html(target.data("music-author"));
         $("#zy_music_title").html(target.data("music-title"));
         target.addClass("active_music");
-
-        //设置播放控制
-        if(audio.attr("autoplay")){
-            $("#zy_music_control").addClass("zy_music_pause").removeClass("zy_music_play");
-        }
     },
 
     /**
@@ -93,11 +88,6 @@ ZY.music={
         $("#zy_music_author").html(target.data("music-author"));
         $("#zy_music_title").html(target.data("music-title"));
         target.addClass("active_music");
-
-        //设置播放控制
-        if(audio.attr("autoplay")){
-            $("#zy_music_control").addClass("zy_music_pause").removeClass("zy_music_play");
-        }
     },
 
     /**
