@@ -145,9 +145,9 @@ ZY.controllerManager=(function(){
             var nextBtn=args.targetContain.find(".zy_contain_next");
 
             //设置背景
-            if(length!=0){
+            /*if(length!=0){
                 this.setBackGround(args.isFirst,args["posts"][0],args.categoryId);
-            }
+            }*/
 
 
             //记录下最后一个的发布时间,插入数据
@@ -443,6 +443,7 @@ ZY.controllerManager=(function(){
             var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
             var communityBG=$("#zy_community_bg .zy_theme_bg_content");
 
+
             var menu=$("#zy_nav");
             var landScapeY=$("#zy_landscape").offset().top;
             var peopleY=$("#zy_people").offset().top;
@@ -476,7 +477,7 @@ ZY.controllerManager=(function(){
             }
 
             //设置背景状态
-            if(sy>landScapeY-winH && sy<=landScapeY+710){
+            if(sy>landScapeY-winH && sy<=landScapeY+640){
                 if(!ZY.config.deviceCode.iOS){
                         landScapeBG.addClass("zy_bg_fixed");
                     }
@@ -496,7 +497,7 @@ ZY.controllerManager=(function(){
                 landScapeBG.removeClass("zy_bg_fixed");
             }
 
-            if(sy>peopleY-winH && sy<=peopleY+480){
+            if(sy>peopleY-winH && sy<=peopleY+540){
                 if(!ZY.config.deviceCode.iOS){
                         peopleBG.addClass("zy_bg_fixed");
                     }
@@ -516,7 +517,7 @@ ZY.controllerManager=(function(){
                 peopleBG.removeClass("zy_bg_fixed");
             }
 
-            if(sy>artifactY-winH && sy<=artifactY+450){
+            if(sy>artifactY-winH && sy<=artifactY+605){
                 if(!ZY.config.deviceCode.iOS){
                         artifactBG.addClass("zy_bg_fixed");
                     }
@@ -535,7 +536,7 @@ ZY.controllerManager=(function(){
             }else{
                 artifactBG.removeClass("zy_bg_fixed");
             }
-            if(sy>communityY-winH && sy<=communityY+480){
+            if(sy>communityY-winH && sy<=communityY+610){
                 if(!ZY.config.deviceCode.iOS){
                         communityBG.addClass("zy_bg_fixed");
                     }

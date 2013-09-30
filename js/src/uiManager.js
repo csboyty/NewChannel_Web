@@ -34,11 +34,24 @@ ZY.uiManager=(function(){
          */
         scrollToTarget:function(target){
             var top=target.offset().top;
+
+            if(!$("#zy_nav").hasClass("zy_nav_active")){
+                top=top-80;
+            }
             if(top!= undefined){
                 TweenLite.killTweensOf(window);
 
                 //需要减去nav的高度，以为到下面后nav就是fixed不占高度,加5是为了在滚动那里设置nav的状态
-                TweenLite.to(window, 1, {scrollTo:{y:top-80+5, x:0}});
+                if(target.is("#zy_artifact")){
+                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
+                }else if(target.is("#zy_community")){
+                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
+                }else if(target.is("#zy_people")){
+                    TweenLite.to(window, 1, {scrollTo:{y:top-20, x:0}});
+                }else{
+                    TweenLite.to(window, 1, {scrollTo:{y:top, x:0}});
+                }
+
             }
 
         },
@@ -260,7 +273,7 @@ ZY.uiManager=(function(){
             $("#zy_show_load_container").html("");
 
             //恢复音乐
-            if(audio.paused){
+            if(ZY.music.musicPlaying){
                 audio.play();
             }
         },

@@ -8,6 +8,8 @@
 var ZY=ZY||{};
 ZY.music={
 
+    musicPlaying:false, //音乐是否应该播放
+
     /**
      * 将数据注入到页面的歌曲列表,使用juicer
      * @param {Array} musics 音乐对象数组
@@ -45,6 +47,8 @@ ZY.music={
 
         //开始进入不播放，在播放状态点击下一首就不会自动播放，所以要设置一下autoplay属性
         audio.attr("autoplay","autoplay");
+
+        this.musicPlaying=true;
     },
 
     /**
@@ -58,6 +62,8 @@ ZY.music={
 
         //开始进入不播放，在暂停状态，点击下一首应该不要自动播放，所以要去除autoplay属性
         audio.attr("autoplay",false);
+
+        this.musicPlaying=false;
     },
 
     /**
