@@ -142,27 +142,6 @@ a{
 .zy_main_wrapper{
     overflow: hidden;
 }
-/*--主题背景层--*/
-.zy_theme_bg{
-    position:fixed;
-    top:80px;
-    min-height: 720px;
-    width:100%;
-}
-.zy_theme_bg_content{
-    position:absolute;
-    top:0;
-    min-width: 100%;
-    min-height: 720px;
-    opacity:0;
-    -webkit-transition:opacity 1s;
-    -moz-transition:opacity 1s;
-    -ms-transition:opacity 1s;
-    transition:opacity 1s;
-}
-.zy_theme_bg_default{
-    opacity:1;
-}
 
 /*--封面故事--*/
 .zy_top_post{
