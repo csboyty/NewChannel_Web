@@ -86,6 +86,8 @@ ZY.uiManager=(function(){
             if(data["background"]!==null){
                 //第一次才换背景
                 if(data["background"]["type"]!="mp4"){
+
+                    //使用append比使用html函数过度效果好
                     target.append($("<img class='zy_theme_bg_content' src='"+data["background"]["filepath"]+
                         "' onload='ZY.uiManager.fadingIn(this)' />"));
                 }else if(!ZY.config.deviceCode.iOS){

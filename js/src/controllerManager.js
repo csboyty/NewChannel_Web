@@ -8,6 +8,22 @@
 var ZY=ZY||{};
 ZY.controllerManager=(function(){
 
+    var topH=$("#zy_top_post").height();
+    var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
+    var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
+    var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+    var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+
+
+    var menu=$("#zy_nav");
+
+    //进入页面时nav为非fixed状态，滚动到下面后变成fiexd，不占高度，所以要减去
+    var landScapeY=$("#zy_landscape").offset().top-80;
+    var peopleY=$("#zy_people").offset().top-80;
+    var artifactY=$("#zy_artifact").offset().top-80;
+    var communityY=$("#zy_community").offset().top-80;
+    var footerY=$(".zy_footer").offset().top-80;
+
     /**
      * 设置页面的最大个数
      * @param categoryId
@@ -191,12 +207,16 @@ ZY.controllerManager=(function(){
             if(isFirst&&firstPost["post_id"]!=ZY.dataManager.topPostId){
                 if(categoryId==ZY.config.categoryIds.peopleId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_people_theme"));
+                    peopleBG=$("#zy_people_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.landscapeId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_landscape_theme"));
+                    landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.communityId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_community_theme"));
+                    communityBG=$("#zy_community_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.artifactId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_artifact_theme"));
+                    artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
                 }
             }
         },
@@ -426,27 +446,42 @@ ZY.controllerManager=(function(){
                 }
                 TweenLite.to(target, 0.5, {scrollTo:{x:left}});
 
-                evt.preventDefault();
+                //兼容ie
+                if(evt.preventDefault){
+                    evt.preventDefault();
+                    //evt.stopPropagation(); //如果调用了setWheelScrollSpeed，需要阻止冒泡到window
+                }else{
+                    evt.returnValue=false;
+                    //evt.cancelBubble = false;
+                }
             };
             target.addEventListener(mousewheelEvt, mousewheelHandler);
         },
 
 
         /**
-         * 设置window滚动模式
+         * 设置window滚动速度为每次滚动100
          */
-        wheelScrollModeOn:function(){
+        setWheelScrollSpeed:function(){
             var mousewheelEvt= document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
             var mousewheelHandler=function (evt) {
-                var top=0;
+                var top=$(window).scrollTop();
                 evt = window.event || evt;
                 if(evt.wheelDelta <0 || evt.detail>0){
-                    top=$(window).scrollTop()+100;
+                    $(window).scrollTop(top+100);
                 }else{
-                    top=$(window).scrollTop()-100;
+                    $(window).scrollTop(top-100);
                 }
-                TweenLite.killTweensOf(window);
-                TweenLite.to(window, 0.5, {scrollTo:{y:top}});
+                //TweenLite.killTweensOf(window);
+                //TweenLite.to(window, 0.5, {scrollTo:{y:top}});
+
+                //兼容ie
+                if(evt.preventDefault){
+                    evt.preventDefault();
+                }else{
+                    evt.returnValue=false;
+                }
+                //evt.preventDefault();
             };
             window.addEventListener(mousewheelEvt, mousewheelHandler);
         },
@@ -456,20 +491,8 @@ ZY.controllerManager=(function(){
          */
         scrollingHandler:function(){
             var sy=window.pageYOffset;
-            var topH=$("#zy_top_post").height();
             var winH=$(window).height();
-            var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
-            var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
-            var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
-            var communityBG=$("#zy_community_bg .zy_theme_bg_content");
 
-
-            var menu=$("#zy_nav");
-            var landScapeY=$("#zy_landscape").offset().top;
-            var peopleY=$("#zy_people").offset().top;
-            var artifactY=$("#zy_artifact").offset().top;
-            var communityY=$("#zy_community").offset().top;
-            var footerY=$(".zy_footer").offset().top;
 
             //菜单操作
             if(sy>=topH){
@@ -484,19 +507,19 @@ ZY.controllerManager=(function(){
 
             //设置顶部菜单状态, 首先重置所有菜单,计算时要减去nav的80高
             $("#zy_nav ul li a").removeClass("active");
-            if(sy<=landScapeY-80){
+            if(sy<=landScapeY){
 
-            }else if(sy<=peopleY-80){
+            }else if(sy<=peopleY){
                 $("#zy_nav ul li:nth-child(1) a").addClass("active");
-            }else if(sy<=artifactY-80){
+            }else if(sy<=artifactY){
                 $("#zy_nav ul li:nth-child(2) a").addClass("active");
-            }else if(sy<=communityY-80){
+            }else if(sy<=communityY){
                 $("#zy_nav ul li:nth-child(4) a").addClass("active");
-            }else if(sy<=footerY-80){
+            }else if(sy<=footerY){
                 $("#zy_nav ul li:nth-child(5) a").addClass("active");
             }
 
-            //设置背景状态
+            //设置背景状态,计算时要减去nav的80高
             if(sy>landScapeY-winH && sy<=landScapeY+640){
                 if(!ZY.config.deviceCode.iOS){
                         landScapeBG.addClass("zy_bg_fixed");
@@ -517,7 +540,7 @@ ZY.controllerManager=(function(){
                 landScapeBG.removeClass("zy_bg_fixed");
             }
 
-            if(sy>peopleY-winH && sy<=peopleY+540){
+            if(sy>peopleY-winH-80 && sy<=peopleY+540){
                 if(!ZY.config.deviceCode.iOS){
                         peopleBG.addClass("zy_bg_fixed");
                     }
