@@ -130,7 +130,7 @@ $(document).ready(function(){
     });
 
     //显示单篇文章时的横向滚动
-    ZY.controllerManager.wheelScrollModeOn($("#zy_article_content")[0]);
+    ZY.controllerManager.bindHScroll($("#zy_article_content")[0]);
 
     //收回单篇文章展示
     $("#zy_article_content_close").click(function(){

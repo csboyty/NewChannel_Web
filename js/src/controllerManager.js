@@ -414,11 +414,11 @@ ZY.controllerManager=(function(){
          * 横向滚轮事件
          * @param {Object} target 需要添加此事件的元素jquery对象
          */
-        wheelScrollModeOn:function(target){
+        bindHScroll:function(target){
             var mousewheelEvt= document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
             var mousewheelHandler=function (evt) {
-                var evt = window.event || evt;
                 var left=0;
+                evt = window.event || evt;
                 if(evt.wheelDelta <0 || evt.detail>0){
                     left=target.scrollLeft+500;
                 }else{
@@ -429,6 +429,26 @@ ZY.controllerManager=(function(){
                 evt.preventDefault();
             };
             target.addEventListener(mousewheelEvt, mousewheelHandler);
+        },
+
+
+        /**
+         * 设置window滚动模式
+         */
+        wheelScrollModeOn:function(){
+            var mousewheelEvt= document.onmousewheel !== undefined ? "mousewheel" : "DOMMouseScroll";
+            var mousewheelHandler=function (evt) {
+                var top=0;
+                evt = window.event || evt;
+                if(evt.wheelDelta <0 || evt.detail>0){
+                    top=$(window).scrollTop()+100;
+                }else{
+                    top=$(window).scrollTop()-100;
+                }
+                TweenLite.killTweensOf(window);
+                TweenLite.to(window, 0.5, {scrollTo:{y:top}});
+            };
+            window.addEventListener(mousewheelEvt, mousewheelHandler);
         },
 
         /**
