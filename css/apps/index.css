@@ -148,6 +148,7 @@ a{
     position:relative;
     width:100%;
     overflow:hidden;
+    z-index: 5;
 }
 .zy_top_post_poster{
     width: 100%;
@@ -189,12 +190,14 @@ a{
     background: url(../../images/apps/nav_bg.png) repeat-x;
     height: 80px;
     position: relative;
+    z-index: 5;
 }
 .zy_nav ul{
     width:80%;
     margin:0px auto;
     text-align: center;
     padding:0px;
+    z-index: 5;
 }
 .zy_nav ul li:not(.zy_logo_li){
     display: inline-block;
@@ -214,9 +217,6 @@ a{
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    position: absolute;
-    margin: 0px 0px 0px -40px;
-    left: 50%;
     z-index: 50;
 }
 .zy_nav ul li>a:hover,.zy_nav ul li>a.active{
@@ -236,7 +236,7 @@ a{
     width: 100%;
     left:0px;
     margin: 0px;
-    z-index: 2;
+    z-index: 8;
 }
 .zy_logo:before,.zy_logo:after{
     content: "";
@@ -867,7 +867,7 @@ a{
 .zy_artifact_list .zy_article_abstract{
     position: absolute;
     bottom:20px;
-    left:10px;
+    left:20px;
     width: 300px;
     height: 190px;
     background: url(../../images/apps/sprite.png) no-repeat -2px -761px;
@@ -1682,5 +1682,20 @@ a{
     }
     .zy_featured_articles li .excerpt{
         height: 118px;
+    }
+}
+
+@media screen and (min-width: 1900px) {
+    .zy_featured_articles li .excerpt{
+        display: none;
+    }
+    .zy_featured_articles li .title{
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 2150px) {
+    .zy_featured_articles li .title{
+        display: none;
     }
 }
