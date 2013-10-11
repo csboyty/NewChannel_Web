@@ -46,8 +46,6 @@ ZY.uiManager=(function(){
                     TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
                 }else if(target.is("#zy_community")){
                     TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
-                }else if(target.is("#zy_people")){
-                    TweenLite.to(window, 1, {scrollTo:{y:top+1, x:0}});
                 }else{
                     TweenLite.to(window, 1, {scrollTo:{y:top+1, x:0}});
                 }
