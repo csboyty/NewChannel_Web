@@ -1540,7 +1540,7 @@ a{
     -moz-column-height:400px;
     line-height:2em;
     letter-spacing:2px;
-    z-index:0.5;
+    z-index:1;
 
 }
 .article-content-post::first-letter{
@@ -1574,13 +1574,13 @@ a{
 .videoslide:before
 {
     content:"";
-    background:url(../../images/apps/video_play.png) no-repeat;
-    width:60px;
-    height:60px;
+    background:url(../../images/apps/hasvideo.png) no-repeat;
+    width:80px;
+    height:80px;
     position:absolute;
     top:50%;
     left:50%;
-    margin:-30px 0 0 -30px;
+    margin:-40px 0 0 -40px;
 }
 
 /*幻灯片模版展示*/
