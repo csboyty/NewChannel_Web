@@ -10,6 +10,15 @@ body{
 .zy_hidden,.zy_disable{
     display: none;
 }
+.hasVideo:before{
+    content:"";
+    background: url(../../images/apps/hasvideo.png) no-repeat;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 0px;
+    top:0px;
+}
 .zy_touch_hscroll{
     overflow:auto !important;
     overflow-x:scroll !important;

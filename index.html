@@ -139,7 +139,11 @@
         {@if index>=1}
         <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}">
             <div class="abstract">
-                <div class="thumb"><img src="${post.thumb}" /></div>
+                {@if post.hasVideo}
+                    <div class="thumb hasVideo"><img src="${post.thumb}" /></div>
+                {@else}
+                    <div class="thumb"><img src="${post.thumb}" /></div>
+                {@/if}
                 <h3 class="title">${post.post_title}</h3>
                 <p class="excerpt">${post.post_excerpt}</p>
                 <div class="date">
@@ -173,15 +177,32 @@
 
             {@each posts as post}
             <li  class="zy_landscape_article">
-                <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
-                    <img src="${post.top.thumb}"/>
-                    <h2>${post.top.post_title}</h2>
-                </div>
+                {@if post.top.hasVideo}
+                    <div class="zy_article_info hasVideo" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                        <img src="${post.top.thumb}"/>
+                        <h2>${post.top.post_title}</h2>
+                    </div>
+                {@else}
+                    <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                        <img src="${post.top.thumb}"/>
+                        <h2>${post.top.post_title}</h2>
+                    </div>
+                {@/if}
+
                 {@if post.bottom}
-                <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
-                    <img src="${post.bottom.thumb}"/>
-                    <h2>${post.bottom.post_title}</h2>
-                </div>
+
+                    {@if post.bottom.hasVideo}
+                        <div class="zy_article_info hasVideo" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                            <img src="${post.bottom.thumb}"/>
+                            <h2>${post.bottom.post_title}</h2>
+                        </div>
+                    {@else}
+                        <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                            <img src="${post.bottom.thumb}"/>
+                            <h2>${post.bottom.post_title}</h2>
+                        </div>
+                    {@/if}
+
                 {@/if}
             </li>
             {@/each}
@@ -213,7 +234,11 @@
 
                 {@each posts as post}
                     <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}" class="zy_people_article">
-                        <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                        {@if post.hasVideo}
+                            <div class="zy_article_thumb hasVideo"><img src="${post.thumb}"/></div>
+                        {@else}
+                            <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                        {@/if}
                         <div class="zy_article_abstract">
                             <h2>${post.post_title}</h2>
                             <p class="zy_article_date">${post.post_date}</p>
@@ -248,7 +273,11 @@
                     {@each posts as post,index}
                         {@if index==0}
                             <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}" class="zy_artifact_article">
-                                <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                                {@if post.hasVideo}
+                                    <div class="zy_article_thumb hasVideo"><img src="${post.thumb}"/></div>
+                                {@else}
+                                    <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                                {@/if}
                                 <div class="zy_article_abstract">
                                     <h2>${post.post_title}</h2>
                                     <p>${post.post_excerpt}</p>
@@ -256,15 +285,29 @@
                             </li>
                         {@else}
                             <li  class="zy_artifact_article">
-                                <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
-                                    <img src="${post.top.thumb}"/>
-                                    <h2>${post.top.post_title}</h2>
-                                </div>
+                                {@if post.top.hasVideo}
+                                    <div class="zy_article_info hasVideo" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                                        <img src="${post.top.thumb}"/>
+                                        <h2>${post.top.post_title}</h2>
+                                    </div>
+                                {@else}
+                                    <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                                        <img src="${post.top.thumb}"/>
+                                        <h2>${post.top.post_title}</h2>
+                                    </div>
+                                {@/if}
                                 {@if post.bottom}
-                                <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
-                                    <img src="${post.bottom.thumb}"/>
-                                    <h2>${post.bottom.post_title}</h2>
-                                </div>
+                                    {@if post.bottom.hasVideo}
+                                        <div class="zy_article_info hasVideo" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                                            <img src="${post.bottom.thumb}"/>
+                                            <h2>${post.bottom.post_title}</h2>
+                                        </div>
+                                    {@else}
+                                        <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                                            <img src="${post.bottom.thumb}"/>
+                                            <h2>${post.bottom.post_title}</h2>
+                                        </div>
+                                    {@/if}
                                 {@/if}
                             </li>
                         {@/if}
@@ -272,15 +315,29 @@
                 {@else}
                     {@each posts as post}
                         <li  class="zy_artifact_article">
-                            <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
-                                <img src="${post.top.thumb}"/>
-                                <h2>${post.top.post_title}</h2>
-                            </div>
+                            {@if post.top.hasVideo}
+                                <div class="zy_article_info hasVideo" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                                    <img src="${post.top.thumb}"/>
+                                    <h2>${post.top.post_title}</h2>
+                                </div>
+                            {@else}
+                                <div class="zy_article_info" data-zy-post-id="${post.top.post_id}" data-zy-post-type="${post.top.post_mime_type}">
+                                    <img src="${post.top.thumb}"/>
+                                    <h2>${post.top.post_title}</h2>
+                                </div>
+                            {@/if}
                             {@if post.bottom}
-                            <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
-                                <img src="${post.bottom.thumb}"/>
-                                <h2>${post.bottom.post_title}</h2>
-                            </div>
+                                {@if post.bottom.hasVideo}
+                                    <div class="zy_article_info hasVideo" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                                        <img src="${post.bottom.thumb}"/>
+                                        <h2>${post.bottom.post_title}</h2>
+                                    </div>
+                                {@else}
+                                    <div class="zy_article_info" data-zy-post-id="${post.bottom.post_id}" data-zy-post-type="${post.bottom.post_mime_type}">
+                                        <img src="${post.bottom.thumb}"/>
+                                        <h2>${post.bottom.post_title}</h2>
+                                    </div>
+                                {@/if}
                             {@/if}
                         </li>
                     {@/each}
@@ -312,7 +369,11 @@
 
                 {@each posts as post}
                 <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}" class="zy_community_article">
-                    <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                    {@if post.hasVideo}
+                        <div class="zy_article_thumb hasVideo"><img src="${post.thumb}"/></div>
+                    {@else}
+                        <div class="zy_article_thumb"><img src="${post.thumb}"/></div>
+                    {@/if}
                     <div class="zy_article_abstract">
                         <h2>${post.post_title}</h2>
                         <p class="zy_article_date">${post.post_date}</p>
