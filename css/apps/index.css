@@ -315,7 +315,7 @@ a{
     top:0px;
     width:275px;
     height:210px;
-    background: url(../../images/apps/sprite.png) no-repeat -437px -760px;
+    background: url(../../images/apps/mask_features_top.png) no-repeat;
 }
 
 .zy_featured_heading{
@@ -583,6 +583,7 @@ a{
 }
 .zy_landscape_article>.zy_article_info img{
     width:100%;
+
 }
 .zy_landscape_article>.zy_article_info h2{
     position: absolute;
@@ -873,6 +874,10 @@ a{
 .zy_artifact_list>.zy_artifact_article:first-child>.zy_article_thumb{
     height: 400px;
 }
+.zy_artifact_list>.zy_artifact_article:first-child>.zy_article_thumb>img{
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
 .zy_artifact_list .zy_article_abstract{
     position: absolute;
     bottom:20px;
@@ -907,6 +912,8 @@ a{
 }
 .zy_artifact_article>.zy_article_info img{
     width:100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 .zy_artifact_article>.zy_article_info h2{
     position: absolute;
