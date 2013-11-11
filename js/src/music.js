@@ -9,6 +9,7 @@ var ZY=ZY||{};
 ZY.music={
 
     musicPlaying:false, //音乐是否应该播放
+    musicLiLength:0,
 
     /**
      * 将数据注入到页面的歌曲列表,使用juicer
@@ -22,17 +23,21 @@ ZY.music={
         //设置第一首音乐信息
         $("#zy_music_audio").attr("src",musics[0].music_path);
         $("#zy_music_title").html(musics[0].music_title);
+
+        this.musicLiLength=musics.length;
     },
 
     /**
      * 音乐播放、暂停事件逻辑
      */
     musicControlHandler:function(){
-        var musicControl=$("#zy_music_control");
-        if(musicControl.hasClass("zy_music_play")){
-            this.musicPlay();
-        }else if (musicControl.hasClass("zy_music_pause")){
-            this.musicPause();
+        if(this.musicLiLength!=0){
+            var musicControl=$("#zy_music_control");
+            if(musicControl.hasClass("zy_music_play")){
+                this.musicPlay();
+            }else if (musicControl.hasClass("zy_music_pause")){
+                this.musicPause();
+            }
         }
     },
 
@@ -70,30 +75,36 @@ ZY.music={
      * 上一首
      */
     musicPrev:function(){
-        $("#zy_music_timeline").stop().width("0%");
-        var activeMusic=$(".active_music");
-        var audio=$("#zy_music_audio");
-        var target=activeMusic.prev().length!=0?activeMusic.prev():$("#zy_music_list li:last");
-        activeMusic.removeClass("active_music");
-        audio.attr("src",target.html());//设置音乐路径
-        $("#zy_music_author").html(target.data("music-author"));
-        $("#zy_music_title").html(target.data("music-title"));
-        target.addClass("active_music");
+        if(this.musicLiLength!=0){
+            $("#zy_music_timeline").stop().width("0%");
+            var activeMusic=$(".active_music");
+            var audio=$("#zy_music_audio");
+            var target=activeMusic.prev().length!=0?activeMusic.prev():$("#zy_music_list li:last");
+            activeMusic.removeClass("active_music");
+            audio.attr("src",target.html());//设置音乐路径
+            $("#zy_music_author").html(target.data("music-author"));
+            $("#zy_music_title").html(target.data("music-title"));
+            target.addClass("active_music");
+        }
+
     },
 
     /**
      * 下一首
      */
     musicNext:function(){
-        $("#zy_music_timeline").stop().width("0%");
-        var activeMusic=$(".active_music");
-        var audio=$("#zy_music_audio");
-        var target=activeMusic.next().length!=0?activeMusic.next():$("#zy_music_list li:first");
-        activeMusic.removeClass("active_music");
-        audio.attr("src",target.html());//设置音乐路径
-        $("#zy_music_author").html(target.data("music-author"));
-        $("#zy_music_title").html(target.data("music-title"));
-        target.addClass("active_music");
+        if(this.musicLiLength!=0){
+            $("#zy_music_timeline").stop().width("0%");
+            var activeMusic=$(".active_music");
+            var audio=$("#zy_music_audio");
+            var target=activeMusic.next().length!=0?activeMusic.next():$("#zy_music_list li:first");
+            activeMusic.removeClass("active_music");
+            audio.attr("src",target.html());//设置音乐路径
+            $("#zy_music_author").html(target.data("music-author"));
+            $("#zy_music_title").html(target.data("music-title"));
+            target.addClass("active_music");
+        }
+
     },
 
     /**

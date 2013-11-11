@@ -36,12 +36,14 @@ ZY.dataManager = {
                         var musics=response.data;
                         ZY.music.setMusicList(musics);
                     }else{
-                        ZY.uiManager.showPopOut(ZY.config.errorCode.musicError,false)
+                        $("#zy_music_title").text(ZY.config.errorCode.hasNoMusic);
                     }
+                }else{
+                    ZY.uiManager.showPopOut(ZY.config.errorCode.musicError,false);
                 }
             },
             error: function(){
-                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError,false)
+                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError,false);
             }
         });
     },
@@ -106,8 +108,6 @@ ZY.dataManager = {
             },
             success:function(response){
 
-                ZY.uiManager.hideLoadingSpinner($(args.targetContain));
-
                 //要保存数据，并且添加数据到html
                 if(response.success){
 
@@ -125,9 +125,10 @@ ZY.dataManager = {
 
                 }else{
                     //提示网络异常的错误
-                    ZY.uiManager.hideLoadingSpinner(args.targetContain);
                     ZY.uiManager.showPopOut(ZY.config.errorCode.postsError,false)
                 }
+
+                ZY.uiManager.hideLoadingSpinner($(args.targetContain));
 
             },
             error:function(){

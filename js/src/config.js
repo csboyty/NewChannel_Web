@@ -26,6 +26,7 @@ ZY.config={
     errorCode:{
         connectionError:"无法连接到服务器。", //错误提示信息
         musicError:"无法从服务器获取音乐。",
+        hasNoMusic:"没有上传音乐",
         postsError:"无法从服务器获取文章摘要。",
         articleError:"无法从服务器获取文章详情。"
     },
