@@ -877,6 +877,7 @@ a{
 .zy_artifact_list>.zy_artifact_article:first-child>.zy_article_thumb>img{
     border: 1px solid #ccc;
     box-sizing: border-box;
+    width:100%;
 }
 .zy_artifact_list .zy_article_abstract{
     position: absolute;
