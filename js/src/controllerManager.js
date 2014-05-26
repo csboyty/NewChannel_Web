@@ -10,19 +10,19 @@ ZY.controllerManager=(function(){
 
     var rect="";//clip的rect值
     var topH=$("#zy_top_post").height();
-    var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
-    var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
-    var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
-    var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+    var sectionOneBG=$("#zy_section_one_bg .zy_theme_bg_content");
+    var sectionTwoBG=$("#zy_section_two_bg .zy_theme_bg_content");
+    var sectionThreeBG=$("#zy_section_three_bg .zy_theme_bg_content");
+    var sectionFourBG=$("#zy_section_four_bg .zy_theme_bg_content");
 
 
     var menu=$("#zy_nav");
 
     //进入页面时nav为非fixed状态，滚动到下面后变成fiexd，不占高度，所以要减去
-    var landScapeY=$("#zy_landscape").offset().top-80;
-    var peopleY=$("#zy_people").offset().top-80;
-    var artifactY=$("#zy_artifact").offset().top-80;
-    var communityY=$("#zy_community").offset().top-80;
+    var sectionOneY=$("#zy_section_one").offset().top-80;
+    var sectionTwoY=$("#zy_section_two").offset().top-80;
+    var sectionThreeY=$("#zy_section_three").offset().top-80;
+    var sectionFourY=$("#zy_section_four").offset().top-80;
     var footerY=$(".zy_footer").offset().top-80;
 
     /**
@@ -32,7 +32,7 @@ ZY.controllerManager=(function(){
      * @returns {*}
      */
     function setMaxLimit(categoryId,limit){
-        if(categoryId==ZY.config.categoryIds.landscapeId){
+        if(categoryId==ZY.config.categoryIds.sectionOneId){
             if(limit>3){
                 limit=3;
             }
@@ -108,25 +108,25 @@ ZY.controllerManager=(function(){
             limit=setMaxLimit(args.categoryId,limit);
 
             //每次请求，都需要设置外围的宽度
-            args.targetContain.find(".zy_list_container").width(limit*args.width);
+            args.targetContain.find(".zy_post_list_container").width(limit*args.width);
 
             //首先隐藏下一页按钮，获取到数据后再显示
-            args.targetContain.find(".zy_contain_next").addClass("zy_disable");
+            args.targetContain.find(".zy_page_next").addClass("zy_disable");
             ZY.uiManager.showLoadingSpinner($(args.targetContain));
 
             //设置请求个数
             if(args.isFirst){
 
                 //第一次请求要请求3页的数据
-                if(args.categoryId==ZY.config.categoryIds.artifactId){
+                if(args.categoryId==ZY.config.categoryIds.sectionThreeId){
 
                     //物语有一个大图，这个位置要计算出来
-                    if($("body").width()>=ZY.config.articleWidths.artifactWidth*2){
+                    if($("body").width()>=ZY.config.articleWidths.sectionThreeWidth*2){
 
                         //当页面大于等于400的时候，会显示一个大图,每一个li一个两个小图
-                        limit=parseInt(($("body").width()-ZY.config.articleWidths.artifactWidth*2)/args.width)*2+limit*2*2+1;
+                        limit=parseInt(($("body").width()-ZY.config.articleWidths.sectionThreeWidth*2)/args.width)*2+limit*2*2+1;
                     }
-                }else if(args.categoryId==ZY.config.categoryIds.landscapeId){
+                }else if(args.categoryId==ZY.config.categoryIds.sectionOneId){
 
                     //加载三页的数据，防止用户突然拉大屏幕，导致下一页数据不足=limit*3;
                     limit=limit*3*2;
@@ -136,7 +136,7 @@ ZY.controllerManager=(function(){
             }else{
 
                 //如果不是第一次请求,最少加载两页数据，有可能用户突然拉大屏幕，导致下一页数据不足
-                if(args.categoryId==ZY.config.categoryIds.landscapeId||args.categoryId==ZY.config.categoryIds.artifactId){
+                if(args.categoryId==ZY.config.categoryIds.sectionOneId||args.categoryId==ZY.config.categoryIds.sectionThreeId){
 
                     //每一个li里面两个小图
                     limit=limit*2*2;
@@ -159,12 +159,12 @@ ZY.controllerManager=(function(){
          */
         doResponse:function(args){
             var length=args.posts.length;
-            var nextBtn=args.targetContain.find(".zy_contain_next");
+            var nextBtn=args.targetContain.find(".zy_page_next");
 
             //设置背景
             /*if(length!=0){
-                this.setBackGround(args.isFirst,args["posts"][0],args.categoryId);
-            }*/
+             this.setBackGround(args.isFirst,args["posts"][0],args.categoryId);
+             }*/
 
 
             //记录下最后一个的发布时间,插入数据
@@ -172,14 +172,14 @@ ZY.controllerManager=(function(){
 
                 //在数据不为0的情况下，记录下最有一个的时间
                 if(length!=0){
-                   this.handlerPosts(args.categoryId,args.posts,length,args.isFirst);
+                    this.handlerPosts(args.categoryId,args.posts,length,args.isFirst);
                 }
 
                 //加载完成后默认显示下一页按钮
                 nextBtn.removeClass("zy_disable");
 
                 //但如果是第一次加载，并且数量小于一页的数量，要设置按钮不可见
-                if(args.categoryId==ZY.config.categoryIds.artifactId){
+                if(args.categoryId==ZY.config.categoryIds.sectionThreeId){
                     if(args.isFirst&&(length<=(args.limit+1)/3-1)){
                         nextBtn.addClass("zy_disable");
                     }
@@ -206,18 +206,18 @@ ZY.controllerManager=(function(){
          */
         setBackGround:function(isFirst,firstPost,categoryId){
             if(isFirst&&firstPost["post_id"]!=ZY.dataManager.topPostId){
-                if(categoryId==ZY.config.categoryIds.peopleId){
-                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_people_theme"));
-                    peopleBG=$("#zy_people_bg .zy_theme_bg_content");
-                }else if(categoryId==ZY.config.categoryIds.landscapeId){
-                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_landscape_theme"));
-                    landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
-                }else if(categoryId==ZY.config.categoryIds.communityId){
-                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_community_theme"));
-                    communityBG=$("#zy_community_bg .zy_theme_bg_content");
-                }else if(categoryId==ZY.config.categoryIds.artifactId){
-                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_artifact_theme"));
-                    artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+                if(categoryId==ZY.config.categoryIds.sectionTwoId){
+                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_section_two_theme"));
+                    sectionTwoBG=$("#zy_section_two_bg .zy_theme_bg_content");
+                }else if(categoryId==ZY.config.categoryIds.sectionOneId){
+                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_section_one_theme"));
+                    sectionOneBG=$("#zy_section_one_bg .zy_theme_bg_content");
+                }else if(categoryId==ZY.config.categoryIds.sectionFourId){
+                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_section_four_theme"));
+                    sectionFourBG=$("#zy_section_four_bg .zy_theme_bg_content");
+                }else if(categoryId==ZY.config.categoryIds.sectionThreeId){
+                    ZY.uiManager.updateSectionBg(firstPost,$("#zy_section_three_theme"));
+                    sectionThreeBG=$("#zy_section_three_bg .zy_theme_bg_content");
                 }
             }
         },
@@ -230,18 +230,18 @@ ZY.controllerManager=(function(){
          * @param {Boolean} isFirst 是否第一次请求
          */
         handlerPosts:function(categoryId,posts,length,isFirst){
-            if(categoryId==ZY.config.categoryIds.peopleId){
-                ZY.dataManager.lastPeopleDate=posts[length-1]["post_full_date"];
-                ZY.uiManager.showPeoplePosts(posts);
-            }else if(categoryId==ZY.config.categoryIds.landscapeId){
-                ZY.dataManager.lastLandscapeDate=posts[length-1]["post_full_date"];
-                ZY.uiManager.showLandscapePosts(this.handlerLandscapePosts(posts,length));
-            }else if(categoryId==ZY.config.categoryIds.communityId){
-                ZY.dataManager.lastCommunityDate=posts[length-1]["post_full_date"];
-                ZY.uiManager.showCommunityPosts(posts);
-            }else if(categoryId==ZY.config.categoryIds.artifactId){
-                ZY.dataManager.lastArtifactDate=posts[length-1]["post_full_date"];
-                ZY.uiManager.showArtifactPosts(this.handlerArtifactPosts(posts,length,isFirst),isFirst);
+            if(categoryId==ZY.config.categoryIds.sectionTwoId){
+                ZY.dataManager.lastSectionTwoDate=posts[length-1]["post_full_date"];
+                ZY.uiManager.showSectionTwoPosts(posts);
+            }else if(categoryId==ZY.config.categoryIds.sectionOneId){
+                ZY.dataManager.lastSectionOneDate=posts[length-1]["post_full_date"];
+                ZY.uiManager.showSectionOnePosts(this.handlerSectionOnePosts(posts,length));
+            }else if(categoryId==ZY.config.categoryIds.sectionFourId){
+                ZY.dataManager.lastSectionFourDate=posts[length-1]["post_full_date"];
+                ZY.uiManager.showSectionFourPosts(posts);
+            }else if(categoryId==ZY.config.categoryIds.sectionThreeId){
+                ZY.dataManager.lastSectionThreeDate=posts[length-1]["post_full_date"];
+                ZY.uiManager.showSectionThreePosts(this.handlerSectionThreePosts(posts,length,isFirst),isFirst);
             }
         },
 
@@ -250,15 +250,15 @@ ZY.controllerManager=(function(){
          * @param {Array} posts 文章对象数组
          * @param {Number} length 返回的数组的长度
          */
-        handlerLandscapePosts:function(posts,length){
+        handlerSectionOnePosts:function(posts,length){
             var array=[];
             for(var i=0;i<length;i++){
-                 var post={};
-                 post.top=posts[i];
+                var post={};
+                post.top=posts[i];
 
-                 var next=++i;
-                 post.bottom=posts[next];
-                 array.push(post);
+                var next=++i;
+                post.bottom=posts[next];
+                array.push(post);
             }
 
             return array;
@@ -270,7 +270,7 @@ ZY.controllerManager=(function(){
          * @param {Number} length 返回的数组的长度
          * @param {Boolean} isFirst 是否第一次请求
          */
-        handlerArtifactPosts:function(posts,length,isFirst){
+        handlerSectionThreePosts:function(posts,length,isFirst){
             var array=[];
             for(var i=0;i<length;i++){
                 var post={};
@@ -294,8 +294,8 @@ ZY.controllerManager=(function(){
          * @param {Object} targetContain 容器元素的jquery对象
          */
         addHoverEvent:function(targetContain){
-            var nextBtn=targetContain.find(".zy_contain_next");
-            var prevBtn=targetContain.find(".zy_contain_prev");
+            var nextBtn=targetContain.find(".zy_page_next");
+            var prevBtn=targetContain.find(".zy_page_prev");
 
             targetContain.hover(function(){
                 prevBtn.css("opacity",1);
@@ -316,10 +316,10 @@ ZY.controllerManager=(function(){
         nextPage:function(targetContain,width,categoryId,lastDate){
             var limit=parseInt($("body").width()/width);
             limit=setMaxLimit(categoryId,limit);
-            var nextBtn=targetContain.find("a.zy_contain_next");
-            var prevBtn=targetContain.find("a.zy_contain_prev");
-            var container=targetContain.find(".zy_list_container");
-            var list=targetContain.find(".zy_list_container ul");
+            var nextBtn=targetContain.find("a.zy_page_next");
+            var prevBtn=targetContain.find("a.zy_page_prev");
+            var container=targetContain.find(".zy_post_list_container");
+            var list=targetContain.find(".zy_post_list_container ul");
 
 
             container.width(limit*width);//设置list的外围容器宽度
@@ -331,7 +331,7 @@ ZY.controllerManager=(function(){
                     //显示前面一个按钮
                     prevBtn.removeClass("zy_disable");
 
-                    if(categoryId==ZY.config.categoryIds.artifactId){
+                    if(categoryId==ZY.config.categoryIds.sectionThreeId){
 
                         //物语有一个大图是其他的两倍
                         if(parseInt(list.css("left"))<=-(list.find("li").length-limit+1)*width){
@@ -375,10 +375,10 @@ ZY.controllerManager=(function(){
         prevPage:function(targetContain,width,categoryId){
             var limit=parseInt($("body").width()/width);
             limit=setMaxLimit(categoryId,limit);
-            var nextBtn=targetContain.find("a.zy_contain_next");
-            var prevBtn=targetContain.find("a.zy_contain_prev");
-            var container=targetContain.find(".zy_list_container");
-            var list=targetContain.find(".zy_list_container ul");
+            var nextBtn=targetContain.find("a.zy_page_next");
+            var prevBtn=targetContain.find("a.zy_page_prev");
+            var container=targetContain.find(".zy_post_list_container");
+            var list=targetContain.find(".zy_post_list_container ul");
 
 
             container.width(limit*width); //设置list的外围容器宽度
@@ -399,7 +399,7 @@ ZY.controllerManager=(function(){
                     prevBtn.addClass("zy_disable");
                 });
             }else{
-                if(categoryId==ZY.config.categoryIds.artifactId){
+                if(categoryId==ZY.config.categoryIds.sectionThreeId){
 
                     //如果是物语
                     if(parseInt(list.css("left"))+limit*width>-400){
@@ -423,9 +423,9 @@ ZY.controllerManager=(function(){
                     nextBtn.removeClass("zy_disable");
 
                     /*//如果移动完后，恰好left为0，那么前一页按钮要禁用,其实已经包含在前面的条件中
-                    if(parseInt(list.css("left"))==0){
-                        prevBtn.addClass("zy_disable");
-                    }*/
+                     if(parseInt(list.css("left"))==0){
+                     prevBtn.addClass("zy_disable");
+                     }*/
                 });
 
             }
@@ -495,7 +495,7 @@ ZY.controllerManager=(function(){
             var winH=$(window).height();
             var winW=$(window).width();
 
-            //console.log(sy+":"+landScapeY+":"+winH);
+            //console.log(sy+":"+sectionOneY+":"+winH);
 
             //菜单操作
             if(sy>=topH){
@@ -510,16 +510,19 @@ ZY.controllerManager=(function(){
 
             //设置顶部菜单状态, 首先重置所有菜单,计算时要减去nav的80高
             $("#zy_nav ul li a").removeClass("active");
-            if(sy<=landScapeY){
+            if(sy<=sectionOneY){
 
-            }else if(sy<=peopleY){
+            }else if(sy<=sectionTwoY){
                 $("#zy_nav ul li:nth-child(1) a").addClass("active");
-            }else if(sy<=artifactY){
+            }else if(sy<=sectionThreeY){
                 $("#zy_nav ul li:nth-child(2) a").addClass("active");
-            }else if(sy<=communityY){
-                $("#zy_nav ul li:nth-child(4) a").addClass("active");
-            }else if(sy<=footerY){
-                $("#zy_nav ul li:nth-child(5) a").addClass("active");
+            }/*else if(sy<=sectionFourY){
+             $("#zy_nav ul li:nth-child(4) a").addClass("active");
+             }else if(sy<=footerY){
+             $("#zy_nav ul li:nth-child(5) a").addClass("active");
+             }*/
+            else if(sy<=footerY){
+                $("#zy_nav ul li:nth-child(3) a").addClass("active");
             }
 
             //设置背景状态
@@ -528,128 +531,128 @@ ZY.controllerManager=(function(){
              *在需要显示背景的区域往下滚动的时候让显示区域不断的变小
              * 在向上滚动的时候，让显示区域不断的变大
              * 变化以背景图片高度为基准，以滚动的top与模块的top差值为变量
-             * 720-（sy-landScapey)+100   720是背景图片高度，sy是滚动了的高度，landScapeY是模块的top值,
+             * 720-（sy-sectionOney)+100   720是背景图片高度，sy是滚动了的高度，sectionOneY是模块的top值,
              * 100是突然增大显示区域导致白色闪屏的处理，多100，那么增加时的闪动会在另外一层的下面，这样就不影响视觉
              * 那么向下滚动时sy不断增大，整体值是不断减小的，向上滚动时，sy不断减小，整体值不断增大
              * 在非改变区域的时候，去掉clip属性
              *注意：背景图的高度是根据宽度变化的，可能会大于720，最大为一屏幕高，
-             *720-（sy-landScapey)+100 可能大于一屏幕高，并不影响显示，因为当clip的显示高度大于实际高度时，只会显示成实际高度
+             *720-（sy-sectionOney)+100 可能大于一屏幕高，并不影响显示，因为当clip的显示高度大于实际高度时，只会显示成实际高度
              */
-            if(sy>landScapeY-winH && sy<=landScapeY+720){
+            if(sy>sectionOneY-winH && sy<=sectionOneY+720){
                 if(!ZY.config.deviceCode.iOS){
-                    landScapeBG.addClass("zy_bg_fixed");
+                    sectionOneBG.addClass("zy_bg_fixed");
 
                     //滚动的时候使用clip
-                    rect="rect(0px "+winW+"px "+(800-(sy-landScapeY)+100)+"px 0px)";
-                    landScapeBG.css("clip",rect);
+                    rect="rect(0px "+winW+"px "+(800-(sy-sectionOneY)+100)+"px 0px)";
+                    sectionOneBG.css("clip",rect);
                 }
 
-                if(!ZY.dataManager.landscapeLoaded){
+                if(!ZY.dataManager.sectionOneLoaded){
 
                     //获取第1个分类(风景）文章
                     ZY.dataManager.getCategoryPosts({
-                        width:ZY.config.articleWidths.landscapeWidth,
-                        categoryId:ZY.config.categoryIds.landscapeId,
+                        width:ZY.config.articleWidths.sectionOneWidth,
+                        categoryId:ZY.config.categoryIds.sectionOneId,
                         isFirst:true,
-                        lastDate:ZY.dataManager.lastLandscapeDate,
-                        targetContain:$("#zy_landscape_contain")
+                        lastDate:ZY.dataManager.lastSectionOneDate,
+                        targetContain:$("#zy_section_one_contain")
                     });
-                    ZY.dataManager.landscapeLoaded=true;
+                    ZY.dataManager.sectionOneLoaded=true;
                 }
 
 
 
             }else{
                 if(!ZY.config.deviceCode.iOS){
-                    landScapeBG.removeClass("zy_bg_fixed");
-                    landScapeBG.css("clip","");
+                    sectionOneBG.removeClass("zy_bg_fixed");
+                    sectionOneBG.css("clip","");
                 }
             }
 
-            if(sy>peopleY-winH && sy<=peopleY+720){
+            if(sy>sectionTwoY-winH && sy<=sectionTwoY+720){
                 if(!ZY.config.deviceCode.iOS){
-                    peopleBG.addClass("zy_bg_fixed");
+                    sectionTwoBG.addClass("zy_bg_fixed");
 
                     //滚动的时候使用clip
-                    rect="rect(0px "+winW+"px "+(800-(sy-peopleY)+100)+"px 0px)";
-                    peopleBG.css("clip",rect);
+                    rect="rect(0px "+winW+"px "+(800-(sy-sectionTwoY)+100)+"px 0px)";
+                    sectionTwoBG.css("clip",rect);
                 }
 
-                if(!ZY.dataManager.peopleLoaded){
+                if(!ZY.dataManager.sectionTwoLoaded){
 
                     //获取第2个分类（人文）文章
                     ZY.dataManager.getCategoryPosts({
-                        width:ZY.config.articleWidths.peopleWidth,
-                        categoryId:ZY.config.categoryIds.peopleId,
+                        width:ZY.config.articleWidths.sectionTwoWidth,
+                        categoryId:ZY.config.categoryIds.sectionTwoId,
                         isFirst:true,
-                        lastDate:ZY.dataManager.lastPeopleDate,
-                        targetContain:$("#zy_people_contain")
+                        lastDate:ZY.dataManager.lastSectionTwoDate,
+                        targetContain:$("#zy_section_two_contain")
                     });
-                    ZY.dataManager.peopleLoaded=true;
+                    ZY.dataManager.sectionTwoLoaded=true;
                 }
             }else{
                 if(!ZY.config.deviceCode.iOS){
-                    peopleBG.removeClass("zy_bg_fixed");
-                    peopleBG.css("clip","");
+                    sectionTwoBG.removeClass("zy_bg_fixed");
+                    sectionTwoBG.css("clip","");
                 }
             }
 
-            if(sy>artifactY-winH && sy<=artifactY+720){
+            if(sy>sectionThreeY-winH && sy<=sectionThreeY+720){
                 if(!ZY.config.deviceCode.iOS){
-                    artifactBG.addClass("zy_bg_fixed");
+                    sectionThreeBG.addClass("zy_bg_fixed");
 
                     //向下滚动的时候使用clip
-                    rect="rect(0px "+winW+"px "+(840-(sy-artifactY)+100)+"px 0px)";
-                    artifactBG.css("clip",rect);
+                    rect="rect(0px "+winW+"px "+(840-(sy-sectionThreeY)+100)+"px 0px)";
+                    sectionThreeBG.css("clip",rect);
                 }
-                if(!ZY.dataManager.artifactLoaded){
+                if(!ZY.dataManager.sectionThreeLoaded){
 
                     //获取第3个分类(物语）文章
                     ZY.dataManager.getCategoryPosts({
-                        targetContain:$("#zy_artifact_contain"),
-                        lastDate:ZY.dataManager.lastArtifactDate,
-                        categoryId:ZY.config.categoryIds.artifactId,
-                        width:ZY.config.articleWidths.artifactWidth,
+                        targetContain:$("#zy_section_three_contain"),
+                        lastDate:ZY.dataManager.lastSectionThreeDate,
+                        categoryId:ZY.config.categoryIds.sectionThreeId,
+                        width:ZY.config.articleWidths.sectionThreeWidth,
                         isFirst:true
                     });
 
-                    ZY.dataManager.artifactLoaded=true;
+                    ZY.dataManager.sectionThreeLoaded=true;
                 }
             }else{
 
                 if(!ZY.config.deviceCode.iOS){
-                    artifactBG.removeClass("zy_bg_fixed");
-                    artifactBG.css("clip","");
+                    sectionThreeBG.removeClass("zy_bg_fixed");
+                    sectionThreeBG.css("clip","");
                 }
 
             }
-            if(sy>communityY-winH && sy<=communityY+720){
-                if(!ZY.config.deviceCode.iOS){
-                    communityBG.addClass("zy_bg_fixed");
+            if(sy>sectionFourY-winH && sy<=sectionFourY+720){
+                 if(!ZY.config.deviceCode.iOS){
+                     sectionFourBG.addClass("zy_bg_fixed");
 
-                    //滚动的时候使用clip
-                    rect="rect(0px "+winW+"px "+(840-(sy-communityY)+100)+"px 0px)";
-                    communityBG.css("clip",rect);
-                }
+                     //滚动的时候使用clip
+                     rect="rect(0px "+winW+"px "+(840-(sy-sectionFourY)+100)+"px 0px)";
+                     sectionFourBG.css("clip",rect);
+                 }
 
-                if(!ZY.dataManager.communityLoaded){
-                	
-                    //获取第4个分类(社区）文章
-                    ZY.dataManager.getCategoryPosts({
-                        width:ZY.config.articleWidths.communityWidth,
-                        categoryId:ZY.config.categoryIds.communityId,
-                        isFirst:true,
-                        lastDate:ZY.dataManager.lastCommunityDate,
-                        targetContain:$("#zy_community_contain")
-                    });
-                    ZY.dataManager.communityLoaded=true;
-                }
-            }else{
-                if(!ZY.config.deviceCode.iOS){
-                    communityBG.removeClass("zy_bg_fixed");
-                    communityBG.css("clip","");
-                }
-            }
+             if(!ZY.dataManager.sectionFourLoaded){
+
+                 //获取第4个分类(社区）文章
+                 ZY.dataManager.getCategoryPosts({
+                 width:ZY.config.articleWidths.sectionFourWidth,
+                 categoryId:ZY.config.categoryIds.sectionFourId,
+                 isFirst:true,
+                 lastDate:ZY.dataManager.lastSectionFourDate,
+                 targetContain:$("#zy_section_four_contain")
+                 });
+                 ZY.dataManager.sectionFourLoaded=true;
+             }
+             }else{
+                 if(!ZY.config.deviceCode.iOS){
+                     sectionFourBG.removeClass("zy_bg_fixed");
+                     sectionFourBG.css("clip","");
+                 }
+             }
         },
 
         /**
@@ -659,14 +662,15 @@ ZY.controllerManager=(function(){
          * 由于当窗口放大时显示的个数多了，原来显示的不是最后一页当前可能已经是最后一页，此时需要判断添加zy_disable类
          * @param {Object} targetContain     最外围的容器section
          * @param {Number} width    每个li的宽度
+         * @param {Number} categoryId
          * @param {Boolean} loaded  是否已经加载过数据
          */
         doResizeOfCategory:function(targetContain,categoryId,width,loaded){
             var limit=parseInt($("body").width()/width);
             limit=setMaxLimit(categoryId,limit);
-            var nextBtn=targetContain.find("a.zy_contain_next");
+            var nextBtn=targetContain.find("a.zy_page_next");
             var list=targetContain.find("ul");
-            var targetContainer=targetContain.find(".zy_list_container");
+            var targetContainer=targetContain.find(".zy_post_list_container");
 
             //设置容器的宽度
             targetContainer.width(limit*width);
@@ -680,7 +684,7 @@ ZY.controllerManager=(function(){
 
                 //需要数据加载后才做次操作
                 if(loaded){
-                  nextBtn.addClass("zy_disable");
+                    nextBtn.addClass("zy_disable");
                 }
             }
         },
@@ -695,14 +699,14 @@ ZY.controllerManager=(function(){
             }
 
             ZY.dataManager.resizeTimer=setTimeout(function(){
-                me.doResizeOfCategory($("#zy_people_contain"),ZY.config.categoryIds.peopleId,
-                    ZY.config.articleWidths.peopleWidth,ZY.dataManager.peopleLoaded);
-                me.doResizeOfCategory($("#zy_landscape_contain"),ZY.config.categoryIds.landscapeId,
-                    ZY.config.articleWidths.landscapeWidth,ZY.dataManager.landscapeLoaded);
-                me.doResizeOfCategory($("#zy_community_contain"),ZY.config.categoryIds.communityId,
-                    ZY.config.articleWidths.communityWidth,ZY.dataManager.communityLoaded);
-                me.doResizeOfCategory($("#zy_artifact_contain"),ZY.config.categoryIds.artifactId,
-                    ZY.config.articleWidths.artifactWidth,ZY.dataManager.artifactLoaded);
+                me.doResizeOfCategory($("#zy_section_two_contain"),ZY.config.categoryIds.sectionTwoId,
+                    ZY.config.articleWidths.sectionTwoWidth,ZY.dataManager.sectionTwoLoaded);
+                me.doResizeOfCategory($("#zy_section_one_contain"),ZY.config.categoryIds.sectionOneId,
+                    ZY.config.articleWidths.sectionOneWidth,ZY.dataManager.sectionOneLoaded);
+                me.doResizeOfCategory($("#zy_section_four_contain"),ZY.config.categoryIds.sectionFourId,
+                 ZY.config.articleWidths.sectionFourWidth,ZY.dataManager.sectionFourLoaded);
+                me.doResizeOfCategory($("#zy_section_three_contain"),ZY.config.categoryIds.sectionThreeId,
+                    ZY.config.articleWidths.sectionThreeWidth,ZY.dataManager.sectionThreeLoaded);
             },200);
         }
     }

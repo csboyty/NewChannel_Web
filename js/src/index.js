@@ -56,71 +56,71 @@ $(document).ready(function(){
     ZY.dataManager.getTopPosts();
 
     //风景显示左右按钮
-    ZY.controllerManager.addHoverEvent($("#zy_landscape_contain"));
+    ZY.controllerManager.addHoverEvent($("#zy_section_one_contain"));
 
     //人文部分显示左右按钮
-    ZY.controllerManager.addHoverEvent($("#zy_people_contain"));
+    ZY.controllerManager.addHoverEvent($("#zy_section_two_contain"));
 
     //物语部分显示左右按钮
-    ZY.controllerManager.addHoverEvent($("#zy_artifact_contain"));
+    ZY.controllerManager.addHoverEvent($("#zy_section_three_contain"));
 
 
     //社区部分显示左右按钮
-    ZY.controllerManager.addHoverEvent($("#zy_community_contain"));
+    ZY.controllerManager.addHoverEvent($("#zy_section_four_contain"));
 
     //风景向右点击
-    $("#zy_landscape_next").click(function(){
-        ZY.controllerManager.nextPage($("#zy_landscape_contain"),ZY.config.articleWidths.landscapeWidth,
-            ZY.config.categoryIds.landscapeId,ZY.dataManager.lastLandscapeDate);
+    $("#zy_section_one_next").click(function(){
+        ZY.controllerManager.nextPage($("#zy_section_one_contain"),ZY.config.articleWidths.sectionOneWidth,
+            ZY.config.categoryIds.sectionOneId,ZY.dataManager.lastSectionOneDate);
 
     });
 
     //风景向左点击
-    $("#zy_landscape_prev").click(function(){
-        ZY.controllerManager.prevPage($("#zy_landscape_contain"),
-            ZY.config.articleWidths.landscapeWidth,ZY.config.categoryIds.landscapeId);
+    $("#zy_section_one_prev").click(function(){
+        ZY.controllerManager.prevPage($("#zy_section_one_contain"),
+            ZY.config.articleWidths.sectionOneWidth,ZY.config.categoryIds.sectionOneId);
 
     });
 
     //人文向右点击
-    $("#zy_people_next").click(function(){
-        ZY.controllerManager.nextPage($("#zy_people_contain"),ZY.config.articleWidths.peopleWidth,
-            ZY.config.categoryIds.peopleId,ZY.dataManager.lastPeopleDate);
+    $("#zy_section_two_next").click(function(){
+        ZY.controllerManager.nextPage($("#zy_section_two_contain"),ZY.config.articleWidths.sectionTwoWidth,
+            ZY.config.categoryIds.sectionTwoId,ZY.dataManager.lastSectionTwoDate);
 
     });
 
     //人文向左点击
-    $("#zy_people_prev").click(function(){
-        ZY.controllerManager.prevPage($("#zy_people_contain"),
-            ZY.config.articleWidths.peopleWidth,ZY.config.categoryIds.peopleId);
+    $("#zy_section_two_prev").click(function(){
+        ZY.controllerManager.prevPage($("#zy_section_two_contain"),
+            ZY.config.articleWidths.sectionTwoWidth,ZY.config.categoryIds.sectionTwoId);
 
     });
 
     //物语向右点击
-    $("#zy_artifact_next").click(function(){
-        ZY.controllerManager.nextPage($("#zy_artifact_contain"),ZY.config.articleWidths.artifactWidth,
-            ZY.config.categoryIds.artifactId,ZY.dataManager.lastArtifactDate);
+    $("#zy_section_three_next").click(function(){
+        ZY.controllerManager.nextPage($("#zy_section_three_contain"),ZY.config.articleWidths.sectionThreeWidth,
+            ZY.config.categoryIds.sectionThreeId,ZY.dataManager.lastSectionThreeDate);
 
     });
 
     //物语向左点击
-    $("#zy_artifact_prev").click(function(){
-        ZY.controllerManager.prevPage($("#zy_artifact_contain"),
-            ZY.config.articleWidths.artifactWidth,ZY.config.categoryIds.artifactId);
+    $("#zy_section_three_prev").click(function(){
+        ZY.controllerManager.prevPage($("#zy_section_three_contain"),
+            ZY.config.articleWidths.sectionThreeWidth,ZY.config.categoryIds.sectionThreeId);
 
     });
 
     //社区向右点击
-    $("#zy_community_next").click(function(){
-        ZY.controllerManager.nextPage($("#zy_community_contain"),ZY.config.articleWidths.communityWidth,
-            ZY.config.categoryIds.communityId,ZY.dataManager.lastCommunityDate);
+    $("#zy_section_four_next").click(function(){
+     ZY.controllerManager.nextPage($("#zy_section_four_contain"),ZY.config.articleWidths.sectionFourWidth,
+     ZY.config.categoryIds.sectionFourId,ZY.dataManager.lastSectionFourDate);
 
     });
 
     //社区向左点击
-    $("#zy_community_prev").click(function(){
-        ZY.controllerManager.prevPage($("#zy_community_contain"),
-            ZY.config.articleWidths.communityWidth,ZY.config.categoryIds.communityId);
+    $("#zy_section_four_prev").click(function(){
+     ZY.controllerManager.prevPage($("#zy_section_four_contain"),
+     ZY.config.articleWidths.sectionFourWidth,ZY.config.categoryIds.sectionFourId);
     });
 
     //显示单篇文章
@@ -133,7 +133,7 @@ $(document).ready(function(){
     ZY.controllerManager.bindHScroll($("#zy_article_content")[0]);
 
     //收回单篇文章展示
-    $("#zy_article_content_close").click(function(){
+    $("#zy_article_container_close").click(function(){
         ZY.uiManager.hideArticle();
     });
 
@@ -178,12 +178,12 @@ $(document).ready(function(){
     //window  scroll speed
     //ZY.controllerManager.setWheelScrollSpeed();
 
-	/*=====iOS触屏滚动支持=================*/
-	if(ZY.config.deviceCode.iOS){
-		$(".zy_article_content").addClass("zy_touch_hscroll");
-		$("#zy_landscape_list_container").addClass("zy_touch_hscroll");
-		$("#zy_people_list_container").addClass("zy_touch_hscroll");
-		$("#zy_artifact_list_container").addClass("zy_touch_hscroll");
-		$("#zy_community_list_container").addClass("zy_touch_hscroll");		
-	}
+    /*=====iOS触屏滚动支持=================*/
+    if(ZY.config.deviceCode.iOS){
+        $(".zy_article_content").addClass("zy_touch_hscroll");
+        $("#zy_section_one_list_container").addClass("zy_touch_hscroll");
+        $("#zy_section_two_list_container").addClass("zy_touch_hscroll");
+        $("#zy_section_three_list_container").addClass("zy_touch_hscroll");
+        //$("#zy_section_four_list_container").addClass("zy_touch_hscroll");
+    }
 });

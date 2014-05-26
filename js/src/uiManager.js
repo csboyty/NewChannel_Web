@@ -42,9 +42,9 @@ ZY.uiManager=(function(){
                 TweenLite.killTweensOf(window);
 
                 //需要减去nav的高度，以为到下面后nav就是fixed不占高度,加5是为了在滚动那里设置nav的状态
-                if(target.is("#zy_artifact")){
+                if(target.is("#zy_section_three")){
                     TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
-                }else if(target.is("#zy_community")){
+                }else if(target.is("#zy_section_four")){
                     TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
                 }else{
                     TweenLite.to(window, 1, {scrollTo:{y:top+1, x:0}});
@@ -82,7 +82,7 @@ ZY.uiManager=(function(){
          */
         updateSectionBg:function(data,target){
             if(data["background"]!==null){
-            	
+
                 //第一次才换背景
                 if(data["background"]["type"]!="mp4"){
 
@@ -90,7 +90,7 @@ ZY.uiManager=(function(){
                     target.append($("<img class='zy_theme_bg_content' src='"+data["background"]["filepath"]+
                         "' onload='ZY.uiManager.fadingIn(this)' />"));
                 }else if(!ZY.config.deviceCode.iOS){
-                	
+
                     //视频作为背景，由于使用了img的clip，这里最好不做处理
                     target.append($("<video class='zy_theme_bg_content' autoplay loop muted "+
                         "oncanplay='ZY.uiManager.fadingIn(this)'><source src='"+data["background"]["filepath"]+
@@ -133,30 +133,30 @@ ZY.uiManager=(function(){
          * 显示风景分类文章,使用juicer
          * @param {Array} posts 文章数组
          */
-        showLandscapePosts:function(posts){
-            var tpl= $("#zy_landscape_articles_tpl").html();
+        showSectionOnePosts:function(posts){
+            var tpl= $("#zy_section_one_articles_tpl").html();
             var html = juicer(tpl,{posts:posts});
-            $("#zy_landscape_list").append($(html));
+            $("#zy_section_one_list").append($(html));
         },
 
         /**
          * 显示人文分类文章
          * @param {Array} posts 文章数组
          */
-        showPeoplePosts:function(posts){
-            var tpl= $("#zy_people_articles_tpl").html();
+        showSectionTwoPosts:function(posts){
+            var tpl= $("#zy_section_two_articles_tpl").html();
             var html = juicer(tpl,{posts:posts});
-            $("#zy_people_list").append($(html));
+            $("#zy_section_two_list").append($(html));
         },
 
         /**
          * 显示社区分类文章
          * @param {Array} posts 文章数组
          */
-        showCommunityPosts:function(posts){
-            var tpl= $("#zy_community_articles_tpl").html();
+        showSectionFourPosts:function(posts){
+            var tpl= $("#zy_section_four_articles_tpl").html();
             var html = juicer(tpl,{posts:posts});
-            $("#zy_community_list").append($(html));
+            $("#zy_section_four_list").append($(html));
         },
 
         /**
@@ -164,10 +164,10 @@ ZY.uiManager=(function(){
          * @param {Array} posts 文章数组
          * @param {Boolean} isFirst 是否是第一次加载
          */
-        showArtifactPosts:function(posts,isFirst){
-            var tpl= $("#zy_artifact_articles_tpl").html();
+        showSectionThreePosts:function(posts,isFirst){
+            var tpl= $("#zy_section_three_articles_tpl").html();
             var html = juicer(tpl,{posts:posts,isFirst:isFirst});
-            $("#zy_artifact_list").append($(html));
+            $("#zy_section_three_list").append($(html));
         },
 
         /**
@@ -204,7 +204,7 @@ ZY.uiManager=(function(){
          * @param {Number} zIndex 此层的css属性z-index
          */
         showBlackout:function(zIndex){
-            var wrap=$("#zy_wrap");
+            var wrap=$("#zy_loading_container");
             wrap.css("z-index",zIndex); //此句位置和下面不一样是因为可能在显示的同时改变zindex，例如显示视频时
             if(wrap.hasClass("zy_hidden")){
                 wrap.removeClass("zy_hidden");
@@ -215,7 +215,7 @@ ZY.uiManager=(function(){
          * 隐藏遮盖层
          */
         hideBlackout:function(){
-            var wrap=$("#zy_wrap");
+            var wrap=$("#zy_loading_container");
             if(!wrap.hasClass("zy_hidden")){
                 wrap.addClass("zy_hidden");
                 wrap.css("z-index",ZY.config.defaultWrapZindex);

@@ -12,16 +12,16 @@ ZY.config={
     siteurl:"http://www.comdesignlab.com/travel",
     categoryIds:{
         tdId:13,  //每个分类的id
-        peopleId:15,
-        landscapeId:14,
-        communityId:17,
-        artifactId:16
+        sectionOneId:14, //艺术小作坊
+        sectionTwoId:15,  //童年的天空
+        sectionThreeId:16, //绘本欣赏
+        sectionFourId:17
     },
     articleWidths:{
-        peopleWidth:240, //每个分类的li的宽度
-        landscapeWidth:320,
-        communityWidth:240,
-        artifactWidth:205
+        sectionOneWidth:320,//每个分类的li的宽度
+        sectionTwoWidth:240,
+        sectionThreeWidth:205,
+        sectionFourWidth:240
     },
     errorCode:{
         connectionError:"无法连接到服务器。", //错误提示信息

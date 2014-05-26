@@ -8,15 +8,15 @@
 var ZY=ZY||{};
 ZY.dataManager = {
     topPostId:0, //记录下封面故事的文章id，用来判断不显示相同的背景视频
-    lastPeopleDate:"",
-    lastArtifactDate:"",
-    lastCommunityDate:"",
-    lastLandscapeDate:"",
+    lastSectionTwoDate:"",
+    lastSectionThreeDate:"",
+    lastSectionFourDate:"",
+    lastSectionOneDate:"",
     currentPostId:0, //点击文章聚合后显示的文章的id
-    landscapeLoaded:false, //记录下是否加载，主要是用作滚动时加载的标志
-    artifactLoaded:false,
-    communityLoaded:false,
-    peopleLoaded:false,
+    sectionOneLoaded:false, //记录下是否加载，主要是用作滚动时加载的标志
+    sectionThreeLoaded:false,
+    sectionFourLoaded:false,
+    sectionTwoLoaded:false,
     resizeTimer:null,
 
     /**
@@ -27,8 +27,7 @@ ZY.dataManager = {
             url:ZY.config.ajaxurl,
             type:"post",
             data:{
-                action:"zy_get_music",
-                programId:ZY.config.categoryIds.tdId
+                action:"zy_get_music"
             },
             success:function(response){
                 if(response.success){
@@ -83,7 +82,7 @@ ZY.dataManager = {
      * 获取分类文章
      * @param {Object} args 参数数组
      * @param {Object} args.targetContain 包括上一页和下一页按钮的容器元素jquery对象
-     * @param {String} args.lastdate   已经请求了的最后一篇文章的时间
+     * @param {String} args.lastDate   已经请求了的最后一篇文章的时间
      * @param {Number} args.categoryId 分类id
      * @param {Number} args.width 每个li的宽度
      * @param {Boolean} args.isFirst   是否第一次请求
