@@ -175,8 +175,11 @@ $(document).ready(function(){
         ZY.controllerManager.scrollingHandler();
     });
 
+    //有可能刷新就已经滚动到了一定位置，需要触发一下，加载相应的数据
+    $(window).trigger("scroll");
+
     //window  scroll speed
-    //ZY.controllerManager.setWheelScrollSpeed();
+    ZY.controllerManager.setWheelScrollSpeed();
 
     /*=====iOS触屏滚动支持=================*/
     if(ZY.config.deviceCode.iOS){
@@ -184,6 +187,6 @@ $(document).ready(function(){
         $("#zy_section_one_list_container").addClass("zy_touch_hscroll");
         $("#zy_section_two_list_container").addClass("zy_touch_hscroll");
         $("#zy_section_three_list_container").addClass("zy_touch_hscroll");
-        //$("#zy_section_four_list_container").addClass("zy_touch_hscroll");
+        $("#zy_section_four_list_container").addClass("zy_touch_hscroll");
     }
 });

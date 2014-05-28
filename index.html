@@ -464,9 +464,9 @@
             <article class="article-main-post">
                 <div class="article-head-post">
                     <h1 class="article-title-post">${post_title}</h1>
-                    <h2 class="article-author-post">${post_author} </h2>
-                    <h2 class="article-category-post">${post_category}</h2>
-                    <h2 class="article-time-post">${post_date}</h2>
+                    <h2 class="article-author-post article-item-post">${post_author} </h2>
+                    <h2 class="article-category-post article-item-post">${post_category}</h2>
+                    <h2 class="article-time-post article-item-post">${post_date}</h2>
                 </div>
                 <div class="article-poster-post"><img src="${post_thumb}" ></div>
 
@@ -519,12 +519,12 @@
 
 <!--数据加载时的等待动画-->
 <script type="text/template" id="zy_spinner_tpl">
-    <div class='zy_loading_spinner'>
-        <div class="zy_loading_top"></div>
-        <div class="zy_loading_center_left"></div>
-        <div class="zy_loading_center_right"></div>
-        <div class="zy_loading_bottom_left"></div>
-        <div class="zy_loading_bottom_right"></div>
+    <div class="zy_loading_spinner">
+        <div class="zy_loading_top zy_loading_item"></div>
+        <div class="zy_loading_center_left zy_loading_item"></div>
+        <div class="zy_loading_center_right zy_loading_item"></div>
+        <div class="zy_loading_bottom_left zy_loading_item"></div>
+        <div class="zy_loading_bottom_right zy_loading_item"></div>
     </div>
 </script>
 <!--下载音乐的target-->

@@ -1483,21 +1483,16 @@ a {
     min-width: 50%;
 }
 
-.article-main-post .article-head-post h1 {
-    padding: 0;
-    margin: 0;
-}
 
 .article-main-post .article-title-post {
+    padding: 0;
+    margin: 0;
     font-size: 36px;
     color: #666;
     width: auto;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: 15px;
 }
 
-.article-main-post . article-item-post {
+.article-main-post .article-item-post {
     color: #666;
     font-size: 16px;
     font-weight: normal;
@@ -1653,17 +1648,17 @@ a {
     position: relative;
 }
 
-allslides-slide .slide-slide img {
+.allslides-slide .slide-slide img {
     height: 100%;
     width: auto;
 }
 
-allslides-slide .slide-slide a {
+.allslides-slide .slide-slide a {
     display: inline-block;
     height: 100%;
 }
 
-allslides-slide .imgcaption-slide {
+.allslides-slide .imgcaption-slide {
     background-color: #000;
     width: 100%;
     opacity: 0.7;
@@ -1681,7 +1676,7 @@ allslides-slide .imgcaption-slide {
     box-sizing: border-box;
 }
 
-allslides-slide .imgcaption-slide span {
+.allslides-slide .imgcaption-slide span {
     font-size: 21px;
 }
 .videoslide {
@@ -1714,47 +1709,47 @@ allslides-slide .imgcaption-slide span {
     opacity: .7;
     z-index: 9996;
 }
-.zy_loading_container .zy_loading_spinner {
+.zy_loading_spinner {
     position: absolute;
     top: 50%;
     left: 50%;
 }
 
-.zy_loading_container .zy_loading_spinner .zy_loading_item {
+.zy_loading_spinner .zy_loading_item {
     width: 10px;
     height: 10px;
     position: absolute;
     left: 50%;
     background: #E83A00;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_top {
+.zy_loading_spinner .zy_loading_top {
     margin-left: -5px;
     -webkit-animation: top 2s infinite linear reverse;
     -moz-animation: top 2s infinite linear reverse;
     animation: top 2s infinite linear reverse;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_center_left, .zy_loading_center_right {
+.zy_loading_spinner .zy_loading_center_left, .zy_loading_center_right {
     top: 10px;
     -webkit-animation: center 2s infinite linear reverse;
     -moz-animation: center 2s infinite linear reverse;
     animation: center 2s infinite linear reverse;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_center_left {
+.zy_loading_spinner .zy_loading_center_left {
     margin-left: -15px;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_center_right {
+.zy_loading_spinner .zy_loading_center_right {
     margin-left: 5px;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_bottom_left, .zy_loading_bottom_right {
+.zy_loading_spinner .zy_loading_bottom_left, .zy_loading_bottom_right {
     top: 20px;
     -webkit-animation: bottom 2s infinite linear reverse;
     -moz-animation: bottom 2s infinite linear reverse;
     animation: bottom 2s infinite linear reverse;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_bottom_left {
+.zy_loading_spinner .zy_loading_bottom_left {
     margin-left: -25px;
 }
-.zy_loading_container .zy_loading_spinner .zy_loading_bottom_right {
+.zy_loading_spinner .zy_loading_bottom_right {
     margin-left: 15px;
 }
 @-webkit-keyframes top {

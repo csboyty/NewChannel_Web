@@ -516,13 +516,10 @@ ZY.controllerManager=(function(){
                 $("#zy_nav ul li:nth-child(1) a").addClass("active");
             }else if(sy<=sectionThreeY){
                 $("#zy_nav ul li:nth-child(2) a").addClass("active");
-            }/*else if(sy<=sectionFourY){
-             $("#zy_nav ul li:nth-child(4) a").addClass("active");
-             }else if(sy<=footerY){
-             $("#zy_nav ul li:nth-child(5) a").addClass("active");
-             }*/
-            else if(sy<=footerY){
-                $("#zy_nav ul li:nth-child(3) a").addClass("active");
+            }else if(sy<=sectionFourY){
+                $("#zy_nav ul li:nth-child(4) a").addClass("active");
+            }else if(sy<=footerY){
+                $("#zy_nav ul li:nth-child(5) a").addClass("active");
             }
 
             //设置背景状态
