@@ -450,10 +450,10 @@ ZY.controllerManager=(function(){
                 //兼容ie
                 if(evt.preventDefault){
                     evt.preventDefault();
-                    //evt.stopPropagation(); //如果调用了setWheelScrollSpeed，需要阻止冒泡到window
+                    evt.stopPropagation(); //如果调用了setWheelScrollSpeed，需要阻止冒泡到window
                 }else{
                     evt.returnValue=false;
-                    //evt.cancelBubble = false;
+                    evt.cancelBubble = false;
                 }
             };
             target.addEventListener(mousewheelEvt, mousewheelHandler);
