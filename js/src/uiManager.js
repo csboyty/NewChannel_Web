@@ -317,6 +317,15 @@ ZY.uiManager=(function(){
 
             //只有浏览器不支持的时候才会显示wrap，不需要清除。
             $("#zy_popout_win").addClass("zy_hidden");
-        }
+        },
+		
+		/**
+         * 视图更新，数据发生变化后调用
+         */
+		updateView:function(){
+			var winH=$(window).height();
+			//头条海报的高度刷新
+			$("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px")
+		}
     }
 })();

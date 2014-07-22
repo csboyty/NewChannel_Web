@@ -187,4 +187,7 @@ $(document).ready(function(){
 		$("#zy_artifact_list_container").addClass("zy_touch_hscroll");
 		$("#zy_community_list_container").addClass("zy_touch_hscroll");		
 	}
+	
+	//更新视图
+	ZY.uiManager.updateView();
 });

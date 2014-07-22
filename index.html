@@ -85,24 +85,6 @@
 <div id="zy_main_wrapper" class="zy_main_wrapper">
 
 
-<!--背景层，所有背景存放在这里
-<section id="zy_theme_background" class="zy_theme_background">
-	<div id="zy_landscape_theme" class="zy_theme_bg zy_hidden">
-        <img class="zy_theme_bg_content zy_theme_bg_default" src="images/default_bg/bg1.jpg">
-    </div>
-    <div id="zy_people_theme" class="zy_theme_bg zy_hidden">
-        <img class="zy_theme_bg_content zy_theme_bg_default" src="images/default_bg/bg2.jpg" />
-    </div>
-    <div id="zy_artifact_theme" class="zy_theme_bg zy_hidden">
-        <img class="zy_theme_bg_content zy_theme_bg_default" src="images/default_bg/bg3.jpg" />
-    </div>
-    <div id="zy_community_theme" class="zy_theme_bg zy_hidden">
-        <img class="zy_theme_bg_content zy_theme_bg_default" src="images/default_bg/bg4.jpg" />
-    </div>
-</section>
--->
-
-
 <!--置顶文章部分-->
 <section id="zy_top_post" class="zy_top_post">
     <div id="zy_top_post_poster" class="zy_top_post_poster">
@@ -110,7 +92,6 @@
     </div>
     <div id="zy_top_post_heading" class="zy_top_post_heading">
         <script id="zy_top_post_tpl" type="text/template">
-
             {@each top_posts as post,index}
                 {@if index==0}
                     <h2 data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}" id="zy_top_post_title" class="zy_top_post_title">${post.post_title}</h2>

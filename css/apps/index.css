@@ -416,8 +416,8 @@ a{
 .zy_theme_bg_content{
 	position:absolute;
 	top:0;
-	min-width: 100%;
-	min-height: 800px;
+	width: 100%;
+	min-height: 768px;
 	opacity:0;
 	-webkit-transition:opacity 1s;
 	-moz-transition:opacity 1s;
