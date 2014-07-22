@@ -31,12 +31,10 @@ $(document).ready(function(){
         ZY.music.musicControlHandler();
     });
 
-    //显示音乐播放器
-    $("#zy_music_show").mouseenter(function(){
-        ZY.uiManager.showMusicPlayer();
-    });
-    $("#zy_music_section").mouseleave(function(){
-        ZY.uiManager.hideMusicPlayer();
+    //切换音乐播放器
+    $("#zy_music_show").click(function(){
+        ZY.uiManager.toggleMiniMusicPlayer();
+        $("#zy_music_section").blur();
     });
 
     //菜单点击事件

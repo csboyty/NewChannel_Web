@@ -4,6 +4,7 @@ body{
     font-family: "Microsoft YaHei","宋体","Heiti SC";
     margin: 0;
     min-width: 730px;
+    background:#333;
 }
 
 /*所有开始不显示的类*/
@@ -39,20 +40,22 @@ a{
 /*--音乐播放器,z-index：100--*/
 .zy_music_section{
     position:fixed;
-    top:0px;
+    bottom:0px;
     right: 0px;
     height: 50px;
-    width: 50px;/*初始值为右边显示按钮的宽度*/
+    width: 100%;
     z-index: 100;
+    overflow:hidden;
 }
 .zy_player{
+
     margin-right: 50px;
     height: 100%;
     background: #cb2f3b;
     position: relative;
-    /*-webkit-transition: 2s ease;
-    -moz-transition: 2s ease;
-    transition: 2s ease;*/
+    transform:rotateX(90deg);
+    transform-origin:50% 100%;
+
 }
 .zy_music_title{
     text-align:center;
@@ -73,47 +76,39 @@ a{
     right: 4px;
     text-align: center;
     line-height: 50px;
+    font-size: 0;
 }
 .zy_music_controller a{
     display: inline-block;
-    height: 14px;
+    height: 50px;
+    width:80px;
+    line-height:50px;
     font-size: 0px;
     cursor: pointer;
-    margin: 0px 5%;
     vertical-align: middle;
 }
 .zy_music_prev{
-    width: 20px;
-    background: url(../../images/apps/sprite.png) no-repeat -1574px -917px;
+
+    background: url(../../images/apps/music_btn_previous_normal.png) no-repeat center;
 }
 .zy_music_play{
-    width: 10px;
-    background: url(../../images/apps/sprite.png) no-repeat -1198px -1006px;
+
+    background: url(../../images/apps/music_btn_play_normal.png) no-repeat center;
 }
-.zy_music_pause{
-    width: 14px;
-    height: 12px;
-    background: url(../../images/apps/sprite.png) no-repeat -1758px -871px;
+.zy_music_pause{ background: url(../../images/apps/music_btn_pause_normal.png) no-repeat center;
 }
-.zy_music_next{
-    width: 20px;
-    background: url(../../images/apps/sprite.png) no-repeat -2018px -2px;
+.zy_music_next{ background: url(../../images/apps/music_btn_next_normal.png) no-repeat center;
 }
-.zy_music_prev:hover{
-    width: 20px;
-    background: url(../../images/apps/sprite.png) no-repeat -2px -1005px;
+.zy_music_prev:hover{background: url(../../images/apps/music_btn_previous_pressed.png) no-repeat center;
 }
 .zy_music_play:hover{
-    background: url(../../images/apps/sprite.png) no-repeat -698px -972px;
+    background: url(../../images/apps/music_btn_play_pressed.png) no-repeat center;
 }
 .zy_music_pause:hover{
-    width: 14px;
-    height: 12px;
-    background: url(../../images/apps/sprite.png) no-repeat -1998px -57px;
+    background: url(../../images/apps/music_btn_pause_pressed.png) no-repeat center;
 }
 .zy_music_next:hover{
-    width: 20px;
-    background: url(../../images/apps/sprite.png) no-repeat -1683px -679px;
+    background: url(../../images/apps/music_btn_next_pressed.png) no-repeat center;
 }
 .zy_separate{
     display: block;
@@ -162,7 +157,7 @@ a{
 .zy_top_post_poster{
     width: 100%;
     font-size:0;
-    height:600px;
+    height:960px;
     position:relative;
     background:#ccc;
     overflow: hidden;
@@ -411,7 +406,7 @@ a{
 /*主题背景*/
 
 .zy_section_bg{
-    height:800px;
+    height:1000px;
     overflow:hidden;
     font-size:0;
     width:100%;
@@ -505,13 +500,13 @@ a{
     width:426px;
     height:336px;
     position:absolute;
-    top:215px;
+    top:360px;
     left:50%;
     margin-left:-213px;
     z-index:1;
 }
 .zy_landscape>.zy_subheading{
-    top:685px;
+    top:880px;
 }
 /*--z-index:11--*/
 .zy_landscape_bottom_bg:before{
@@ -527,7 +522,7 @@ a{
 .zy_landscape_bottom_bg{
     background: #191919;
     height: 80px;
-    top: 720px;
+    top: 920px;
     left:150px ;
     position: absolute;
     width: 100%;
@@ -636,13 +631,13 @@ a{
     width:426px;
     height:336px;
     position:absolute;
-    top:160px;
+    top:260px;
     left:50%;
     margin-left:-213px;
     z-index:1;
 }
 .zy_people>.zy_subheading{
-    top:640px;
+    top:840px;
 }
 /*--z-index:11--*/
 .zy_people_bottom_bg:after{
@@ -659,7 +654,7 @@ a{
     background: #fff;
     height: 120px;
     position: absolute;
-    top:680px;
+    top:880px;
     left: 200px;
     width: 100%;
 	z-index:8;
@@ -760,9 +755,7 @@ a{
     position:relative;
     z-index:2;
 }
-.zy_artifact .zy_section_bg{
-    height: 840px;
-}
+
 .zy_artifact .zy_theme_bg_content{
     min-height: 840px;
 }
@@ -792,13 +785,13 @@ a{
     width:426px;
     height:336px;
     position:absolute;
-    top:255px;
+    top:350px;
     left:50%;
     margin-left:-213px;
     z-index:1;
 }
 .zy_artifact>.zy_subheading{
-    top:700px;
+    top:860px;
 }
 /*--z-index:11--*/
 .zy_artifact_bottom_bg:after{
@@ -816,7 +809,7 @@ a{
     height: 100px;
     position: absolute;
     left: 175px;
-    top:740px;
+    top:900px;
     width: 100%;
 	z-index:8;
 }
@@ -939,9 +932,7 @@ a{
     position:relative;
     z-index:1;
 }
-.zy_community .zy_section_bg{
-    height: 840px;
-}
+
 .zy_community .zy_theme_bg_content{
     min-height: 840px;
 }
@@ -977,7 +968,7 @@ a{
     z-index:1;
 }
 .zy_community>.zy_subheading{
-    top:686px;
+    top:840px;
 }
 /*--z-index:11--*/
 .zy_community_bottom_bg:after{
@@ -994,7 +985,7 @@ a{
     background: #fff;
     height: 120px;
     position: absolute;
-    top:720px;
+    top:880px;
     left: 175px;
     width: 100%;
 	z-index:8;

@@ -6,7 +6,7 @@
     <meta name="description" content="通道独特的自然生态环境与丰富的非物质文化遗产展示平台" />
     <meta name="keywords" content="社会创新, 新通道, 文化产品创新, 文化产品设计，通道，侗锦" />
     <title>新通道</title>
-    <link rel="stylesheet" type="text/css" href="css/apps/index.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/apps/index.css"/>
     <script type="text/javascript" src="js/libs/modernizr.js"></script>
     <script type="text/javascript">
         //加载资源
@@ -28,8 +28,16 @@
                     "js/libs/jquery-1.10.2.min.js",
                     "js/libs/juicer-min.js",
                     "js/libs/greensock/TweenMax.min.js",
+                    "js/libs/greensock/EasePack.min.js",
+                    "js/libs/greensock/Draggable.min.js",
+                    "js/libs/greensock/ThrowPropsPlugin.js",
                     "js/libs/greensock/ScrollToPlugin.min.js",
-                    "js/builds/index.min.js"
+                    "js/src/config.js",
+                    "js/src/controllerManager.js",
+                    "js/src/dataManager.js",
+                    "js/src/uiManager.js",
+                    "js/src/music.js",
+                    "js/src/index.js"
                 ],
                 callback:function(key,testResult){
                     if(testResult!==true&&key=="js/src/uiManager.js"){
@@ -46,7 +54,7 @@
 
 <!--播放器-->
 <section class="zy_music_section" id="zy_music_section">
-    <div id="zy_music_player" class="zy_player zy_hidden">
+    <div id="zy_music_player" class="zy_player">
         <p id="zy_music_title" class="zy_music_title">新通道特色音乐</p>
         <div class="zy_music_controller">
             <a id="zy_music_prev"  class="zy_music_prev">上一首</a>

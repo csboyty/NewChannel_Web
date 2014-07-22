@@ -7,25 +7,42 @@
  * */
 var ZY=ZY||{};
 ZY.uiManager=(function(){
+    //私有属性
+    var miniMusicPlayer=true;
     return {
 
         /**
          * 显示音乐播放器
          */
         showMusicPlayer:function(){
-            $("#zy_music_section").animate({
+            TweenLite.to("#zy_music_player",0.5,{rotationX:"0deg",transformOrigin:"50% 100%",ease:Back.easeOut})
+            /*$("#zy_music_section").animate({
                 width:"100%"
             },100,function(){
                 $("#zy_music_player").removeClass("zy_hidden");
-            });
+            });*/
         },
 
         /**
          * 隐藏音乐播放器
          */
         hideMusicPlayer:function(){
-            $("#zy_music_section").stop(true,true).width(60);
-            $("#zy_music_player").addClass("zy_hidden");
+            TweenLite.to("#zy_music_player",0.5,{rotationX:"90deg",transformOrigin:"50% 100%",ease:Back.easeOut})
+            /*$("#zy_music_section").stop(true,true).width(60);
+            $("#zy_music_player").addClass("zy_hidden");*/
+        },
+
+        /**
+         * 切换音乐播放器显示隐藏
+         */
+        toggleMiniMusicPlayer:function(){
+            if(miniMusicPlayer){
+                this.showMusicPlayer()
+                miniMusicPlayer=false
+            }else{
+                this.hideMusicPlayer()
+                miniMusicPlayer=true
+            }
         },
 
         /**
