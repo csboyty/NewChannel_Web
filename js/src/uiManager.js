@@ -9,6 +9,12 @@ var ZY=ZY||{};
 ZY.uiManager=(function(){
     //私有属性
     var miniMusicPlayer=true;
+    var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
+    var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
+    var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+    var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+
+
     return {
 
         /**
@@ -16,11 +22,7 @@ ZY.uiManager=(function(){
          */
         showMusicPlayer:function(){
             TweenLite.to("#zy_music_player",0.5,{rotationX:"0deg",transformOrigin:"50% 100%",ease:Back.easeOut})
-            /*$("#zy_music_section").animate({
-                width:"100%"
-            },100,function(){
-                $("#zy_music_player").removeClass("zy_hidden");
-            });*/
+
         },
 
         /**
@@ -28,8 +30,7 @@ ZY.uiManager=(function(){
          */
         hideMusicPlayer:function(){
             TweenLite.to("#zy_music_player",0.5,{rotationX:"90deg",transformOrigin:"50% 100%",ease:Back.easeOut})
-            /*$("#zy_music_section").stop(true,true).width(60);
-            $("#zy_music_player").addClass("zy_hidden");*/
+
         },
 
         /**
@@ -114,6 +115,26 @@ ZY.uiManager=(function(){
                         "' type='video/mp4' /></video>"));
                 }
             }
+        },
+
+        /**
+         * 根据当前section显示相应的背景
+         * @param {Object} targetSection 目标section元素的jquery对象
+         */
+        showSectionBg:function(targetSection){
+
+            if(!ZY.config.deviceCode.iOS){
+                landScapeBG.removeClass("zy_bg_fixed");
+                peopleBG.removeClass("zy_bg_fixed");
+                artifactBG.removeClass("zy_bg_fixed");
+                communityBG.removeClass("zy_bg_fixed");
+
+                if((targetSection!=null)&&(!$(targetSection).hasClass("zy_bg_fixed"))){
+                    $(targetSection).addClass("zy_bg_fixed")
+                }
+            }
+
+
         },
 
         /**
@@ -325,7 +346,10 @@ ZY.uiManager=(function(){
 		updateView:function(){
 			var winH=$(window).height();
 			//头条海报的高度刷新
-			$("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px")
+			$("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px");
+
+            //更新位置数值
+            ZY.controllerManager.init();
 		}
     }
 })();

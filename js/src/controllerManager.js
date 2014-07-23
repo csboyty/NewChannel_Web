@@ -8,22 +8,21 @@
 var ZY=ZY||{};
 ZY.controllerManager=(function(){
 
-    var rect="";//clip的rect值
-    var topH=$("#zy_top_post").height();
-    var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
-    var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
-    var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
-    var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+    //var rect="";//clip的rect值
+    var topH;
+    var landScapeBG;
+    var peopleBG;
+    var artifactBG;
+    var communityBG;
+    var menu;
+    var sy;
+    var winH;
+    var landScapeY;
+    var peopleY;
+    var artifactY;
+    var communityY;
+    var footerY;
 
-
-    var menu=$("#zy_nav");
-
-    //进入页面时nav为非fixed状态，滚动到下面后变成fiexd，不占高度，所以要减去
-    var landScapeY=$("#zy_landscape").offset().top-80;
-    var peopleY=$("#zy_people").offset().top-80;
-    var artifactY=$("#zy_artifact").offset().top-80;
-    var communityY=$("#zy_community").offset().top-80;
-    var footerY=$(".zy_footer").offset().top-80;
 
     /**
      * 设置页面的最大个数
@@ -33,19 +32,44 @@ ZY.controllerManager=(function(){
      */
     function setMaxLimit(categoryId,limit){
         if(categoryId==ZY.config.categoryIds.landscapeId){
-            if(limit>3){
-                limit=3;
-            }
-        }else{
             if(limit>4){
                 limit=4;
+            }
+        }else if(categoryId==ZY.config.categoryIds.artifactId){
+            if(limit>6){
+                limit=6;
+            }
+        }else{
+            if(limit>5){
+                limit=5;
             }
         }
 
         return limit;
     }
 
+
+
     return {
+        /**初始化或更新引用和变量
+         *
+         */
+        init:function(){
+            topH=$("#zy_top_post").height();
+            landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
+            peopleBG=$("#zy_people_bg .zy_theme_bg_content");
+            artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+            communityBG=$("#zy_community_bg .zy_theme_bg_content");
+            menu=$("#zy_nav");
+
+            sy=window.pageYOffset;
+            winH=$(window).height();
+            landScapeY=$("#zy_landscape").offset().top;
+            peopleY=$("#zy_people").offset().top;
+            artifactY=$("#zy_artifact").offset().top;
+            communityY=$("#zy_community").offset().top;
+            footerY=$(".zy_footer").offset().top;
+        },
 
         /**
          * 判断是否显示播放器,主要是判断鼠标所在对象是否在某一个对象内
@@ -205,20 +229,18 @@ ZY.controllerManager=(function(){
          * @param {Number} categoryId  分类id
          */
         setBackGround:function(isFirst,firstPost,categoryId){
+
             if(isFirst&&firstPost["post_id"]!=ZY.dataManager.topPostId){
                 if(categoryId==ZY.config.categoryIds.peopleId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_people_theme"));
-                    peopleBG=$("#zy_people_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.landscapeId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_landscape_theme"));
-                    landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.communityId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_community_theme"));
-                    communityBG=$("#zy_community_bg .zy_theme_bg_content");
                 }else if(categoryId==ZY.config.categoryIds.artifactId){
                     ZY.uiManager.updateSectionBg(firstPost,$("#zy_artifact_theme"));
-                    artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
                 }
+                this.init()
             }
         },
 
@@ -473,8 +495,6 @@ ZY.controllerManager=(function(){
                 }else{
                     $(window).scrollTop(top-100);
                 }
-                //TweenLite.killTweensOf(window);
-                //TweenLite.to(window, 0.5, {scrollTo:{y:top}});
 
                 //兼容ie
                 if(evt.preventDefault){
@@ -491,11 +511,7 @@ ZY.controllerManager=(function(){
          * 页面上下滚动事件,主要是设置背景显示，菜单的高亮,请求数据
          */
         scrollingHandler:function(){
-            var sy=window.pageYOffset;
-            var winH=$(window).height();
-            var winW=$(window).width();
-
-            //console.log(sy+":"+landScapeY+":"+winH);
+            sy=window.pageYOffset;
 
             //菜单操作
             if(sy>=topH){
@@ -540,15 +556,8 @@ ZY.controllerManager=(function(){
             * 不再使用rect了
             * */
 
-             if(sy>landScapeY-winH && sy<=landScapeY+720){
-                if(!ZY.config.deviceCode.iOS){
-                    landScapeBG.addClass("zy_bg_fixed");
-
-                    //滚动的时候使用clip
-                    //rect="rect(0px "+winW+"px "+(800-(sy-landScapeY)+100)+"px 0px)";
-                    //landScapeBG.css("clip",rect);
-                }
-
+             if(sy>landScapeY-winH && sy<peopleY-winH){
+                 ZY.uiManager.showSectionBg(landScapeBG);
                 if(!ZY.dataManager.landscapeLoaded){
 
                     //获取第1个分类(风景）文章
@@ -562,51 +571,22 @@ ZY.controllerManager=(function(){
                     ZY.dataManager.landscapeLoaded=true;
                 }
 
+            }else if(sy>=peopleY-winH && sy<artifactY-winH){
+                 ZY.uiManager.showSectionBg(peopleBG);
+                 if(!ZY.dataManager.peopleLoaded){
 
-
-            }else{
-                if(!ZY.config.deviceCode.iOS){
-                    landScapeBG.removeClass("zy_bg_fixed");
-                    landScapeBG.css("clip","");
-                }
-            }
-
-            if(sy>peopleY-winH && sy<=peopleY+720){
-                if(!ZY.config.deviceCode.iOS){
-                    peopleBG.addClass("zy_bg_fixed");
-
-                    //滚动的时候使用clip
-                    //rect="rect(0px "+winW+"px "+(800-(sy-peopleY)+100)+"px 0px)";
-                    //peopleBG.css("clip",rect);
-                }
-
-                if(!ZY.dataManager.peopleLoaded){
-
-                    //获取第2个分类（人文）文章
-                    ZY.dataManager.getCategoryPosts({
-                        width:ZY.config.articleWidths.peopleWidth,
-                        categoryId:ZY.config.categoryIds.peopleId,
-                        isFirst:true,
-                        lastDate:ZY.dataManager.lastPeopleDate,
-                        targetContain:$("#zy_people_contain")
-                    });
-                    ZY.dataManager.peopleLoaded=true;
-                }
-            }else{
-                if(!ZY.config.deviceCode.iOS){
-                    peopleBG.removeClass("zy_bg_fixed");
-                    peopleBG.css("clip","");
-                }
-            }
-
-            if(sy>artifactY-winH && sy<=artifactY+720){
-                if(!ZY.config.deviceCode.iOS){
-                    artifactBG.addClass("zy_bg_fixed");
-
-                    //向下滚动的时候使用clip
-                    //rect="rect(0px "+winW+"px "+(840-(sy-artifactY)+100)+"px 0px)";
-                    //artifactBG.css("clip",rect);
-                }
+                     //获取第2个分类（人文）文章
+                     ZY.dataManager.getCategoryPosts({
+                         width:ZY.config.articleWidths.peopleWidth,
+                         categoryId:ZY.config.categoryIds.peopleId,
+                         isFirst:true,
+                         lastDate:ZY.dataManager.lastPeopleDate,
+                         targetContain:$("#zy_people_contain")
+                     });
+                     ZY.dataManager.peopleLoaded=true;
+                 }
+            }else if(sy>=artifactY-winH && sy<communityY-winH){
+                 ZY.uiManager.showSectionBg(artifactBG);
                 if(!ZY.dataManager.artifactLoaded){
 
                     //获取第3个分类(物语）文章
@@ -617,25 +597,10 @@ ZY.controllerManager=(function(){
                         width:ZY.config.articleWidths.artifactWidth,
                         isFirst:true
                     });
-
                     ZY.dataManager.artifactLoaded=true;
                 }
-            }else{
-
-                if(!ZY.config.deviceCode.iOS){
-                    artifactBG.removeClass("zy_bg_fixed");
-                    artifactBG.css("clip","");
-                }
-
-            }
-            if(sy>communityY-winH && sy<=communityY+720){
-                if(!ZY.config.deviceCode.iOS){
-                    communityBG.addClass("zy_bg_fixed");
-
-                    //滚动的时候使用clip
-                    //rect="rect(0px "+winW+"px "+(840-(sy-communityY)+100)+"px 0px)";
-                    //communityBG.css("clip",rect);
-                }
+            }else if(sy>=communityY-winH && sy<footerY+winH){
+                 ZY.uiManager.showSectionBg(communityBG);
 
                 if(!ZY.dataManager.communityLoaded){
                 	
@@ -650,10 +615,7 @@ ZY.controllerManager=(function(){
                     ZY.dataManager.communityLoaded=true;
                 }
             }else{
-                if(!ZY.config.deviceCode.iOS){
-                    communityBG.removeClass("zy_bg_fixed");
-                    communityBG.css("clip","");
-                }
+                 ZY.uiManager.showSectionBg(null)
             }
         },
 

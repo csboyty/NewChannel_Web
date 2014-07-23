@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 $(document).ready(function(){
+    //更新视图
+    ZY.uiManager.updateView();
 
     //音乐获取
     ZY.dataManager.getMusic();
@@ -175,19 +177,6 @@ $(document).ready(function(){
 
     //有可能刷新就已经滚动到了一定位置，需要触发一下，加载相应的数据
     $(window).trigger("scroll");
-
-    //window  scroll speed
-    //ZY.controllerManager.setWheelScrollSpeed();
-
-	/*=====iOS触屏滚动支持=================*/
-	if(ZY.config.deviceCode.iOS){
-		$(".zy_article_content").addClass("zy_touch_hscroll");
-		$("#zy_landscape_list_container").addClass("zy_touch_hscroll");
-		$("#zy_people_list_container").addClass("zy_touch_hscroll");
-		$("#zy_artifact_list_container").addClass("zy_touch_hscroll");
-		$("#zy_community_list_container").addClass("zy_touch_hscroll");		
-	}
 	
-	//更新视图
-	ZY.uiManager.updateView();
+
 });
