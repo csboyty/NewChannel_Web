@@ -55,6 +55,71 @@ $(document).ready(function(){
     //获取封面故事和推荐文章
     ZY.dataManager.getTopPosts();
 
+    //内容列表滑动
+    Draggable.create(".zy_list_container",{
+        type:"scrollLeft",
+        edgeResistance:0.5,
+        throwProps:true,
+        lockAxis:true,
+        onClick:function(evt){
+            var post_type;
+            var clickTarget = evt.target || evt.srcElement;
+            clickTarget = clickTarget.nodeName == "LI"? $(clickTarget):$(clickTarget).parents("li");
+
+            if(clickTarget.prop("tagName")=="LI"){
+                post_id=$(clickTarget).data("zy-post-id");
+                post_type=$(clickTarget).data("zy-post-type");
+                ZY.uiManager.showArticle(post_id,post_type);
+            }
+        },
+        onDragStart:function(evt){
+
+        },
+        onDragEnd:function (evt) {
+            var clickTarget=evt.target || evt.srcElement;
+            clickTarget=$(clickTarget).parents(".zy_list_container");
+            var containerID=clickTarget.attr("id");
+            switch (containerID) {
+                case"zy_landscape_list_container":
+                    ZY.dataManager.getCategoryPosts({
+                        targetContain:$("#zy_landscape_contain"),
+                        width:ZY.config.articleWidths.landscapeWidth,
+                        categoryId:ZY.config.categoryIds.landscapeId,
+                        lastDate:ZY.dataManager.lastLandscapeDate,
+                        isFirst:false
+                    });
+                    break;
+                case"zy_people_list_container":
+                    ZY.dataManager.getCategoryPosts({
+                        targetContain:$("#zy_people_contain"),
+                        width:ZY.config.articleWidths.peopleWidth,
+                        categoryId:ZY.config.categoryIds.peopleId,
+                        lastDate:ZY.dataManager.lastPeopleDate,
+                        isFirst:false
+                    });
+                    break;
+                case"zy_artifact_list_container":
+                    ZY.dataManager.getCategoryPosts({
+                        targetContain:$("#zy_artifact_contain"),
+                        width:ZY.config.articleWidths.artifactWidth,
+                        categoryId:ZY.config.categoryIds.artifactId,
+                        lastDate:ZY.dataManager.lastArtifactDate,
+                        isFirst:false
+                    });
+                    break;
+                case"zy_community_list_container":
+                    ZY.dataManager.getCategoryPosts({
+                        targetContain:$("#zy_community_contain"),
+                        width:ZY.config.articleWidths.communityWidth,
+                        categoryId:ZY.config.categoryIds.communityId,
+                        lastDate:ZY.dataManager.lastCommunityDate,
+                        isFirst:false
+                    });
+                    break;
+            }
+        }
+    })
+
     //风景显示左右按钮
     ZY.controllerManager.addHoverEvent($("#zy_landscape_contain"));
 

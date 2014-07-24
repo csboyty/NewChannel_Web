@@ -466,7 +466,7 @@ a{
     position: relative;
     margin: auto;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden !important;
 }
 
 /*-------------------------------------------------------------------------风景z-index:4--*/
@@ -550,7 +550,7 @@ a{
 }
 .zy_landscape_list{
     margin:0;
-    height:100%;
+    height:1000px;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
