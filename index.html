@@ -161,7 +161,7 @@
     <h3 class="zy_subheading">美不胜收的风景写真</h3>
     <div class="zy_landscape_bottom_bg"></div>
     <section id="zy_landscape_contain" class="zy_landscape_contain">
-        <a id="zy_landscape_prev" class="zy_contain_prev zy_disable"></a>
+        <a id="zy_landscape_prev" class="zy_contain_prev "></a>
         <div id="zy_landscape_list_container" class="zy_list_container">
         <script id="zy_landscape_articles_tpl" type="text/template">
 
@@ -218,7 +218,7 @@
     <div class="zy_people_bottom_bg"></div>
     <section id="zy_people_contain" class="zy_people_contain">
 
-        <a id="zy_people_prev" class="zy_contain_prev zy_disable">上一页</a>
+        <a id="zy_people_prev" class="zy_contain_prev ">上一页</a>
         <div id="zy_people_list_container" class="zy_list_container">
             <script id="zy_people_articles_tpl" type="text/template">
 
@@ -255,7 +255,7 @@
 	<h3 class="zy_subheading">从传统工艺到现代设计</h3>
     <div class="zy_artifact_bottom_bg"></div>
     <section id="zy_artifact_contain" class="zy_artifact_contain">
-        <a id="zy_artifact_prev" class="zy_contain_prev zy_disable">上一页</a>
+        <a id="zy_artifact_prev" class="zy_contain_prev ">上一页</a>
         <div id="zy_artifact_list_container" class="zy_list_container">
             <script id="zy_artifact_articles_tpl" type="text/template">
 
@@ -353,7 +353,7 @@
     <div class="zy_community_bottom_bg"></div>
     <section id="zy_community_contain" class="zy_community_contain">
 
-        <a id="zy_community_prev" class="zy_contain_prev zy_disable">上一页</a>
+        <a id="zy_community_prev" class="zy_contain_prev">上一页</a>
         <div id="zy_community_list_container" class="zy_list_container">
             <script id="zy_community_articles_tpl" type="text/template">
 
@@ -444,7 +444,8 @@
 <!--单片文章展示模版，采用load加载页面-->
 <article id="zy_article_container" class="zy_article_container">
     <span id="zy_article_content_close" class="zy_article_content_close"></span>
-    <section id="zy_article_content" class="zy_article_content">
+    <div class="zy_article_content_wrapper">
+        <section id="zy_article_content" class="zy_article_content">
         <script id="zy_show_detail_tpl" type="text/template">
             {@if post_type=="zypost"}
             <article class="article-main-post">
@@ -501,6 +502,7 @@
 
         </script>
     </section>
+    </div>
 </article>
 
 <!--数据加载时的等待动画-->

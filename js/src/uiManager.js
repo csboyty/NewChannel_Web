@@ -13,9 +13,35 @@ ZY.uiManager=(function(){
     var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
     var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
     var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+    var topMenu=$("#zy_nav");
+    var topMenuLandScape=$("#zy_nav>ul>li:nth-child(1) a");
+    var topMenuPeople=$("#zy_nav>ul>li:nth-child(2) a");
+    var topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
+    var topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");
 
 
     return {
+
+        /**
+         * 视图更新，数据发生变化后调用
+         */
+        updateView:function(){
+            var winH=$(window).height();
+
+            //头条海报的高度刷新
+            $("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px");
+
+            //更新movingtips按钮显示状态
+            $("a.zy_contain_prev").css("left","-50px");
+            $("a.zy_contain_next").css("right","-50px");
+
+            //更新详情文章的高度
+            $("#zy_article_content").css("height",winH-50+"px");
+            $("#zy_article_content .allslides-slide").css("height",winH-110+"px");
+
+            //更新位置数值
+            ZY.controllerManager.init();
+        },
 
         /**
          * 显示音乐播放器
@@ -46,6 +72,90 @@ ZY.uiManager=(function(){
             }
         },
 
+        /** 改变顶部菜单外观
+         *   @param {boolean} flag 标识菜单是否切换为mini菜单
+         */
+        topMenuMiniMode:function(miniFlag){
+            if(miniFlag){
+                if(!topMenu.hasClass("zy_nav_active")){
+                    topMenu.addClass("zy_nav_active");
+                }
+            }else{
+                if(topMenu.hasClass("zy_nav_active")){
+                    topMenu.removeClass("zy_nav_active");
+                }
+            }
+        },
+
+        /**
+         * 根据当前章节高亮显示顶部菜单相应条目
+         * @param {String} sectionID 菜单对应章节的名字 ，如果传入null则不高亮任何条目
+         */
+        highlightMenu:function(sectionID){
+
+            //设置顶部菜单状态, 首先重置所有菜单
+            $("#zy_nav>ul>li>a").removeClass("active");
+            switch (sectionID){
+                case "landscape" :
+                    topMenuLandScape.addClass("active");
+                    break;
+                case "people" :
+                    topMenuPeople.addClass("active");
+                    break;
+                case "artifact" :
+                    topMenuArtifact.addClass("active");
+                    break;
+                case "community" :
+                    topMenuCommunity.addClass("active");
+                    break;
+            }
+
+        },
+
+        /**
+         * 显示消息提示框
+         * @param {String} msg 需要显示的信息
+         * @param {Boolean} showblackout  是否显示显示遮盖层
+         */
+        showPopOut:function(msg,showblackout){
+            var pop=$("#zy_popout_win");
+            pop.removeClass("zy_hidden").find(".zy_popout_title").html(msg);
+            if(showblackout){
+                this.showBlackout(9999);
+            }
+        },
+
+        /**
+         * 隐藏消息提示框
+         */
+        hidePopOut:function(){
+
+            //只有浏览器不支持的时候才会显示wrap，不需要清除。
+            $("#zy_popout_win").addClass("zy_hidden");
+        },
+
+        /**
+         * 显示移动提示
+         *  @param {Object} targetContain 需要滚动到的元素jquery对象
+         */
+        showMovingTips:function(targetContain){
+            var leftBtn=$(targetContain).find("a.zy_contain_prev");
+            var rightBtn=$(targetContain).find("a.zy_contain_next");
+            TweenLite.fromTo(leftBtn,0.4,{left:"-50px",opacity:0},{left:"0",opacity:1})
+            TweenLite.fromTo(rightBtn,0.4,{right:"-50px",opacity:0},{right:"0",opacity:1})
+        },
+
+        /**
+         * 隐藏移动提示
+         *  @param {Object} targetContain 需要滚动到的元素jquery对象
+         */
+        hideMovingTips:function(targetContain){
+            var leftBtn=$(targetContain).find("a.zy_contain_prev");
+            var rightBtn=$(targetContain).find("a.zy_contain_next");
+            TweenLite.to(leftBtn,0.4,{left:"-50px",opacity:0})
+            TweenLite.to(rightBtn,0.4,{right:"-50px",opacity:0})
+        },
+
         /**
          * 滚动动画，主要用于菜单点击
          * @param {Object} target 需要滚动到的元素jquery对象
@@ -70,6 +180,36 @@ ZY.uiManager=(function(){
 
             }
 
+        },
+
+        /**
+         * 视频淡入
+         * @param {Object} target 需要淡入的元素dom
+         */
+        fadingIn:function(target){
+            $(target).css("opacity",1);
+        },
+
+        /**
+         * 显示数据加载时候的等待动画,采用动态添加元素,使用juicer
+         * @param {Object} target 动画的容器元素jquery对象
+         */
+        showLoadingSpinner:function(target){
+            var spinnerDOM=$("#zy_spinner_tpl").html();
+
+            //添加到target DOM中
+            if(target.find(".zy_loading_spinner").length<=0){
+                target.append($(spinnerDOM));
+            }
+
+        },
+
+        /**
+         * 隐藏数据加载时候的等待动画,动态删除元素
+         * @param {Object} target 动画的容器元素jquery对象
+         */
+        hideLoadingSpinner:function(target){
+            target.find(".zy_loading_spinner").remove();
         },
 
         /**
@@ -138,36 +278,6 @@ ZY.uiManager=(function(){
         },
 
         /**
-         * 视频淡入
-         * @param {Object} target 需要淡入的元素dom
-         */
-        fadingIn:function(target){
-            $(target).css("opacity",1);
-        },
-
-        /**
-         * 显示数据加载时候的等待动画,采用动态添加元素,使用juicer
-         * @param {Object} target 动画的容器元素jquery对象
-         */
-        showLoadingSpinner:function(target){
-            var spinnerDOM=$("#zy_spinner_tpl").html();
-
-            //添加到target DOM中
-            if(target.find(".zy_loading_spinner").length<=0){
-                target.append($(spinnerDOM));
-            }
-
-        },
-
-        /**
-         * 隐藏数据加载时候的等待动画,动态删除元素
-         * @param {Object} target 动画的容器元素jquery对象
-         */
-        hideLoadingSpinner:function(target){
-            target.find(".zy_loading_spinner").remove();
-        },
-
-        /**
          * 显示风景分类文章,使用juicer
          * @param {Array} posts 文章数组
          */
@@ -222,6 +332,7 @@ ZY.uiManager=(function(){
                 me.showLoadingSpinner($("#zy_article_content"));
                 ZY.dataManager.getPostDetail(post_id);
             });
+
         },
 
         /**
@@ -271,6 +382,8 @@ ZY.uiManager=(function(){
             article_content.append(html);
 
             ZY.uiManager.hideLoadingSpinner(article_content);
+            //视图更新
+            this.updateView();
         },
 
         /**
@@ -316,40 +429,7 @@ ZY.uiManager=(function(){
             if(ZY.music.musicPlaying){
                 audio.play();
             }
-        },
+        }
 
-        /**
-         * 显示消息提示框
-         * @param {String} msg 需要显示的信息
-         * @param {Boolean} showblackout  是否显示显示遮盖层
-         */
-        showPopOut:function(msg,showblackout){
-            var pop=$("#zy_popout_win");
-            pop.removeClass("zy_hidden").find(".zy_popout_title").html(msg);
-            if(showblackout){
-                this.showBlackout(9999);
-            }
-        },
-
-        /**
-         * 隐藏消息提示框
-         */
-        hidePopOut:function(){
-
-            //只有浏览器不支持的时候才会显示wrap，不需要清除。
-            $("#zy_popout_win").addClass("zy_hidden");
-        },
-		
-		/**
-         * 视图更新，数据发生变化后调用
-         */
-		updateView:function(){
-			var winH=$(window).height();
-			//头条海报的高度刷新
-			$("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px");
-
-            //更新位置数值
-            ZY.controllerManager.init();
-		}
     }
 })();

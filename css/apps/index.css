@@ -4,7 +4,7 @@ body{
     font-family: "Microsoft YaHei","宋体","Heiti SC";
     margin: 0;
     min-width: 730px;
-    background:#333;
+    background:#000;
 }
 
 /*所有开始不显示的类*/
@@ -245,25 +245,7 @@ a{
     margin: 0px;
     z-index: 8;
 }
-.zy_logo:before,.zy_logo:after{
-    content: "";
-    background: #fff;
-    height: 2px;
-    width: 100%;
-    position: absolute;
-    bottom: 39px;
-}
-/*由于logo的a是剧中的220px，那么补线的话可以设置width为100%，
-多余的隐藏，位置定于中间，并且向左margin出logo的a的一半宽度
-那么补的线就不会和a重合了*/
-.zy_logo:before{
-    left:50%;
-    margin-left: 110px;
-}
-.zy_logo:after{
-    right:50%;
-    margin-right: 110px;
-}
+
 .zy_logo a{
     display: block;
     height: 254px;
@@ -441,11 +423,11 @@ a{
     font-size:0;
     text-indent:-9999px;
     cursor:pointer;
-    opacity: 0;
+    /*opacity: 0;
     -webkit-transition:opacity 0.4s ease-out;
     -moz-transition:opacity 0.4s ease-out;
     -ms-transition:opacity 0.4s ease-out;
-    transition:opacity 0.4s ease-out;
+    transition:opacity 0.4s ease-out;*/
 }
 .zy_contain_prev{
     background: url(../../images/apps/btn_arrow_left.png) no-repeat;
@@ -464,9 +446,10 @@ a{
 /*水平滑动窗口布局容器*/
 .zy_list_container{
     position: relative;
-    margin: auto;
-    height: 100%;
+    margin: 40px auto;
+    height: 700px;
     overflow: hidden !important;
+    font-size: 0;
 }
 
 /*-------------------------------------------------------------------------风景z-index:4--*/
@@ -550,7 +533,7 @@ a{
 }
 .zy_landscape_list{
     margin:0;
-    height:1000px;
+    height:700px;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
@@ -558,7 +541,7 @@ a{
     font-size:0;
     position: absolute;
     left: 0;
-    padding:160px 0;
+    padding:20px 0;
 }
 .zy_landscape_article{
     display: inline-block;
@@ -598,7 +581,7 @@ a{
     text-overflow: ellipsis;
 }
 .zy_landscape_article>.zy_article_info:nth-child(2n){
-    padding-top:20px;
+    padding-top:40px;
 }
 
 /*----------------------------------------------------------------------------人文z-index:3--*/
@@ -680,12 +663,12 @@ a{
 
 .zy_people_list,.zy_community_list{
     margin:0;
-    height:100%;
+    height:700px;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
     box-sizing:border-box;
-    padding:130px 0;
+    padding:20px 0;
     font-size:0;
     vertical-align:top;
     position: absolute;
@@ -828,44 +811,49 @@ a{
     position: relative;
 	z-index:8;
 }
+/*微调 artifact栏目的高度*/
+#zy_artifact_list_container{
+    height: 540px;
+    margin: 100px auto;
+}
 .zy_artifact_list{
     margin:0;
-    height:100%;
+    height:540px;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
     box-sizing:border-box;
-    padding:230px 0;
+    padding:20px 0;
     font-size:0;
     position: absolute;
     left: 0;
 }
 .zy_artifact_article{
     display: inline-block;
-    width: 200px;
-    height: 400px;
+    width: 240px;
+    height: 500px;
     white-space: normal;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     -ms-box-sizing:border-box;
     box-sizing:border-box;
-    margin-right: 5px;
-    padding:0px 5px 0px 0px;
+    padding:0;
+    margin-right: 20px;
     position:relative;
     overflow:hidden;
     cursor:pointer;
     vertical-align: top;
 }
 .zy_artifact_list>.zy_artifact_article:first-child{
-    width: 400px;
+    width: 500px;
     padding:0px;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 /*.zy_artifact_list>.zy_artifact_article:nth-child(2){
     margin-left: 5px;
 }*/
 .zy_artifact_list>.zy_artifact_article:first-child>.zy_article_thumb{
-    height: 400px;
+    height: 500px;
 }
 .zy_artifact_list>.zy_artifact_article:first-child>.zy_article_thumb>img{
     border: 1px solid #ccc;
@@ -902,7 +890,7 @@ a{
 }
 .zy_artifact_article>.zy_article_info{
     position: relative;
-    width: 195px;
+    width: 240px;
 }
 .zy_artifact_article>.zy_article_info img{
     width:100%;
@@ -924,7 +912,7 @@ a{
     overflow: hidden;
 }
 .zy_artifact_article>.zy_article_info:nth-child(2n){
-    padding-top:10px;
+    padding-top:20px;
 }
 
 /*-----------------------------------------------------------------------------社区z-index:1--*/
@@ -1083,7 +1071,7 @@ a{
 }
 .zy_project_sponsors ul li{
     display: inline-block;
-    width: 190px;
+    width: 300px;
 }
 .zy_project_sponsors ul li:first-child{
     border-right:2px solid #444;
@@ -1389,21 +1377,23 @@ a{
 
 /*------------------------结束---------------------------------*/
 
-
-
-.zy_article_content{
+.zy_article_content_wrapper{
     background: #fff;
     width: 100%;
     position:absolute;
-	top:50px;
-	bottom:0;
-    overflow-x: auto;
-	overflow-y:hidden;
-	padding:30px;
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	-ms-box-sizing:border-box;
-	box-sizing:border-box;
+    top:50px;
+    bottom:0;
+    font-size: 0;
+    overflow: hidden!important;
+    padding:30px;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+.zy_article_content{
+
 }
 /* 设置滚动条的样式 */
 .zy_article_content::-webkit-scrollbar {
@@ -1569,6 +1559,7 @@ a{
     display:inline-block;
     position:relative;
 	max-width:100%;
+    display: block;
 }
 .videoslide:before
 {
@@ -1631,6 +1622,7 @@ a{
     height:540px;
     width:auto;
     white-space: nowrap;
+    font-size: 14px;
 }
 .slide-slide{
     display: inline-block;
@@ -1664,6 +1656,7 @@ a{
 }
 .imgcaption-slide span{
     font-size: 21px;
+    color:#ca2e3a;
 }
 
 /*-------------------响应式-------------------------*/

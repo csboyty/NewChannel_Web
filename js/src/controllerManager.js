@@ -32,16 +32,16 @@ ZY.controllerManager=(function(){
      */
     function setMaxLimit(categoryId,limit){
         if(categoryId==ZY.config.categoryIds.landscapeId){
-            if(limit>4){
-                limit=4;
+            if(limit>5){
+                limit=5;
             }
         }else if(categoryId==ZY.config.categoryIds.artifactId){
             if(limit>6){
                 limit=6;
             }
         }else{
-            if(limit>5){
-                limit=5;
+            if(limit>6){
+                limit=6;
             }
         }
 
@@ -135,7 +135,7 @@ ZY.controllerManager=(function(){
             args.targetContain.find(".zy_list_container").width(limit*args.width);
 
             //首先隐藏下一页按钮，获取到数据后再显示
-            args.targetContain.find(".zy_contain_next").addClass("zy_disable");
+            //args.targetContain.find(".zy_contain_next").addClass("zy_disable");
             ZY.uiManager.showLoadingSpinner($(args.targetContain));
 
             //设置请求个数
@@ -200,10 +200,10 @@ ZY.controllerManager=(function(){
                 }
 
                 //加载完成后默认显示下一页按钮
-                nextBtn.removeClass("zy_disable");
+                //nextBtn.removeClass("zy_disable");
 
                 //但如果是第一次加载，并且数量小于一页的数量，要设置按钮不可见
-                if(args.categoryId==ZY.config.categoryIds.artifactId){
+                /*if(args.categoryId==ZY.config.categoryIds.artifactId){
                     if(args.isFirst&&(length<=(args.limit+1)/3-1)){
                         nextBtn.addClass("zy_disable");
                     }
@@ -211,12 +211,12 @@ ZY.controllerManager=(function(){
                     if(args.isFirst&&(length<=args.limit/3)){
                         nextBtn.addClass("zy_disable");
                     }
-                }
+                }*/
 
                 if(length<args.limit){
 
                     //如果返回的个数小于请求的个数，则要设置不能再加载的标志
-                    nextBtn.addClass("zy_no_more");
+                    //nextBtn.addClass("zy_no_more");
                 }
 
             }
@@ -335,7 +335,7 @@ ZY.controllerManager=(function(){
          * @param {Number} categoryId 分类id
          * @param {String} lastDate 已经请求了的最后一篇的时间
          */
-        nextPage:function(targetContain,width,categoryId,lastDate){
+        /*nextPage:function(targetContain,width,categoryId,lastDate){
             var limit=parseInt($("body").width()/width);
             limit=setMaxLimit(categoryId,limit);
             var nextBtn=targetContain.find("a.zy_contain_next");
@@ -351,9 +351,9 @@ ZY.controllerManager=(function(){
                 list.animate({"left":parseInt(list.css("left"))-limit*width},500,function(){
 
                     //显示前面一个按钮
-                    prevBtn.removeClass("zy_disable");
+                    //prevBtn.removeClass("zy_disable");
 
-                    if(categoryId==ZY.config.categoryIds.artifactId){
+                    *//*if(categoryId==ZY.config.categoryIds.artifactId){
 
                         //物语有一个大图是其他的两倍
                         if(parseInt(list.css("left"))<=-(list.find("li").length-limit+1)*width){
@@ -367,7 +367,7 @@ ZY.controllerManager=(function(){
                             //如果left的值已经到了总数的前一页，说明当前显示的就是最后一页那么就让这个按钮disable。
                             nextBtn.addClass("zy_disable");
                         }
-                    }
+                    }*//*
 
                 });
             }else{
@@ -383,10 +383,10 @@ ZY.controllerManager=(function(){
                 list.animate({"left":parseInt(list.css("left"))-limit*width},500,function(){
 
                     //去掉前面按钮的禁用标志
-                    prevBtn.removeClass("zy_disable");
+                    //prevBtn.removeClass("zy_disable");
                 });
             }
-        },
+        },*/
 
         /**
          * 上一页按钮事件
@@ -394,7 +394,7 @@ ZY.controllerManager=(function(){
          * @param {Number} width 每个li的宽度
          * @param {Number} categoryId 分类id
          */
-        prevPage:function(targetContain,width,categoryId){
+        /*prevPage:function(targetContain,width,categoryId){
             var limit=parseInt($("body").width()/width);
             limit=setMaxLimit(categoryId,limit);
             var nextBtn=targetContain.find("a.zy_contain_next");
@@ -409,10 +409,10 @@ ZY.controllerManager=(function(){
             if(parseInt(list.css("left"))+limit*width>=0){
                 list.animate({"left":0},500,function(){
 
-                    /*
+                    *//*
                      还要判断是否是最后一页，有可能是窗口变小导致原来的一页变成两页，然后点击了下一页，此后变大窗口
                      这个时候如果数据只有恰好放大后的一页，那么这页是第一页也是最后一页（缩小情况下是两页），需要判断是否为最后一页来判断是否移除类
-                     */
+                     *//*
                     if(parseInt(list.css("left"))>-(list.find("li").length-limit)*width){
 
                         //去掉后面按钮的无加载标志
@@ -426,7 +426,7 @@ ZY.controllerManager=(function(){
                     //如果是物语
                     if(parseInt(list.css("left"))+limit*width>-400){
 
-                        //如果有大图(屏幕宽度大于400），并且快要被截断的情况下
+                       //如果有大图(屏幕宽度大于400），并且快要被截断的情况下
                         list.animate({"left":-400},500,function(){
                             //去掉后面按钮的无加载标志
                             nextBtn.removeClass("zy_disable");
@@ -442,16 +442,16 @@ ZY.controllerManager=(function(){
                 list.animate({"left":parseInt(list.css("left"))+limit*width},500,function(){
 
                     //去掉后面按钮的无加载标志
-                    nextBtn.removeClass("zy_disable");
+                    //nextBtn.removeClass("zy_disable");
 
-                    /*//如果移动完后，恰好left为0，那么前一页按钮要禁用,其实已经包含在前面的条件中
+                    //如果移动完后，恰好left为0，那么前一页按钮要禁用,其实已经包含在前面的条件中
                     if(parseInt(list.css("left"))==0){
                         prevBtn.addClass("zy_disable");
-                    }*/
+                    }
                 });
 
             }
-        },
+        },*/
 
         /**
          * 横向滚轮事件
@@ -515,27 +515,21 @@ ZY.controllerManager=(function(){
 
             //菜单操作
             if(sy>=topH){
-                if(!menu.hasClass("zy_nav_active")){
-                    menu.addClass("zy_nav_active");
-                }
+                ZY.uiManager.topMenuMiniMode(true)
             }else{
-                if(menu.hasClass("zy_nav_active")){
-                    menu.removeClass("zy_nav_active");
-                }
+                ZY.uiManager.topMenuMiniMode(false)
             }
 
-            //设置顶部菜单状态, 首先重置所有菜单,计算时要减去nav的80高
-            $("#zy_nav ul li a").removeClass("active");
             if(sy<=landScapeY){
-
+                ZY.uiManager.highlightMenu(null)
             }else if(sy<=peopleY){
-                $("#zy_nav ul li:nth-child(1) a").addClass("active");
+                ZY.uiManager.highlightMenu("landscape")
             }else if(sy<=artifactY){
-                $("#zy_nav ul li:nth-child(2) a").addClass("active");
+                ZY.uiManager.highlightMenu("people")
             }else if(sy<=communityY){
-                $("#zy_nav ul li:nth-child(4) a").addClass("active");
+                ZY.uiManager.highlightMenu("artifact")
             }else if(sy<=footerY){
-                $("#zy_nav ul li:nth-child(5) a").addClass("active");
+                ZY.uiManager.highlightMenu("community")
             }
 
             //设置背景状态
@@ -639,7 +633,7 @@ ZY.controllerManager=(function(){
             targetContainer.width(limit*width);
 
             //判断下一页按钮是否能够显示,针对缩小主要是移除zy_disable类，针对放大主要是加上zy_disable类
-            if(parseInt(list.css("left"))>-(list.find("li").length-limit)*width&&loaded){
+            /*if(parseInt(list.css("left"))>-(list.find("li").length-limit)*width&&loaded){
 
                 //如果left的值没有到总数的前一页，那么就还没有到最后一页，需要取出zy_disable类。
                 nextBtn.removeClass("zy_disable");
@@ -649,7 +643,7 @@ ZY.controllerManager=(function(){
                 if(loaded){
                   nextBtn.addClass("zy_disable");
                 }
-            }
+            }*/
         },
 
         /**
