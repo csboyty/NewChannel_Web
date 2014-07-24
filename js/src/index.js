@@ -218,6 +218,20 @@ $(document).ready(function(){
 
     //有可能刷新就已经滚动到了一定位置，需要触发一下，加载相应的数据
     $(window).trigger("scroll");
+
+    //IE触屏事件优化
+    document.addEventListener("pointerup",function(){
+        ZY.uiManager.updateView();
+    },false);
+    document.addEventListener("selectstart", function(evt) {
+        evt.preventDefault();
+    }, false);
+    document.addEventListener("contextmenu", function(evt) {
+        //evt.preventDefault();
+    }, false);
+    document.addEventListener("MSHoldVisual", function(evt) {
+        evt.preventDefault();
+    }, false);
 	
 
 });

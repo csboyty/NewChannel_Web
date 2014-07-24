@@ -2,6 +2,7 @@
 <html class="no-js">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
     <meta name="fragment" content="!">
     <meta name="description" content="通道独特的自然生态环境与丰富的非物质文化遗产展示平台" />
     <meta name="keywords" content="社会创新, 新通道, 文化产品创新, 文化产品设计，通道，侗锦" />
@@ -451,23 +452,24 @@
             <article class="article-main-post">
                 <div class="article-head-post">
                     <h1 class="article-title-post">${post_title}</h1>
-                    <h2 class="article-author-post">${post_author} </h2>
-                    <h2 class="article-category-post">${post_category}</h2>
-                    <h2 class="article-time-post">${post_date}</h2>
+                    <h2 class="article-author-post">${post_author}，${post_date} 收录于《${post_category}》</h2>
+                    <!--<h2 class="article-category-post">${post_category}</h2>
+                    <h2 class="article-time-post">${post_date}</h2>-->
                 </div>
                 <div class="article-poster-post"><img src="${post_thumb}" ></div>
 
 
-
-                <div class="article-content-post">
-                    <p>$${post_content}</p>
+                <div class="article-content-post-wrapper">
+                    <div class="article-content-post">
+                        <p>$${post_content}</p>
+                    </div>
                 </div>
             </article>
             {@else}
                 <article class="article-main-slide">
                     <h1 class="article-title-slide">${post_title}</h1>
                     <h2 class="article-author-slide">${post_author}</h2>
-                    <h2 class="article-category-slide">${post_category} | ${post_date}</h2>
+                    <h2 class="article-category-slide">${post_date} 收录于《${post_category}》</h2>
 
 
 

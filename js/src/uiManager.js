@@ -31,13 +31,16 @@ ZY.uiManager=(function(){
             //头条海报的高度刷新
             $("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px");
 
-            //更新movingtips按钮显示状态
-            $("a.zy_contain_prev").css("left","-50px");
-            $("a.zy_contain_next").css("right","-50px");
+            //隐藏movingtips按钮
+            this.hideMovingTips("#zy_landscape_contain");
+            this.hideMovingTips("#zy_people_contain");
+            this.hideMovingTips("#zy_artifact_contain");
+            this.hideMovingTips("#zy_community_contain");
 
             //更新详情文章的高度
             $("#zy_article_content").css("height",winH-50+"px");
             $("#zy_article_content .allslides-slide").css("height",winH-110+"px");
+            $("#zy_article_content .article-main-post").css("height",winH-110+"px")
 
             //更新位置数值
             ZY.controllerManager.init();

@@ -5,6 +5,9 @@ body{
     margin: 0;
     min-width: 730px;
     background:#000;
+
+    -ms-content-zooming: none;
+    -webkit-content-zooming: none;
 }
 
 /*所有开始不显示的类*/
@@ -278,7 +281,7 @@ a{
 /*--推荐文章z-index:5--*/
 .zy_featured{
     width: 100%;
-    height: 680px;
+    height: 750px;
     background: #e0dbb3;
     padding-top: 30px;
     position:relative;
@@ -333,7 +336,7 @@ a{
     box-sizing:border-box;
     padding:15px;
     width:20%;
-    height:460px;
+    height:560px;
     background:#fff;
     border-bottom: solid #c7c69e 8px;
     cursor:pointer;
@@ -356,9 +359,10 @@ a{
 .zy_featured_articles li .excerpt{
     text-align: left;
     color:#666;
-    height: 78px;
+    height: 100px;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 16px;
+    line-height: 2em;
 }
 .zy_featured_articles li .date{
     background: url(../../images/apps/sprite.png) no-repeat -1926px -2px;
@@ -431,11 +435,11 @@ a{
 }
 .zy_contain_prev{
     background: url(../../images/apps/btn_arrow_left.png) no-repeat;
-    left:0;
+    left:-50px;
 }
 .zy_contain_next{
     background: url(../../images/apps/btn_arrow_right.png) no-repeat;
-    right: 0;
+    right: -50px;
 }
 .zy_contain_prev:hover{
     background: url(../../images/apps/btn_arrow_left_pressed.png) no-repeat;
@@ -1199,7 +1203,7 @@ a{
 	-moz-box-sizing:border-box;
 	-ms-box-sizing:border-box;
 	box-sizing:border-box;
-	background:url(../../images/apps/sprite.png) no-repeat -1284px -2px;
+	background:url(../../images/apps/popout_bg.png) no-repeat center;
 	padding:20px;
 	position:fixed;
 	top:50%;
@@ -1509,11 +1513,8 @@ a{
 .article-poster-post img{
     height:100%;
 }
-
-.article-content-post{
+.article-content-post-wrapper{
     background:#fff;
-    color: #666666;
-    font-size:16px;
     position:absolute;
     top:0;
     left:540px;
@@ -1521,6 +1522,14 @@ a{
     width:100%;
     bottom:150px;
     padding:0 0 20px 40px;
+    z-index:1;
+}
+.article-content-post{
+    position:absolute;
+    top:0;
+    bottom:0;
+    color: #666666;
+    font-size:16px;
     -webkit-column-gap:40px;
     -webkit-column-width:260px;
     -moz-column-gap:40px;
@@ -1529,7 +1538,7 @@ a{
     column-width:260px;
     line-height:2em;
     letter-spacing:2px;
-    z-index:1;
+
 
 }
 .article-content-post::first-letter{
@@ -1687,16 +1696,16 @@ a{
 }
 
 @media screen and (min-width: 1900px) {
-    .zy_featured_articles li .excerpt{
+    /*.zy_featured_articles li .excerpt{
         display: none;
     }
     .zy_featured_articles li .title{
         text-align: center;
-    }
+    }*/
 }
 
 @media screen and (min-width: 2150px) {
-    .zy_featured_articles li .title{
+    /*.zy_featured_articles li .title{
         display: none;
-    }
+    }*/
 }
