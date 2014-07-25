@@ -6,8 +6,8 @@ body{
     min-width: 730px;
     background:#000;
 
-    -ms-content-zooming: none;
-    -webkit-content-zooming: none;
+    -ms-content-zooming:none;
+    touch-action: pan-y;
 }
 
 /*所有开始不显示的类*/
@@ -148,8 +148,10 @@ a{
 
 .zy_main_wrapper{
     overflow: hidden;
+    /*position: absolute;
+    top:0;
+    bottom: 0;*/
 }
-
 /*--封面故事--*/
 .zy_top_post{
     position:relative;
@@ -194,6 +196,7 @@ a{
 /*--菜单栏--*/
 .zy_nav_wrapper{
     height:80px;
+    background:#000;
 }
 .zy_nav{
     width: 100%;
@@ -531,6 +534,7 @@ a{
 }
 .zy_landscape_contain>.zy_list_container{
     border:none;
+    margin: 100px auto;
 }
 .zy_landscape_contain>.zy_contain_prev,.zy_landscape_contain>.zy_contain_next{
     margin-top: -50px;
@@ -816,7 +820,7 @@ a{
 	z-index:8;
 }
 /*微调 artifact栏目的高度*/
-#zy_artifact_list_container{
+.zy_artifact_contain .zy_list_container{
     height: 540px;
     margin: 100px auto;
 }

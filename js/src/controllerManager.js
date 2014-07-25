@@ -353,7 +353,7 @@ ZY.controllerManager=(function(){
                     //显示前面一个按钮
                     //prevBtn.removeClass("zy_disable");
 
-                    *//*if(categoryId==ZY.config.categoryIds.artifactId){
+                    if(categoryId==ZY.config.categoryIds.artifactId){
 
                         //物语有一个大图是其他的两倍
                         if(parseInt(list.css("left"))<=-(list.find("li").length-limit+1)*width){
@@ -367,7 +367,7 @@ ZY.controllerManager=(function(){
                             //如果left的值已经到了总数的前一页，说明当前显示的就是最后一页那么就让这个按钮disable。
                             nextBtn.addClass("zy_disable");
                         }
-                    }*//*
+                    }
 
                 });
             }else{
@@ -409,10 +409,9 @@ ZY.controllerManager=(function(){
             if(parseInt(list.css("left"))+limit*width>=0){
                 list.animate({"left":0},500,function(){
 
-                    *//*
-                     还要判断是否是最后一页，有可能是窗口变小导致原来的一页变成两页，然后点击了下一页，此后变大窗口
-                     这个时候如果数据只有恰好放大后的一页，那么这页是第一页也是最后一页（缩小情况下是两页），需要判断是否为最后一页来判断是否移除类
-                     *//*
+                     //还要判断是否是最后一页，有可能是窗口变小导致原来的一页变成两页，然后点击了下一页，此后变大窗口
+                     //这个时候如果数据只有恰好放大后的一页，那么这页是第一页也是最后一页（缩小情况下是两页），需要判断是否为最后一页来判断是否移除类
+
                     if(parseInt(list.css("left"))>-(list.find("li").length-limit)*width){
 
                         //去掉后面按钮的无加载标志
@@ -512,6 +511,7 @@ ZY.controllerManager=(function(){
          */
         scrollingHandler:function(){
             sy=window.pageYOffset;
+            //sy=Math.abs($("#zy_main_wrapper>div").position().top);
 
             //菜单操作
             if(sy>=topH){
