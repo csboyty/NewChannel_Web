@@ -7,18 +7,37 @@
  * */
 var ZY=ZY||{};
 ZY.uiManager=(function(){
+	
     //私有属性
-    var miniMusicPlayer=true;
+    var isMiniPlayer=true;
+	
+	//DOM映射
+	var topMenu=$("#zy_nav");
+    var topMenuLandScape=$("#zy_nav>ul>li:nth-child(1) a");
+    var topMenuPeople=$("#zy_nav>ul>li:nth-child(2) a");
+    var topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
+    var topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");	
+	var topPoster=$("#zy_top_post_poster");
+	var blackOut=$("#zy_wrap")
+	
+	var musicPlayerWrapper=$("#zy_music_Section");
+	var musicPlayer=$("#zy_music_player");
+	var musicAudio=$("#zy_music_audio");
+	var miniPlayerToggleBtn=$("#zy_music_show")
+	var popout=$("#zy_popout_win");
+	var spinnerDOM=$("#zy_spinner_tpl").html();
+	
+	
     var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
     var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
     var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
     var communityBG=$("#zy_community_bg .zy_theme_bg_content");
-    var topMenu=$("#zy_nav");
-    var topMenuLandScape=$("#zy_nav>ul>li:nth-child(1) a");
-    var topMenuPeople=$("#zy_nav>ul>li:nth-child(2) a");
-    var topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
-    var topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");
 
+	var articleWrapper=$("#zy_article_container")
+	var articleContent=$("#zy_article_content")
+	var articleSlide=$("#zy_article_content .allslides-slide")
+	var articlePost=$("#zy_article_content .article-main-post")
+	var articleCloseBtn=$("#zy_article_content_close")
 
     return {
 
@@ -29,7 +48,7 @@ ZY.uiManager=(function(){
             var winH=$(window).height();
 
             //头条海报的高度刷新
-            $("#zy_top_post_poster").css("height",winH-$("#zy_nav").height()-$("#zy_music_section").height()+"px");
+            topPoster.css("height",winH-topMenu.height()-miniPlayerToggleBtn.height()+"px");
 
             //隐藏movingtips按钮
             this.hideMovingTips("#zy_landscape_contain");
@@ -38,40 +57,28 @@ ZY.uiManager=(function(){
             this.hideMovingTips("#zy_community_contain");
 
             //更新详情文章的高度
-            $("#zy_article_content").css("height",winH-50+"px");
-            $("#zy_article_content .allslides-slide").css("height",winH-110+"px");
-            $("#zy_article_content .article-main-post").css("height",winH-110+"px")
+            articleContent.css("height",winH-110+"px");
+			/*
+			articleSlide.css("height",winH-110+"px");
+            articlePost.css("height",winH-110+"px")
+			*/
 
             //更新位置数值
             ZY.controllerManager.init();
         },
 
         /**
-         * 显示音乐播放器
-         */
-        showMusicPlayer:function(){
-            TweenLite.to("#zy_music_player",0.5,{rotationX:"0deg",transformOrigin:"50% 100%",ease:Back.easeOut})
-
-        },
-
-        /**
-         * 隐藏音乐播放器
-         */
-        hideMusicPlayer:function(){
-            TweenLite.to("#zy_music_player",0.5,{rotationX:"90deg",transformOrigin:"50% 100%",ease:Back.easeOut})
-
-        },
-
-        /**
          * 切换音乐播放器显示隐藏
          */
         toggleMiniMusicPlayer:function(){
-            if(miniMusicPlayer){
-                this.showMusicPlayer()
-                miniMusicPlayer=false
+            if(isMiniPlayer){
+                TweenLite.to(musicPlayer,0.3,{top:"-50px",onComplete:function(){			
+                isMiniPlayer=false
+			}})
             }else{
-                this.hideMusicPlayer()
-                miniMusicPlayer=true
+                TweenLite.to(musicPlayer,0.3,{top:"0",onComplete:function(){
+				isMiniPlayer=true
+			}})                
             }
         },
 
@@ -132,9 +139,8 @@ ZY.uiManager=(function(){
          * 隐藏消息提示框
          */
         hidePopOut:function(){
-
             //只有浏览器不支持的时候才会显示wrap，不需要清除。
-            $("#zy_popout_win").addClass("zy_hidden");
+            popout.addClass("zy_hidden");
         },
 
         /**
@@ -198,13 +204,10 @@ ZY.uiManager=(function(){
          * @param {Object} target 动画的容器元素jquery对象
          */
         showLoadingSpinner:function(target){
-            var spinnerDOM=$("#zy_spinner_tpl").html();
-
             //添加到target DOM中
             if(target.find(".zy_loading_spinner").length<=0){
                 target.append($(spinnerDOM));
             }
-
         },
 
         /**
@@ -329,12 +332,17 @@ ZY.uiManager=(function(){
             var me=this;
 
             //首先要清除原有的内容
-            $("#zy_article_content").find("article").remove();
+            articleContent.find("article").remove();
             me.showBlackout(ZY.config.defaultWrapZindex);
-            $("#zy_article_container").animate({left:"0%"},300,function(){
-                me.showLoadingSpinner($("#zy_article_content"));
-                ZY.dataManager.getPostDetail(post_id);
-            });
+			TweenLite.to(articleWrapper,0.5,{
+				left:"0%",
+				ease:Circ.easeInOut,
+				onComplete:function(){
+					TweenLite.to(articleCloseBtn,0.3,{top:0})
+					me.showLoadingSpinner(articleContent);
+                	ZY.dataManager.getPostDetail(post_id);
+				}
+			})
 
         },
 
@@ -342,13 +350,17 @@ ZY.uiManager=(function(){
          * 隐藏文章详情
          */
         hideArticle:function(){
-
             //此处调用是因为可能数据还没加载完就被收回
             var me=this;
-            me.hideLoadingSpinner($("#zy_article_content"));
-            $("#zy_article_container").animate({left:"100%"},300,function(){
-                me.hideBlackout();
-            });
+            me.hideLoadingSpinner(articleContent);
+			TweenLite.to(articleCloseBtn,0.3,{top:50});
+			TweenLite.to(articleWrapper,0.5,{
+				left:"100%",
+				ease:Circ.easeInOut,
+				onComplete:function(){					
+					me.hideBlackout();
+				}
+			})
         },
 
         /**
@@ -356,21 +368,19 @@ ZY.uiManager=(function(){
          * @param {Number} zIndex 此层的css属性z-index
          */
         showBlackout:function(zIndex){
-            var wrap=$("#zy_wrap");
-            wrap.css("z-index",zIndex); //此句位置和下面不一样是因为可能在显示的同时改变zindex，例如显示视频时
-            if(wrap.hasClass("zy_hidden")){
-                wrap.removeClass("zy_hidden");
+            blackOut.css("z-index",zIndex); //此句位置和下面不一样是因为可能在显示的同时改变zindex，例如显示视频时
+            if(blackOut.hasClass("zy_hidden")){
+                blackOut.removeClass("zy_hidden");
             }
         },
 
         /**
          * 隐藏遮盖层
          */
-        hideBlackout:function(){
-            var wrap=$("#zy_wrap");
-            if(!wrap.hasClass("zy_hidden")){
-                wrap.addClass("zy_hidden");
-                wrap.css("z-index",ZY.config.defaultWrapZindex);
+        hideBlackout:function(){           
+            if(!blackOut.hasClass("zy_hidden")){
+                blackOut.addClass("zy_hidden");
+                blackOut.css("z-index",ZY.config.defaultWrapZindex);
             }
         },
 
@@ -381,10 +391,9 @@ ZY.uiManager=(function(){
         showArticleDetail:function(data){
             var tpl=$("#zy_show_detail_tpl").html();
             var html=juicer(tpl,data);
-            var article_content=$("#zy_article_content");
-            article_content.append(html);
+            articleContent.append(html);
 
-            ZY.uiManager.hideLoadingSpinner(article_content);
+            ZY.uiManager.hideLoadingSpinner(articleContent);
             //视图更新
             this.updateView();
         },
@@ -395,13 +404,14 @@ ZY.uiManager=(function(){
          * @param {string} url 视频地址
          */
         showVideoDetail:function(url){
-            var me=this,loadContainer=$("#zy_show_load_container");
-            $("#zy_music_audio")[0].pause(); //暂停音乐
+            var me=this;
+			var loadContainer=$("#zy_show_load_container");
+            musicAudio[0].pause(); //暂停音乐
             loadContainer.html("");
             me.showBlackout(9998);
             $("#zy_show_section").removeClass("zy_hidden");
             loadContainer.load(url,function(response, status, xhr){
-                me.hideLoadingSpinner($("#zy_article_content"));
+                me.hideLoadingSpinner(articleContent);
                 if (status == "error") {
                     me.showPopOut(ZY.config.errorCode.connectionError+xhr.status + " " + xhr.statusText,false);
                 }
@@ -423,14 +433,13 @@ ZY.uiManager=(function(){
          * 隐藏显示的视频或者大图
          */
         hideDetail:function(){
-            var audio=$("#zy_music_audio")[0];
             this.showBlackout(ZY.config.defaultWrapZindex);
             $("#zy_show_section").addClass("zy_hidden");
             $("#zy_show_load_container").html("");
 
             //恢复音乐
             if(ZY.music.musicPlaying){
-                audio.play();
+                musicAudio[0].play();
             }
         }
 
