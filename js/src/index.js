@@ -170,24 +170,14 @@ $(document).ready(function(){
             }
         },
         onDrag:function(){
-            console.log(dragLock)
-            if(dragLock=="NONE"){
-                if(deltaPointer.y-deltaPointer.x>2){
-                    //痛苦
-                    dragLock="SCROLL";
-                    lockedDraggable=this;
-                    this.disable()
-                }else if(deltaPointer.x-deltaPointer.y>2){
-                    dragLock="PAN"
-                }
-
+            if(dragFlag=="SCROLL"){
+                lockedDraggable=this;
+                this.disable()
             }
-
 
 
         },
         onDragEnd:function (evt) {
-            console.log("DragEnd")
 
             //获取更多列表数据
             var clickTarget=evt.target || evt.srcElement;
@@ -258,52 +248,83 @@ $(document).ready(function(){
         }
     });
 
-
     //lockedDraggable存储被锁定的Draggable实例。用户不能同时水平和垂直滑动页面，所以scroll激活时，要临时锁定Draggable，等滑动结束后再解锁。
     var lockedDraggable=null;
-    var startPointer={x:0,y:0};
-    var deltaPointer={x:0,y:0};
-    var dragLock="NONE";
+    var startPoint;
+    var prevPoint;
+    var offsetPoint={x:0,y:0};
+    var startTime;
+    var throwObj={x:0,y:0};
+    var dragFlag="NONE";
 
-    //webkit触屏事件优化
-    document.addEventListener("touchstart",function(evt){
-        startPointer.x=evt.touches[0].clientX;
-        startPointer.y=evt.touches[0].clientY;
+    //对IE触屏事件优化
+    document.addEventListener("pointerdown",function(evt){
+        //重置状态
+        startPoint={x:evt.screenX,y:evt.screenY};
+        prevPoint={x:evt.screenX,y:evt.screenY};
+        TweenLite.killTweensOf(throwObj);
+        startTime=new Date().getTime()
 
-    },false);
-    document.addEventListener("touchmove",function(evt){
-        deltaPointer.x=Math.abs(evt.touches[0].clientX-startPointer.x);
-        deltaPointer.y=Math.abs(evt.touches[0].clientY-startPointer.y);
-        startPointer.x=evt.touches[0].clientX;
-        startPointer.y=evt.touches[0].clientY;
-        //console.log(deltaPointer)
-    },false);
-    document.addEventListener("touchend",function(){
-        dragLock="NONE"
     },false);
 
-    //IE触屏事件优化
-    document.addEventListener("pointerdown",function(){
-        console.log("pointerdown")
+    document.addEventListener("pointermove",function(evt){
+        //计算偏移
+        offsetPoint.x=evt.screenX-prevPoint.x;
+        offsetPoint.y=evt.screenY-prevPoint.y;
+
+        //判断dragFlag
+        if(dragFlag=="NONE"){
+            if(Math.abs(offsetPoint.y)-Math.abs(offsetPoint.x)>1){
+                dragFlag="SCROLL"
+            }else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>1){
+                dragFlag="PAN"
+            }
+        }
+        //更新位置
+        prevPoint={x:evt.screenX,y:evt.screenY};
+
+        if(dragFlag=="SCROLL"){
+            window.scrollBy(0,-offsetPoint.y)
+        }
+
     },false);
-    document.addEventListener("pointermove",function(){
-        console.log("pointermove")
-    },false);
-    document.addEventListener("pointermoup",function(){
-        console.log("pointerup")
+
+    document.addEventListener("pointerup",function(evt){
+        var elapsedTime=new Date().getTime()-startTime;
+        var dy=evt.screenY-startPoint.y;
+        if(elapsedTime<=300){
+            throwObj.y=dy/elapsedTime*20;//换算成秒
+            console.log("swipe")
+        }else{
+            throwObj.y=40//痛苦
+        }
+        dragFlag="NONE";
+
+        if(lockedDraggable!=null){
+            lockedDraggable.enable();
+            lockedDraggable=null;
+            //throws
+            TweenLite.to(throwObj,1,{y:0,onUpdate:function(){
+                window.scrollBy(0,-throwObj.y)
+                console.log(throwObj.y)
+            }});
+
+        }
         ZY.uiManager.updateView();
+
     },false);
+
     document.addEventListener("selectstart", function(evt) {
         evt.preventDefault();
     }, false);
     document.addEventListener("contextmenu", function(evt) {
-        //evt.preventDefault();
+        evt.preventDefault();
     }, false);
     document.addEventListener("MSHoldVisual", function(evt) {
         evt.preventDefault();
     }, false);
 
-
+    //对支持touch事件的浏览器
 
 
 

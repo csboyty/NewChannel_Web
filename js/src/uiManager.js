@@ -172,9 +172,6 @@ ZY.uiManager=(function(){
         scrollToTarget:function(target){
             var top=target.offset().top;
 
-            if(!$("#zy_nav").hasClass("zy_nav_active")){
-                top=top-80;
-            }
             if(top!= undefined){
                 TweenLite.killTweensOf(window);
 
