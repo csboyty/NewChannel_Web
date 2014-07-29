@@ -74,21 +74,9 @@ $(document).ready(function(){
         ZY.uiManager.hideArticle();
     });
 
-    //显示视频或者大图
+    //显示视频，幻灯片不显示大图，图文混排显示大图
     $(document).on("click","#zy_article_content a",function(){
-        var url="";
-        var elementA=$(this);
-        if(elementA.hasClass("videoslide")){
-            url=ZY.config.siteurl+"/show_media/"+ZY.dataManager.currentPostId+"/"+elementA.find("img").data("zy-media-id");
-            ZY.uiManager.showVideoDetail(url);
-            return false;
-        }else if(elementA.find("img")){
-            url=elementA.attr("href");
-            ZY.uiManager.showImageDetail(url);
-            return false;
-        }else{
-            window.open(elementA.attr("href"))
-        }
+        return false;
     });
 
     //关闭显示视频或者大图
@@ -118,20 +106,7 @@ $(document).ready(function(){
 
     //拖拽控制
 
-    //整个页面滚动
-    /*Draggable.create("#zy_main_wrapper",{
-     type:"scrollTop",
-     edgeResistance:0.5,
-     throwProps:true,
-     maxDuration:1,
-     dragClickables:true,
-     onDrag:function(){
-     ZY.controllerManager.scrollingHandler()
-     },
-     onThrowUpdate :function(){
-     ZY.controllerManager.scrollingHandler()
-     }
-     });*/
+
 
     //栏目列表横向滚动
     Draggable.create(".zy_list_container",{
@@ -149,7 +124,6 @@ $(document).ready(function(){
             }
         },
         onDragStart:function(evt){
-
             //显示左右拖动提示
             var clickTarget=evt.target || evt.srcElement;
             clickTarget=$(clickTarget).parents(".zy_list_container");
@@ -174,8 +148,6 @@ $(document).ready(function(){
                 lockedDraggable=this;
                 this.disable()
             }
-
-
         },
         onDragEnd:function (evt) {
 
@@ -228,7 +200,7 @@ $(document).ready(function(){
         }
     });
 
-    //内容详情滚动
+    //内容文章滚动
     Draggable.create(".zy_article_content_wrapper",{
         type:"scrollLeft",
         edgeResistance:0.5,
@@ -239,81 +211,106 @@ $(document).ready(function(){
         onClick:function(evt){
             var clickTarget = evt.target || evt.srcElement;
             var url;
-
-            clickTarget = $(clickTarget).is("a.videoslide") ? $(clickTarget):$(clickTarget).parents("a.videoslide");
-            if(clickTarget.length>0){
+            //仅显示视频和图文混排模板中的图像大图
+            if($(clickTarget).is("a") && $(clickTarget).hasClass("videoslide")){
+                //点在带有视频的a元素上
                 url=ZY.config.siteurl+"/show_media/"+ZY.dataManager.currentPostId+"/"+$(clickTarget).find("img").data("zy-media-id");
                 ZY.uiManager.showVideoDetail(url);
+            }else if($(clickTarget).is("img") && $(clickTarget).parents("a.videoslide").length>0){
+                //点在带有视频的img元素上
+                url=ZY.config.siteurl+"/show_media/"+ZY.dataManager.currentPostId+"/"+$(clickTarget).data("zy-media-id");
+                ZY.uiManager.showVideoDetail(url);
+            } else if($(clickTarget).is("img") && $(clickTarget).parents(".article-content-post").length>0){
+                //点在图文混排模板的img元素上
+                url=$(clickTarget).parents("a").attr("href");
+                ZY.uiManager.showImageDetail(url);
             }
+
+        },
+        onDragStart:function(){
+            freezeDefaultScrolling=true
         }
     });
 
+    //弹出内容拖动
+    Draggable.create("#zy_show_load_wrapper",{
+        type:"scrollTop",
+        edgeResistance:0.5,
+        throwProps:true,
+        lockAxis:true,
+        maxDuration:0.8,
+        onDragStart:function(){
+            freezeDefaultScrolling=true
+        }
+    });
+
+
     //lockedDraggable存储被锁定的Draggable实例。用户不能同时水平和垂直滑动页面，所以scroll激活时，要临时锁定Draggable，等滑动结束后再解锁。
     var lockedDraggable=null;
-    var startPoint;
-    var prevPoint;
+    var prevPoint={x:0,y:0};
     var offsetPoint={x:0,y:0};
-    var startTime;
     var throwObj={x:0,y:0};
+    var tracePoint={x:0,y:0};
+    var vTracker=VelocityTracker.track(tracePoint, "x,y");
     var dragFlag="NONE";
+    var freezeDefaultScrolling=false;
 
     //对IE触屏事件优化
     document.addEventListener("pointerdown",function(evt){
         //重置状态
-        startPoint={x:evt.screenX,y:evt.screenY};
         prevPoint={x:evt.screenX,y:evt.screenY};
+        tracePoint.x=evt.screenX;
+        tracePoint.y=evt.screenY;
         TweenLite.killTweensOf(throwObj);
-        startTime=new Date().getTime()
 
     },false);
 
     document.addEventListener("pointermove",function(evt){
+        //冻结默认的滚轴行为
+        if(freezeDefaultScrolling){
+            return false
+        }
+
+        //更新状态
+        tracePoint.x=evt.screenX;
+        tracePoint.y=evt.screenY;
         //计算偏移
         offsetPoint.x=evt.screenX-prevPoint.x;
         offsetPoint.y=evt.screenY-prevPoint.y;
-
-        //判断dragFlag
-        if(dragFlag=="NONE"){
-            if(Math.abs(offsetPoint.y)-Math.abs(offsetPoint.x)>1){
-                dragFlag="SCROLL"
-            }else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>1){
-                dragFlag="PAN"
-            }
-        }
         //更新位置
         prevPoint={x:evt.screenX,y:evt.screenY};
 
-        if(dragFlag=="SCROLL"){
-            window.scrollBy(0,-offsetPoint.y)
+        //判断dragFlag，只判断一次
+        if(dragFlag=="NONE"){
+            if(Math.abs(offsetPoint.y)-Math.abs(offsetPoint.x)>0){
+                dragFlag="SCROLL";
+            }else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>0){
+                dragFlag="PAN";
+            }
         }
 
-    },false);
+        //根据偏移定位scroll
+        if((dragFlag=="SCROLL")&&(evt.pointerType != "mouse")){
+            window.scrollBy(0,-offsetPoint.y);
+            return false
+        }
+
+    },true);
 
     document.addEventListener("pointerup",function(evt){
-        var elapsedTime=new Date().getTime()-startTime;
-        var dy=evt.screenY-startPoint.y;
-        if(elapsedTime<=300){
-            throwObj.y=dy/elapsedTime*20;//换算成秒
-            console.log("swipe")
-        }else{
-            throwObj.y=40//痛苦
-        }
+        freezeDefaultScrolling=false;
         dragFlag="NONE";
-
         if(lockedDraggable!=null){
             lockedDraggable.enable();
             lockedDraggable=null;
             //throws
+            throwObj.y=vTracker.getVelocity("y")/100;
             TweenLite.to(throwObj,1,{y:0,onUpdate:function(){
-                window.scrollBy(0,-throwObj.y)
-                console.log(throwObj.y)
+                window.scrollBy(0,-throwObj.y);
             }});
-
         }
         ZY.uiManager.updateView();
-
     },false);
-
     document.addEventListener("selectstart", function(evt) {
         evt.preventDefault();
     }, false);

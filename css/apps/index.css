@@ -244,10 +244,9 @@ a{
 }
 .zy_logo{
     position: absolute;
-    bottom: 40px;
-    width: 100%;
-    left:0px;
-    margin: 0px;
+    bottom: 20px;
+    left:50%;
+    margin-left: -110px;
     z-index: 8;
 }
 
@@ -266,18 +265,17 @@ a{
     z-index: 50;
 }
 .zy_nav.zy_nav_active .zy_logo{
-    position: static;
+    position: absolute;
+    bottom: 0;
+    left:50%;
+    margin-left: -64px;
+    font-size:0;
 }
 .zy_nav.zy_nav_active .zy_logo a{
     background: url(../../images/apps/logo_active.png) no-repeat center center;
     height: 80px;
     width: 128px;
     margin: auto;
-}
-.zy_nav.zy_nav_active .zy_logo:before,.zy_nav.zy_nav_active .zy_logo:after{
-    content:"";
-    width: 0px;
-    height: 0px;
 }
 
 /*--推荐文章z-index:5--*/
@@ -1162,7 +1160,7 @@ a{
 	width:100%;
 	height:100%;
     background: #000;
-    opacity: .7;
+    opacity: .9;
     z-index: 9996;
 }
 .zy_show_section{	
@@ -1427,13 +1425,23 @@ a{
 .zy_article_content_close:hover{
     background: url(../../images/apps/btn_back_pressed.png);
 }
+.zy_show_load_wrapper{
+    width:100%;
+    text-align:center;
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    font-size: 0;
+    overflow:hidden !important;
+}
 .zy_show_load_container{
 	width:100%;
 	text-align:center;
 	position: absolute;
-	top: 50px;
+	top: 0;
 	bottom: 0;
-	overflow-y: auto;
+	/*overflow-y: auto;*/
+
 	}
 /* 设置滚动条的样式 */
 .zy_show_load_container::-webkit-scrollbar {

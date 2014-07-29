@@ -18,12 +18,12 @@ ZY.uiManager=(function(){
     var topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
     var topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");	
 	var topPoster=$("#zy_top_post_poster");
-	var blackOut=$("#zy_wrap")
+	var blackOut=$("#zy_wrap");
 	
 	var musicPlayerWrapper=$("#zy_music_Section");
 	var musicPlayer=$("#zy_music_player");
 	var musicAudio=$("#zy_music_audio");
-	var miniPlayerToggleBtn=$("#zy_music_show")
+	var miniPlayerToggleBtn=$("#zy_music_show");
 	var popout=$("#zy_popout_win");
 	var spinnerDOM=$("#zy_spinner_tpl").html();
 	
