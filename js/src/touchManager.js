@@ -68,6 +68,7 @@ ZY.touchManager=(function(){
 		document.removeEventListener("pointermove",onPointerMove);
 		document.removeEventListener("pointerup",onPointerUp);
 	};
+	
 	//general Touches
 	var onTouchStart=function(evt){			
 		offsetPoint={x:0,y:0};			
@@ -99,6 +100,7 @@ ZY.touchManager=(function(){
         if (!enableScrolling){
             return false;
         }
+		evt.preventDefault();
 	};
 	var onTouchEnd=function(evt){
 		//获取throwPoint
