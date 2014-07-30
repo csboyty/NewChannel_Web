@@ -32,8 +32,8 @@ ZY.config={
     },
 	deviceCode:{
 		iOS : navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false
-	},
-    defaultWrapZindex:9996 //遮挡层的默认z-index
+	}
+    //defaultWrapZindex:9996 //遮挡层的默认z-index，这个参数已经作废了
 };
 Object.freeze(ZY.config);
 

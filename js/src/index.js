@@ -6,8 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 $(document).ready(function(){
-    //更新视图
-    ZY.uiManager.updateView();
+    //uiManager初始化
+    ZY.uiManager.init();
+
+    //touchManager初始化
+    ZY.touchManager.init()
 
     //音乐获取
     ZY.dataManager.getMusic();
@@ -79,7 +82,7 @@ $(document).ready(function(){
         return false;
     });
 
-    //关闭显示视频或者大图
+    //关闭显示大图
     $("#zy_show_close").click(function(){
         ZY.uiManager.hideDetail();
     });
@@ -104,7 +107,6 @@ $(document).ready(function(){
     $(window).trigger("scroll");
 
 
-    //拖拽控制
 
 
 
@@ -124,6 +126,7 @@ $(document).ready(function(){
             }
         },
         onDragStart:function(evt){
+            ZY.touchManager.lockScrolling();
             //显示左右拖动提示
             var clickTarget=evt.target || evt.srcElement;
             clickTarget=$(clickTarget).parents(".zy_list_container");
@@ -144,9 +147,8 @@ $(document).ready(function(){
             }
         },
         onDrag:function(){
-            if(dragFlag=="SCROLL"){
-                lockedDraggable=this;
-                this.disable()
+            if(ZY.touchManager.isPanY()){
+                ZY.touchManager.lockDrag(this)
             }
         },
         onDragEnd:function (evt) {
@@ -228,89 +230,27 @@ $(document).ready(function(){
 
         },
         onDragStart:function(){
-            freezeDefaultScrolling=true
+            ZY.touchManager.lockScrolling()
         }
     });
 
     //弹出内容拖动
-    Draggable.create("#zy_show_load_wrapper",{
-        type:"scrollTop",
+    Draggable.create("#zy_show_img_wrapper",{
+        type:"scroll",
         edgeResistance:0.5,
         throwProps:true,
-        lockAxis:true,
         maxDuration:0.8,
         onDragStart:function(){
-            freezeDefaultScrolling=true
+            //freezeDefaultScrolling=true
+            ZY.touchManager.lockScrolling()
         }
     });
 
 
-    //lockedDraggable存储被锁定的Draggable实例。用户不能同时水平和垂直滑动页面，所以scroll激活时，要临时锁定Draggable，等滑动结束后再解锁。
-    var lockedDraggable=null;
-    var prevPoint={x:0,y:0};
-    var offsetPoint={x:0,y:0};
-    var throwObj={x:0,y:0};
-    var tracePoint={x:0,y:0};
-    var vTracker=VelocityTracker.track(tracePoint, "x,y");
-    var dragFlag="NONE";
-    var freezeDefaultScrolling=false;
-
-    //对IE触屏事件优化
-    document.addEventListener("pointerdown",function(evt){
-        //重置状态
-        prevPoint={x:evt.screenX,y:evt.screenY};
-        tracePoint.x=evt.screenX;
-        tracePoint.y=evt.screenY;
-        TweenLite.killTweensOf(throwObj);
-
-    },false);
-
-    document.addEventListener("pointermove",function(evt){
-        //冻结默认的滚轴行为
-        if(freezeDefaultScrolling){
-            return false
-        }
-
-        //更新状态
-        tracePoint.x=evt.screenX;
-        tracePoint.y=evt.screenY;
-        //计算偏移
-        offsetPoint.x=evt.screenX-prevPoint.x;
-        offsetPoint.y=evt.screenY-prevPoint.y;
-        //更新位置
-        prevPoint={x:evt.screenX,y:evt.screenY};
-
-        //判断dragFlag，只判断一次
-        if(dragFlag=="NONE"){
-            if(Math.abs(offsetPoint.y)-Math.abs(offsetPoint.x)>0){
-                dragFlag="SCROLL";
-            }else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>0){
-                dragFlag="PAN";
-            }
-        }
-
-        //根据偏移定位scroll
-        if((dragFlag=="SCROLL")&&(evt.pointerType != "mouse")){
-            window.scrollBy(0,-offsetPoint.y);
-            return false
-        }
-
-    },true);
-
+    //IE事件的优化
     document.addEventListener("pointerup",function(evt){
-        freezeDefaultScrolling=false;
-        dragFlag="NONE";
-        if(lockedDraggable!=null){
-            lockedDraggable.enable();
-            lockedDraggable=null;
-            //throws
-            throwObj.y=vTracker.getVelocity("y")/100;
-            TweenLite.to(throwObj,1,{y:0,onUpdate:function(){
-                window.scrollBy(0,-throwObj.y);
-            }});
-        }
         ZY.uiManager.updateView();
-    },false);
+    },true);
     document.addEventListener("selectstart", function(evt) {
         evt.preventDefault();
     }, false);
@@ -320,9 +260,6 @@ $(document).ready(function(){
     document.addEventListener("MSHoldVisual", function(evt) {
         evt.preventDefault();
     }, false);
-
-    //对支持touch事件的浏览器
-
 
 
 });

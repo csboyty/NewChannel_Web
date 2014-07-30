@@ -12,34 +12,89 @@ ZY.uiManager=(function(){
     var isMiniPlayer=true;
 	
 	//DOM映射
-	var topMenu=$("#zy_nav");
-    var topMenuLandScape=$("#zy_nav>ul>li:nth-child(1) a");
-    var topMenuPeople=$("#zy_nav>ul>li:nth-child(2) a");
-    var topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
-    var topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");	
-	var topPoster=$("#zy_top_post_poster");
-	var blackOut=$("#zy_wrap");
+	var topMenu;
+    var topMenuLandScape;
+    var topMenuPeople;
+    var topMenuArtifact;
+    var topMenuCommunity;
+	var topPoster;
 	
-	var musicPlayerWrapper=$("#zy_music_Section");
-	var musicPlayer=$("#zy_music_player");
-	var musicAudio=$("#zy_music_audio");
-	var miniPlayerToggleBtn=$("#zy_music_show");
-	var popout=$("#zy_popout_win");
-	var spinnerDOM=$("#zy_spinner_tpl").html();
+	var musicPlayerWrapper;
+	var musicPlayer;
+	var musicAudio;
+	var miniPlayerToggleBtn;
+	var popout;
+	var spinnerDOM;
 	
 	
-    var landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
-    var peopleBG=$("#zy_people_bg .zy_theme_bg_content");
-    var artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
-    var communityBG=$("#zy_community_bg .zy_theme_bg_content");
+    var landScapeBG;
+    var peopleBG;
+    var artifactBG;
+    var communityBG;
 
-	var articleWrapper=$("#zy_article_container")
-	var articleContent=$("#zy_article_content")
-	var articleSlide=$("#zy_article_content .allslides-slide")
-	var articlePost=$("#zy_article_content .article-main-post")
-	var articleCloseBtn=$("#zy_article_content_close")
+	var articleWrapper;
+	var articleContent;
+	var articleSlide;
+	var articlePost;
+	var articleCloseBtn;
 
     return {
+
+        /**
+         * 初始化 绑定DOM映射
+         */
+        init:function(){
+            var _this=this
+            //DOM映射
+            topMenu=$("#zy_nav");
+            topMenuLandScape=$("#zy_nav>ul>li:nth-child(1) a");
+            topMenuPeople=$("#zy_nav>ul>li:nth-child(2) a");
+            topMenuArtifact=$("#zy_nav>ul>li:nth-child(4) a");
+            topMenuCommunity=$("#zy_nav>ul>li:nth-child(5) a");
+            topPoster=$("#zy_top_post_poster");
+
+            musicPlayerWrapper=$("#zy_music_Section");
+            musicPlayer=$("#zy_music_player");
+            musicAudio=$("#zy_music_audio");
+            miniPlayerToggleBtn=$("#zy_music_show");
+            popout=$("#zy_popout");
+            spinnerDOM=$("#zy_spinner_tpl").html();
+
+            landScapeBG=$("#zy_landscape_bg .zy_theme_bg_content");
+            peopleBG=$("#zy_people_bg .zy_theme_bg_content");
+            artifactBG=$("#zy_artifact_bg .zy_theme_bg_content");
+            communityBG=$("#zy_community_bg .zy_theme_bg_content");
+
+            articleWrapper=$("#zy_article_container");
+            articleContent=$("#zy_article_content");
+            articleSlide=$("#zy_article_content .allslides-slide");
+            articlePost=$("#zy_article_content .article-main-post");
+            articleCloseBtn=$("#zy_article_content_close");
+
+
+
+            //视图相关设置初始化
+            CSSPlugin.defaultTransformPerspective=800;
+
+            //UI元素的初始状态
+            TweenLite.to("#zy_popout_win",0,{opacity:0,rotationX:90,transformOrigin:"50% 50%"});
+
+            //初始事件绑定
+            //绑定全屏事件
+            document.addEventListener("MSFullscreenChange",function(){
+                if(document.msFullscreenElement!=null){
+                    //进入
+
+                }else{
+                    //退出
+                    _this.hideDetail()
+                }
+            })
+
+            //更新视图
+            this.updateView()
+
+        },
 
         /**
          * 视图更新，数据发生变化后调用
@@ -72,13 +127,13 @@ ZY.uiManager=(function(){
          */
         toggleMiniMusicPlayer:function(){
             if(isMiniPlayer){
-                TweenLite.to(musicPlayer,0.3,{top:"-50px",onComplete:function(){			
+                TweenLite.to(musicPlayer,0.3,{top:"-50px",onComplete:function(){
                 isMiniPlayer=false
-			}})
+			    }})
             }else{
                 TweenLite.to(musicPlayer,0.3,{top:"0",onComplete:function(){
 				isMiniPlayer=true
-			}})                
+			    }})
             }
         },
 
@@ -127,20 +182,27 @@ ZY.uiManager=(function(){
          * @param {String} msg 需要显示的信息
          * @param {Boolean} showblackout  是否显示显示遮盖层
          */
-        showPopOut:function(msg,showblackout){
-            var pop=$("#zy_popout_win");
-            pop.removeClass("zy_hidden").find(".zy_popout_title").html(msg);
-            if(showblackout){
-                this.showBlackout(9999);
+        showPopOut:function(msg){
+            if(popout.hasClass("zy_hidden")){
+                popout.removeClass("zy_hidden")
             }
+            this.showBlackout(popout);
+            $("#zy_popout_win").find(".zy_popout_title").html(msg);
+            //动效
+            TweenLite.to("#zy_popout_win",0.5,{opacity:1,rotationX:0,transformOrigin:"50% 50%",ease:Back.easeOut})
+
         },
 
         /**
          * 隐藏消息提示框
          */
         hidePopOut:function(){
-            //只有浏览器不支持的时候才会显示wrap，不需要清除。
-            popout.addClass("zy_hidden");
+            if(popout.hasClass("zy_hidden")){
+                popout.removeClass("zy_hidden")
+            }
+            this.hideBlackout(popout);
+            //动效
+            TweenLite.to("#zy_popout_win",0.3,{opacity:0,rotationX:90,transformOrigin:"50% 50%"})
         },
 
         /**
@@ -177,11 +239,11 @@ ZY.uiManager=(function(){
 
                 //需要减去nav的高度，以为到下面后nav就是fixed不占高度,加5是为了在滚动那里设置nav的状态
                 if(target.is("#zy_artifact")){
-                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
+                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0},ease:Circ.easeInOut});
                 }else if(target.is("#zy_community")){
-                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0}});
+                    TweenLite.to(window, 1, {scrollTo:{y:top+35, x:0},ease:Circ.easeInOut});
                 }else{
-                    TweenLite.to(window, 1, {scrollTo:{y:top+1, x:0}});
+                    TweenLite.to(window, 1, {scrollTo:{y:top+1, x:0},ease:Circ.easeInOut});
                 }
 
             }
@@ -234,6 +296,23 @@ ZY.uiManager=(function(){
             var tpl_featured = $("#zy_featured_articles_tpl").html();
             var html_featured = juicer(tpl_featured,{top_posts:posts});
             $("#zy_featured_articles").html(html_featured);
+            //动效
+            TweenLite.fromTo("#zy_featured_articles li:nth-child(1)",0.5,{rotationY:90,opacity:0,transformOrigin:"50% 50%"},{rotationY:0,opacity:1,ease:Back.easeOut})
+            TweenLite.fromTo("#zy_featured_articles li:nth-child(2)",0.5,{rotationY:90,opacity:0,transformOrigin:"50% 50%"},{rotationY:0,opacity:1,delay:0.2,ease:Back.easeOut})
+            TweenLite.fromTo("#zy_featured_articles li:nth-child(3)",0.5,{rotationY:90,opacity:0,transformOrigin:"50% 50%"},{rotationY:0,opacity:1,delay:0.4,ease:Back.easeOut})
+
+            //绑定pointer事件
+            $("#zy_featured_articles").delegate("li","pointerdown",function(){
+                TweenLite.to($(this),0.3,{rotationY:30,transformOrigin:"50% 50%"});
+                var _this=$(this)
+                //绑定pointerleave
+                $(document).on("pointerleave",function(evt){
+                    TweenLite.to(_this,0.3,{rotationY:0,transformOrigin:"50% 50%"});
+                    $(document).off("pointerleave")
+                })
+
+            });
+
         },
 
         /**
@@ -327,10 +406,13 @@ ZY.uiManager=(function(){
          */
         showArticle:function(post_id){
             var me=this;
-
             //首先要清除原有的内容
             articleContent.find("article").remove();
-            me.showBlackout(ZY.config.defaultWrapZindex);
+
+            if($("#zy_article").hasClass("zy_hidden")){
+                $("#zy_article").removeClass("zy_hidden")
+            }
+            this.showBlackout($("#zy_article"))
 			TweenLite.to(articleWrapper,0.5,{
 				left:"0%",
 				ease:Circ.easeInOut,
@@ -355,30 +437,31 @@ ZY.uiManager=(function(){
 				left:"100%",
 				ease:Circ.easeInOut,
 				onComplete:function(){					
-					me.hideBlackout();
+					me.hideBlackout($("#zy_article"));
 				}
 			})
         },
 
         /**
          * 显示遮盖层
-         * @param {Number} zIndex 此层的css属性z-index
+         * @param {$obj} targetEle 具有blackout的目标元素
          */
-        showBlackout:function(zIndex){
-            blackOut.css("z-index",zIndex); //此句位置和下面不一样是因为可能在显示的同时改变zindex，例如显示视频时
-            if(blackOut.hasClass("zy_hidden")){
-                blackOut.removeClass("zy_hidden");
-            }
+        showBlackout:function(targetEle){
+            var blackOut=$(targetEle).find(".zy_blackout");
+            TweenLite.to(blackOut,0.5,{opacity:0.9})
         },
 
         /**
          * 隐藏遮盖层
          */
-        hideBlackout:function(){           
-            if(!blackOut.hasClass("zy_hidden")){
-                blackOut.addClass("zy_hidden");
-                blackOut.css("z-index",ZY.config.defaultWrapZindex);
-            }
+        hideBlackout:function(targetEle){
+            var blackOut=$(targetEle).find(".zy_blackout");
+            TweenLite.to(blackOut,0.5,{opacity:0,onComplete:function(){
+                if(!$(targetEle).hasClass("zy_hidden")){
+                    $(targetEle).addClass("zy_hidden");
+                }
+            }})
+
         },
 
         /**
@@ -401,39 +484,81 @@ ZY.uiManager=(function(){
          * @param {string} url 视频地址
          */
         showVideoDetail:function(url){
-            var me=this;
-			var loadContainer=$("#zy_show_load_container");
+            var _this=this;
+			var loadContainer=$("#zy_show_video_container");
             musicAudio[0].pause(); //暂停音乐
             loadContainer.html("");
-            me.showBlackout(9998);
             $("#zy_show_section").removeClass("zy_hidden");
+            //隐藏图片
+            $("#zy_show_img_wrapper").addClass("zy_hidden");
+            TweenLite.to("#zy_show_close",0.3,{top:0})
+
+            _this.showBlackout($("#zy_show_section"));
             loadContainer.load(url,function(response, status, xhr){
-                me.hideLoadingSpinner(articleContent);
+                _this.hideLoadingSpinner(articleContent);
                 if (status == "error") {
-                    me.showPopOut(ZY.config.errorCode.connectionError+xhr.status + " " + xhr.statusText,false);
+                    _this.showPopOut(ZY.config.errorCode.connectionError+xhr.status + " " + xhr.statusText);
+                } else if(status =="success"){
+                    _this.goFullscreen($("#zy_show_video_container video"));
                 }
             });
+        },
+        /**
+         * 全屏显示视频,IE only
+         * @param  targetEle, 请求全屏的DOM元素
+         */
+        goFullscreen:function(targetEle){
+            var target=$(targetEle)[0];
+            if(target.requestFullscreen){
+                if(document.fullscreenElement==null){
+                    target.requestFullscreen();
+                }else{
+                    //已处于全屏状态，退出全屏
+                    document.cancelFullscreen()
+                }
+            }else if(target.msRequestFullscreen){
+                if(document.msFullscreenElement==null){
+                    target.msRequestFullscreen();
+                }else{
+                    //已处于全屏状态，退出全屏
+                    document.msExitFullscreen()
+                }
+            }else if(target.webkitRequestFullscreen){
+                if(document.webkitFullscreenElement==null){
+                    target.webkitRequestFullscreen();
+                }else{
+                    //已处于全屏状态，退出全屏
+                    document.webkitCancelFullscreen()
+                }
+            }
 
         },
-
         /**
          * 显示图片大图
          * @param {String} url 大图的地址
          */
         showImageDetail:function(url){
-            this.showBlackout(9998);
-            $("#zy_show_section").removeClass("zy_hidden");
-            $("#zy_show_load_container").html("<img src='"+url+"'>");
+            if($("#zy_show_section").hasClass("zy_hidden")){
+                $("#zy_show_section").removeClass("zy_hidden");
+            }
+            this.showBlackout($("#zy_show_section"));
+            //隐藏视频
+            $("#zy_show_video_container").addClass("zy_hidden");
+            TweenLite.to("#zy_show_close",0.3,{top:0})
+
+            $("#zy_show_img_container").html("<img src='"+url+"'>");
         },
 
         /**
          * 隐藏显示的视频或者大图
          */
         hideDetail:function(){
-            this.showBlackout(ZY.config.defaultWrapZindex);
-            $("#zy_show_section").addClass("zy_hidden");
-            $("#zy_show_load_container").html("");
-
+            this.hideBlackout($("#zy_show_section"));
+            TweenLite.to("#zy_show_close",0.3,{top:-50});
+            $("#zy_show_img_container").html("");
+            $("#zy_show_img_wrapper").removeClass("zy_hidden");
+            $("#zy_show_video_container").html("");
+            $("#zy_show_video_container").removeClass("zy_hidden");
             //恢复音乐
             if(ZY.music.musicPlaying){
                 musicAudio[0].play();

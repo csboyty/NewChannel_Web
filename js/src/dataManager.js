@@ -70,11 +70,11 @@ ZY.dataManager = {
                     }
                 }else{
                     //提示
-                    ZY.uiManager.showPopOut(ZY.config.errorCode.postsError,false)
+                    ZY.uiManager.showPopOut(ZY.config.errorCode.postsError)
                 }
             },
             error:function(){
-                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError,false)
+                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError)
             }
         });
     },
@@ -125,7 +125,7 @@ ZY.dataManager = {
 
                 }else{
                     //提示网络异常的错误
-                    ZY.uiManager.showPopOut(ZY.config.errorCode.postsError,false)
+                    ZY.uiManager.showPopOut(ZY.config.errorCode.postsError)
                 }
 
                 ZY.uiManager.hideLoadingSpinner($(args.targetContain));
@@ -134,7 +134,7 @@ ZY.dataManager = {
             error:function(){
                 //提示网络异常的错误
                 ZY.uiManager.hideLoadingSpinner(args.targetContain);
-                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError,false)
+                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError)
             }
         });
     },
@@ -157,11 +157,11 @@ ZY.dataManager = {
                 }else{
 
                     //提示报错
-                    ZY.uiManager.showPopOut(ZY.config.errorCode.articleError,false)
+                    ZY.uiManager.showPopOut(ZY.config.errorCode.articleError)
                 }
             },
             error:function(){
-                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError,false)
+                ZY.uiManager.showPopOut(ZY.config.errorCode.connectionError)
             }
         });
     }

@@ -29,6 +29,7 @@
                     "js/libs/jquery-2.1.1.min.js",
                     "js/libs/juicer-min.js",
                     "js/libs/greensock/TweenLite.min.js",
+                    "js/libs/greensock/TimelineLite.min.js",
                     "js/libs/greensock/CSSPlugin.min.js",
                     "js/libs/greensock/EasePack.min.js",
                     "js/libs/greensock/Draggable.min.js",
@@ -37,6 +38,7 @@
                     "js/src/config.js",
                     "js/src/controllerManager.js",
                     "js/src/dataManager.js",
+                    "js/src/touchManager.js",
                     "js/src/uiManager.js",
                     "js/src/music.js",
                     "js/src/index.js"
@@ -126,7 +128,7 @@
 
                 {@each top_posts as post,index}
                 {@if index>=1}
-                <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}">
+                <li data-zy-post-id="${post.post_id}" data-zy-post-type="${post.post_mime_type}" class="zy_transparent">
                     <div class="abstract">
                         {@if post.hasVideo}
                             <div class="thumb hasVideo"><img src="${post.thumb}" /></div>
@@ -426,86 +428,105 @@
 
 </div>
 
+
 <!--弹出层-->
-<section id="zy_wrap" class="zy_wrap zy_hidden"></section>
-<section id="zy_show_section" class="zy_show_section zy_hidden">
-    <span id="zy_show_close" class="zy_show_close"></span>
-    <!--load加载的媒体播放页面放置处-->
-    <div id="zy_show_load_wrapper" class="zy_show_load_wrapper">
-        <div id="zy_show_load_container" class="zy_show_load_container">
 
-        </div>
-    </div>
-</section>
-<!--弹出窗口-->
-<section id="zy_popout_win" class="zy_popout_win zy_hidden">
-<h3 class="zy_popout_title"></h3>
-<span id="zy_popout_close" class="zy_popout_btn">好</span>
-</section>
-<!--单片文章展示模版，采用load加载页面-->
-<article id="zy_article_container" class="zy_article_container">
-    <span id="zy_article_content_close" class="zy_article_content_close"></span>
-    <div class="zy_article_content_wrapper">
-        <section id="zy_article_content" class="zy_article_content">
-        <script id="zy_show_detail_tpl" type="text/template">
-            {@if post_type=="zypost"}
-            <article class="article-main-post">
-                <div class="article-head-post">
-                    <h1 class="article-title-post">${post_title}</h1>
-                    <h2 class="article-author-post">${post_author}，${post_date} 收录于《${post_category}》</h2>
-                    <!--<h2 class="article-category-post">${post_category}</h2>
-                    <h2 class="article-time-post">${post_date}</h2>-->
-                </div>
-                <div class="article-poster-post"><img src="${post_thumb}" ></div>
+<!--单篇文章-->
+<section id="zy_article" class="zy_article zy_hidden">
+    <!--单篇文章blackout背景-->
+    <div class="zy_blackout"></div>
+    <!--单篇文章展示模版，采用load加载页面-->
+    <article id="zy_article_container" class="zy_article_container">
+        <span id="zy_article_content_close" class="zy_article_content_close"></span>
+        <div class="zy_article_content_wrapper">
+            <section id="zy_article_content" class="zy_article_content">
+                <script id="zy_show_detail_tpl" type="text/template">
+                    {@if post_type=="zypost"}
+                    <article class="article-main-post">
+                        <div class="article-head-post">
+                            <h1 class="article-title-post">${post_title}</h1>
+                            <h2 class="article-author-post">${post_author}，${post_date} 收录于《${post_category}》</h2>
+                            <!--<h2 class="article-category-post">${post_category}</h2>
+                            <h2 class="article-time-post">${post_date}</h2>-->
+                        </div>
+                        <div class="article-poster-post"><img src="${post_thumb}" ></div>
 
 
-                <div class="article-content-post-wrapper">
-                    <div class="article-content-post">
-                        <p>$${post_content}</p>
-                    </div>
-                </div>
-            </article>
-            {@else}
-                <article class="article-main-slide">
-                    <h1 class="article-title-slide">${post_title}</h1>
-                    <h2 class="article-author-slide">${post_author}</h2>
-                    <h2 class="article-category-slide">${post_date} 收录于《${post_category}》</h2>
+                        <div class="article-content-post-wrapper">
+                            <div class="article-content-post">
+                                <p>$${post_content}</p>
+                            </div>
+                        </div>
+                    </article>
+                    {@else}
+                    <article class="article-main-slide">
+                        <h1 class="article-title-slide">${post_title}</h1>
+                        <h2 class="article-author-slide">${post_author}</h2>
+                        <h2 class="article-category-slide">${post_date} 收录于《${post_category}》</h2>
 
 
 
-                    <div class="article-abstract-slide">
-                        <p>${post_excerpt}</p>
-                    </div>
+                        <div class="article-abstract-slide">
+                            <p>${post_excerpt}</p>
+                        </div>
 
 
 
-                    <div class="allslides-slide">
-                        {@each post_slides as slide}
+                        <div class="allslides-slide">
+                            {@each post_slides as slide}
                             <div class="slide-slide">
                                 {@if slide.title}
 
-                                    {@if slide.memo}
-                                        <div class="imgcaption-slide"><span>${slide.title}</span>：${slide.memo}</div>
-                                    {@else}
-                                        <div class="imgcaption-slide">${slide.title}</div>
-                                    {@/if}
+                                {@if slide.memo}
+                                <div class="imgcaption-slide"><span>${slide.title}</span>：${slide.memo}</div>
+                                {@else}
+                                <div class="imgcaption-slide">${slide.title}</div>
+                                {@/if}
 
                                 {@else if slide.memo}
-                                    <div class="imgcaption-slide">${slide.memo}</div>
+                                <div class="imgcaption-slide">${slide.memo}</div>
                                 {@/if}
 
                                 $${slide.content}
                             </div>
-                        {@/each}
+                            {@/each}
 
-                    </div>
-                </article>
-            {@/if}
+                        </div>
+                    </article>
+                    {@/if}
 
-        </script>
-    </section>
+                </script>
+            </section>
+        </div>
+    </article>
+</section>
+
+<!--媒体细节演示窗口-->
+<section id="zy_show_section" class="zy_show_section zy_hidden">
+    <div class="zy_blackout"></div>
+    <span id="zy_show_close" class="zy_show_close"></span>
+    <!--load加载的媒体播放页面放置处-->
+    <div id="zy_show_img_wrapper" class="zy_show_img_wrapper">
+        <div id="zy_show_img_container" class="zy_show_img_container">
+
+        </div>
     </div>
-</article>
+    <div id="zy_show_video_container" class="zy_show_video_container">
+
+    </div>
+</section>
+
+<!--弹出窗口-->
+<section id="zy_popout" class="zy_popout zy_hidden">
+    <div class="zy_blackout"></div>
+    <div id="zy_popout_win" class="zy_popout_win">
+    <h3 class="zy_popout_title"></h3>
+    <span id="zy_popout_close" class="zy_popout_btn">好</span>
+    </div>
+</section>
+
+<section id="zy_wrap" class="zy_wrap zy_hidden"></section>
+
 
 <!--数据加载时的等待动画-->
 <script type="text/template" id="zy_spinner_tpl">
