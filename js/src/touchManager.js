@@ -20,15 +20,16 @@ ZY.touchManager=(function(){
 		vTracker=VelocityTracker.track(prevPoint, "x,y");
 
 		//绑定事件处理
-		document.addEventListener(touchMoveEvt,onPointerMove);
-		document.addEventListener(touchEndEvt,onPointerUp);
+		document.addEventListener("pointermove",onPointerMove);
+		document.addEventListener("pointerup",onPointerUp);
 	};
 	var onPointerMove=function(evt){
 		//更新值
-		offsetPoint.x=evt.screenX-prevPoint.x;
-		offsetPoint.y=evt.screenY-prevPoint.y;
+		offsetPoint.x+=evt.screenX-prevPoint.x;
+		offsetPoint.y+=evt.screenY-prevPoint.y;
         prevPoint.x=evt.screenX;
         prevPoint.y=evt.screenY;
+		
 		//判断dragFlag，在touchTest开始后只会检查一次
 		if(dragFlag=="NONE"){
 			if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>0){
@@ -36,12 +37,8 @@ ZY.touchManager=(function(){
 			}else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)<0){
 			dragFlag="PANY"
 			}
-		}			
-		if((dragFlag=="PANY")&&(lockedDraggable!=null)){
-			window.scrollBy(0,-offsetPoint.y);
-			return false
 		}
-        //scroll被禁用
+        //禁用默认scroll行为
         if (!enableScrolling){
             return false;
         }
@@ -68,28 +65,27 @@ ZY.touchManager=(function(){
 		vTracker=null;
 		enableScrolling=true;
 		
-		document.removeEventListener(touchMoveEvt,onPointerMove);
-		document.removeEventListener(touchEndEvt,onPointerUp);
+		document.removeEventListener("pointermove",onPointerMove);
+		document.removeEventListener("pointerup",onPointerUp);
 	};
-
-	//general Touchs
+	//general Touches
 	var onTouchStart=function(evt){			
 		offsetPoint={x:0,y:0};			
 		TweenLite.killTweensOf(throwPoint);
-		prevPoint={x:evt.touchs[0].screenX,y:evt.touchs[0].screenY};
+		prevPoint={x:evt.touches[0].screenX,y:evt.touches[0].screenY};
 		vTracker=VelocityTracker.track(prevPoint, "x,y");
 
 		//绑定事件处理
-		document.addEventListener(touchMoveEvt,onTouchMove);
-		document.addEventListener(touchEndEvt,onTouchEnd);
+		document.addEventListener("touchmove",onTouchMove);
+		document.addEventListener("touchend",onTouchEnd);
 	};
 	var onTouchMove=function(evt){
-
 		//更新值
-		offsetPoint.x=evt.touchs[0].screenX-prevPoint.x;
-		offsetPoint.y=evt.touchs[0].screenY-prevPoint.y;
-        prevPoint.x=evt.touchs[0].screenX;
-        prevPoint.y=evt.touchs[0].screenY;
+		offsetPoint.x+=evt.touches[0].screenX-prevPoint.x;
+		offsetPoint.y+=evt.touches[0].screenY-prevPoint.y;
+        prevPoint.x=evt.touches[0].screenX;
+        prevPoint.y=evt.touches[0].screenY;
+		
 		//判断dragFlag，在touchTest开始后只会检查一次
 		if(dragFlag=="NONE"){
 			if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>0){
@@ -97,11 +93,8 @@ ZY.touchManager=(function(){
 			}else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)<0){
 			dragFlag="PANY"
 			}
-		}			
-		if((dragFlag=="PANY")&&(lockedDraggable!=null)){
-			window.scrollBy(0,-offsetPoint.y);
-			return false
 		}
+		
         //scroll被禁用
         if (!enableScrolling){
             return false;
@@ -124,10 +117,66 @@ ZY.touchManager=(function(){
 		dragFlag="NONE";
 		VelocityTracker.untrack(prevPoint);
 		vTracker=null;
-
 		
-		document.removeEventListener(touchMoveEvt,onTouchMove);
-		document.removeEventListener(touchEndEvt,onTouchEnd);
+		document.removeEventListener("touchmove",onTouchMove);
+		document.removeEventListener("touchend",onTouchEnd);
+	};
+	
+	//鼠标模拟
+	var onMouseDown=function(evt){			
+		offsetPoint={x:0,y:0};			
+		TweenLite.killTweensOf(throwPoint);
+		prevPoint={x:evt.screenX,y:evt.screenY};
+		vTracker=VelocityTracker.track(prevPoint, "x,y");
+
+		//绑定事件处理
+		document.addEventListener("mousemove",onMouseMove);
+		document.addEventListener("mouseup",onMouseUp);
+	};
+	var onMouseMove=function(evt){
+		//更新值
+		offsetPoint.x+=evt.screenX-prevPoint.x;
+		offsetPoint.y+=evt.screenY-prevPoint.y;
+        prevPoint.x=evt.screenX;
+        prevPoint.y=evt.screenY;
+		
+		//判断dragFlag，在touchTest开始后只会检查一次
+		if(dragFlag=="NONE"){
+			if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)>0){
+			dragFlag="PANX"
+			}else if(Math.abs(offsetPoint.x)-Math.abs(offsetPoint.y)<0){
+			dragFlag="PANY"
+			}
+		}
+        //禁用默认scroll行为
+        if (!enableScrolling){
+            return false;
+        }
+
+	};
+	var onMouseUp=function(evt){
+
+		//获取throwPoint
+		throwPoint.x=vTracker.getVelocity("x")/80;
+		throwPoint.y=vTracker.getVelocity("y")/80;
+
+        if(lockedDraggable!=null){
+            lockedDraggable.enable();
+            lockedDraggable=null;
+            //throw
+            TweenLite.to(throwPoint,1,{y:0,onUpdate:function(){
+                window.scrollBy(0,-throwPoint.y);
+            }});
+        }
+
+        //重置
+		dragFlag="NONE";
+		VelocityTracker.untrack(prevPoint);
+		vTracker=null;
+		enableScrolling=true;
+		
+		document.removeEventListener("mousemove",onMouseMove);
+		document.removeEventListener("mouseup",onMouseUp);
 	};
 	
 	return {
@@ -145,17 +194,20 @@ ZY.touchManager=(function(){
 			lockedDraggable.disable()
 		},
 		init:function(){
-			if(window.PointerEvent) {
-				touchStartEvt="pointerdown";
-				touchMoveEvt="pointermove";
-				touchEndEvt="pointerup";
-				document.addEventListener(touchStartEvt,onPointerDown)
-			} else if ("ontouchstart" in document.createElement("div")) {
-				touchStartEvt="touchstart";
-				touchMoveEvt="touchmove";
-				touchEndEvt="touchend";
-				document.addEventListener(touchStartEvt,onTouchStart)
-			}
+			document.addEventListener("pointerdown",onPointerDown);
+			document.addEventListener("touchstart",onTouchStart);
+			document.addEventListener("mousedown",onMouseDown);
+			
+			//更新视图渲染
+			TweenLite.ticker.addEventListener("tick",function(){		
+							
+				if((dragFlag=="PANY")&&(lockedDraggable!=null)){
+					window.scrollBy(0,-offsetPoint.y)
+					offsetPoint.x=0;
+					offsetPoint.y=0;
+				}
+			
+			})
 		}
 		
 	}

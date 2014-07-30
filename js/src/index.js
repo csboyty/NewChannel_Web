@@ -43,9 +43,22 @@ $(document).ready(function(){
     });
 
     //菜单点击事件
-    $("#zy_nav a").click(function(){
+	$("#zy_nav a").on("pointerdown",function(evt){
         var target=$(this).attr("href");
         ZY.uiManager.scrollToTarget($(target));
+		evt.stopImmediatePropagation()
+        return false;
+    });
+	$("#zy_nav a").on("touchstart",function(evt){
+        var target=$(this).attr("href");
+        ZY.uiManager.scrollToTarget($(target));
+		evt.stopImmediatePropagation()
+        return false;
+    });
+    $("#zy_nav a").on("click",function(evt){
+        var target=$(this).attr("href");
+        ZY.uiManager.scrollToTarget($(target));
+		evt.stopImmediatePropagation()
         return false;
     });
 

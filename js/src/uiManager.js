@@ -312,6 +312,17 @@ ZY.uiManager=(function(){
                 })
 
             });
+			//绑定touch事件
+			$("#zy_featured_articles").delegate("li","touchstart",function(){
+                TweenLite.to($(this),0.3,{rotationY:30,transformOrigin:"50% 50%"});
+                var _this=$(this)
+                //绑定touchend
+                $(document).on("touchend",function(evt){
+                    TweenLite.to(_this,0.3,{rotationY:0,transformOrigin:"50% 50%"});
+                    $(document).off("touchend")
+                })
+
+            });
 
         },
 
