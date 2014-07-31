@@ -5,9 +5,9 @@ body{
     margin: 0;
     min-width: 730px;
     background:#000;
-
-    -ms-content-zooming:none;
     touch-action: pan-y;
+    -ms-content-zooming:none;
+    -ms-overflow-style:-ms-autohiding-scrollbar;
 }
 
 /*所有开始不显示的类*/
@@ -1470,6 +1470,10 @@ a{
 	top: 0;
 	bottom: 0;
 	/*overflow-y: auto;*/
+    /*-ms-content-zooming: zoom;
+    -ms-content-zoom-limit-min: 100%;
+    -ms-content-zoom-limit-max: 200%;
+    overflow:auto;*/
 
 	}
 .zy_show_img_container img{

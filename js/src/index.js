@@ -43,22 +43,9 @@ $(document).ready(function(){
     });
 
     //菜单点击事件
-	$("#zy_nav a").on("pointerdown",function(evt){
-        var target=$(this).attr("href");
-        ZY.uiManager.scrollToTarget($(target));
-		evt.stopImmediatePropagation()
-        return false;
-    });
-	$("#zy_nav a").on("touchstart",function(evt){
-        var target=$(this).attr("href");
-        ZY.uiManager.scrollToTarget($(target));
-		evt.stopImmediatePropagation()
-        return false;
-    });
     $("#zy_nav a").on("click",function(evt){
         var target=$(this).attr("href");
         ZY.uiManager.scrollToTarget($(target));
-		evt.stopImmediatePropagation()
         return false;
     });
 
@@ -140,6 +127,8 @@ $(document).ready(function(){
         },
         onDragStart:function(evt){
             ZY.touchManager.lockScrolling();
+
+
             //显示左右拖动提示
             var clickTarget=evt.target || evt.srcElement;
             clickTarget=$(clickTarget).parents(".zy_list_container");
@@ -163,8 +152,23 @@ $(document).ready(function(){
             if(ZY.touchManager.isPanY()){
                 ZY.touchManager.lockDrag(this)
             }
+
+            //获取速度
+            var a=-ZY.touchManager.touchDistanceX()/1920*30;
+
+            //动效
+            var target=$(this.target).find("li");
+            TweenLite.to(target,0,{rotationY:a});
+
         },
         onDragEnd:function (evt) {
+            //停止追踪
+            ThrowPropsPlugin.untrack(this.target);
+
+            //动效
+            var target=$(this.target).find("li");
+            TweenLite.to(target,0.5,{rotationY:0});
+
 
             //获取更多列表数据
             var clickTarget=evt.target || evt.srcElement;
@@ -255,7 +259,8 @@ $(document).ready(function(){
         maxDuration:0.8,
         onDragStart:function(){
             //freezeDefaultScrolling=true
-            ZY.touchManager.lockScrolling()
+            ZY.touchManager.lockScrolling();
+            //ZY.touchManager.bindGesture($(this.target).find("img")[0])
         }
     });
 
