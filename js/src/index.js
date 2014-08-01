@@ -55,6 +55,33 @@ $(document).ready(function(){
         return false;
     });
 
+
+    //标题点击动效
+    $(".zy_landscape_heading").click(function(){
+        var _this=$(this);
+        TweenLite.to(_this,1,{rotationX:-360,transformOrigin:"50% 50%",ease:Back.easeOut,onComplete:function(){
+            TweenLite.set(_this,{rotationX:0})
+        }})
+    });
+    $(".zy_people_heading").click(function(){
+        var _this=$(this);
+        TweenLite.to(_this,1,{rotationX:-360,transformOrigin:"50% 50%",ease:Back.easeOut,onComplete:function(){
+            TweenLite.set(_this,{rotationX:0})
+        }})
+    });
+    $(".zy_artifact_heading").click(function(){
+        var _this=$(this);
+        TweenLite.to(_this,1,{rotationX:-360,transformOrigin:"50% 50%",ease:Back.easeOut,onComplete:function(){
+            TweenLite.set(_this,{rotationX:0})
+        }})
+    });
+    $(".zy_community_heading").click(function(){
+        var _this=$(this);
+        TweenLite.to(_this,1,{rotationX:-360,transformOrigin:"50% 50%",ease:Back.easeOut,onComplete:function(){
+            TweenLite.set(_this,{rotationX:0})
+        }})
+    });
+
     //获取封面故事和推荐文章
     ZY.dataManager.getTopPosts();
 
@@ -161,9 +188,10 @@ $(document).ready(function(){
             TweenLite.to(target,0,{rotationY:a});
 
         },
+        onThrowComplete:function(){
+            ZY.touchManager.unlockScrolling();
+        },
         onDragEnd:function (evt) {
-            //停止追踪
-            ThrowPropsPlugin.untrack(this.target);
 
             //动效
             var target=$(this.target).find("li");
@@ -248,6 +276,9 @@ $(document).ready(function(){
         },
         onDragStart:function(){
             ZY.touchManager.lockScrolling()
+        },
+        onThrowComplete:function(){
+            ZY.touchManager.unlockScrolling();
         }
     });
 
@@ -261,6 +292,9 @@ $(document).ready(function(){
             //freezeDefaultScrolling=true
             ZY.touchManager.lockScrolling();
             //ZY.touchManager.bindGesture($(this.target).find("img")[0])
+        },
+        onThrowComplete:function(){
+            ZY.touchManager.unlockScrolling();
         }
     });
 

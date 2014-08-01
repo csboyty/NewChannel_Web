@@ -14,19 +14,25 @@ ZY.touchManager=(function(){
 	//私有函数
 	//IE pointers
 	var onPointerDown=function(evt){
-        if(activePointerId==null){
+        if((activePointerId==null)){
             activePointerId=evt.pointerId;
-            startPoint={x:evt.screenX, y:evt.screenY};
             distance={x:0,y:0};
             speed={x:0,y:0};
+
+            //当enableScrolling为false时，首页内容正在水平拖动，因此不应该更新startPoint的值
+            if(enableScrolling){
+                startPoint={x:evt.screenX, y:evt.screenY};
+                prevPoint={x:evt.screenX,y:evt.screenY};
+            }
+
             TweenLite.killTweensOf(throwSpeed);
-            prevPoint={x:evt.screenX,y:evt.screenY};
             vTracker=VelocityTracker.track(prevPoint, "x,y");//触点轨迹的变化速度
 
             //绑定事件处理
             document.addEventListener("pointermove",onPointerMove);
             document.addEventListener("pointerup",onPointerUp);
             document.addEventListener("pointercancel",onPointerCancel);
+
         }else{
             return false
         }
@@ -81,7 +87,6 @@ ZY.touchManager=(function(){
             dragFlag="NONE";
             VelocityTracker.untrack(prevPoint);
             vTracker=null;
-            enableScrolling=true;
             activePointerId=null;
 
             document.removeEventListener("pointermove",onPointerMove);
@@ -99,12 +104,11 @@ ZY.touchManager=(function(){
                 lockedDraggable.enable();
                 lockedDraggable=null;
             }
-
             dragFlag="NONE";
             VelocityTracker.untrack(prevPoint);
             vTracker=null;
-            enableScrolling=true;
             activePointerId=null;
+
             document.removeEventListener("pointermove",onPointerMove);
             document.removeEventListener("pointerup",onPointerUp);
             document.removeEventListener("pointercancel",onPointerCancel);
@@ -195,6 +199,9 @@ ZY.touchManager=(function(){
 	return {
         lockScrolling:function(){
             enableScrolling=false;
+        },
+        unlockScrolling:function(){
+            enableScrolling=true;
         },
         isPanY:function(){
             return dragFlag=="PANY"

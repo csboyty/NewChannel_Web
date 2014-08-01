@@ -553,7 +553,6 @@ ZY.controllerManager=(function(){
              if(sy>landScapeY-winH && sy<peopleY-winH){
                  ZY.uiManager.showSectionBg(landScapeBG);
                 if(!ZY.dataManager.landscapeLoaded){
-
                     //获取第1个分类(风景）文章
                     ZY.dataManager.getCategoryPosts({
                         width:ZY.config.articleWidths.landscapeWidth,
@@ -564,6 +563,10 @@ ZY.controllerManager=(function(){
                     });
                     ZY.dataManager.landscapeLoaded=true;
                 }
+                 //动效
+                 var zoom=(sy-(landScapeY-winH))/(peopleY-landScapeY)
+                 var bgimg=$("#zy_landscape_bg img");
+                 TweenLite.set(bgimg,{y:zoom*80})
 
             }else if(sy>=peopleY-winH && sy<artifactY-winH){
                  ZY.uiManager.showSectionBg(peopleBG);
@@ -579,6 +582,11 @@ ZY.controllerManager=(function(){
                      });
                      ZY.dataManager.peopleLoaded=true;
                  }
+                 //动效
+                 var zoom=(sy-(peopleY-winH))/(artifactY-peopleY)
+                 var bgimg=$("#zy_people_bg img");
+                 TweenLite.set(bgimg,{y:zoom*80})
+
             }else if(sy>=artifactY-winH && sy<communityY-winH){
                  ZY.uiManager.showSectionBg(artifactBG);
                 if(!ZY.dataManager.artifactLoaded){
@@ -593,7 +601,14 @@ ZY.controllerManager=(function(){
                     });
                     ZY.dataManager.artifactLoaded=true;
                 }
-            }else if(sy>=communityY-winH && sy<footerY+winH){
+
+                 //动效
+                 var zoom=(sy-(artifactY-winH))/(communityY-artifactY)
+                 var bgimg=$("#zy_artifact_bg img");
+                 TweenLite.set(bgimg,{y:zoom*80})
+
+
+             }else if(sy>=communityY-winH && sy<footerY+winH){
                  ZY.uiManager.showSectionBg(communityBG);
 
                 if(!ZY.dataManager.communityLoaded){
@@ -608,6 +623,12 @@ ZY.controllerManager=(function(){
                     });
                     ZY.dataManager.communityLoaded=true;
                 }
+
+                 //动效
+                 var zoom=(sy-(communityY-winH))/(footerY-communityY)
+                 var bgimg=$("#zy_community_bg img");
+                 TweenLite.set(bgimg,{y:zoom*80})
+
             }else{
                  ZY.uiManager.showSectionBg(null)
             }

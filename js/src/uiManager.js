@@ -487,6 +487,29 @@ ZY.uiManager=(function(){
             ZY.uiManager.hideLoadingSpinner(articleContent);
             //视图更新
             this.updateView();
+
+            //动效
+            /*TweenLite.set([".article-title-slide",".article-author-slide",".article-category-slide",".article-abstract-slide"],{rotationY:-90,opacity:0});
+            TweenLite.to(".article-title-slide",0.5,{rotationY:0,opacity:1,transformOrigin:"0 50%",ease:Back.easeOut});
+            TweenLite.to([".article-author-slide",".article-category-slide",".article-abstract-slide"],0.5,{rotationY:0,opacity:1,transformOrigin:"0 50%",delay:0.2,ease:Back.easeOut});
+            */
+            TweenLite.set([".article-title-slide",".article-author-slide",".article-category-slide",".article-abstract-slide"],{y:100,opacity:0});
+            TweenLite.set(".allslides-slide",{opacity:0,x:50});
+            TweenLite.to(".article-title-slide",0.5,{y:0,opacity:1,ease:Back.easeOut});
+            TweenLite.to(".article-author-slide",0.5,{y:0,opacity:1,delay:0.2,ease:Circ.easeOut});
+            TweenLite.to(".article-category-slide",0.5,{y:0,opacity:1,delay:0.4,ease:Circ.easeOut});
+            TweenLite.to(".article-abstract-slide",0.5,{y:0,opacity:1,delay:0.6,ease:Circ.easeOut});
+            TweenLite.to(".allslides-slide",0.5,{opacity:1,x:0,ease:Back.easeOut,delay:1});
+
+            TweenLite.set([".article-title-post",".article-author-post"],{x:100,opacity:0});
+            TweenLite.set(".article-content-post-wrapper",{x:50,opacity:0});
+            TweenLite.set(".article-poster-post",{opacity:0});
+            TweenLite.to(".article-title-post",0.5,{x:0,opacity:1,ease:Back.easeOut});
+            TweenLite.to(".article-author-post",0.5,{x:0,opacity:1,ease:Back.easeOut,delay:0.2});
+            TweenLite.to(".article-content-post-wrapper",0.5,{opacity:1,x:0,ease:Back.easeOut,delay:0.4});
+            TweenLite.to(".article-poster-post",0.5,{opacity:1,delay:0.8})
+
+            //article-poster-post
         },
 
         /**
