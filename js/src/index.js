@@ -134,9 +134,6 @@ $(document).ready(function(){
     $(window).trigger("scroll");
 
 
-
-
-
     //栏目列表横向滚动
     Draggable.create(".zy_list_container",{
         type:"scrollLeft",

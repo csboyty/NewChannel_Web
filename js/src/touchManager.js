@@ -14,11 +14,14 @@ ZY.touchManager=(function(){
 	//私有函数
 	//IE pointers
 	var onPointerDown=function(evt){
+
         if((activePointerId==null)){
             activePointerId=evt.pointerId;
             distance={x:0,y:0};
             speed={x:0,y:0};
+            console.log(enableScrolling);
 
+            //prevPoint={x:evt.screenX,y:evt.screenY};
             //当enableScrolling为false时，首页内容正在水平拖动，因此不应该更新startPoint的值
             if(enableScrolling){
                 startPoint={x:evt.screenX, y:evt.screenY};
@@ -53,7 +56,7 @@ ZY.touchManager=(function(){
                 if(Math.abs(speed.x)-Math.abs(speed.y)>0){
                     dragFlag="PANX"
                 }else if(Math.abs(speed.x)-Math.abs(speed.y)<0){
-                    dragFlag="PANY"
+                    dragFlag="PANY";
                 }
             }
             //禁用默认scroll行为
@@ -77,6 +80,7 @@ ZY.touchManager=(function(){
             if(lockedDraggable!=null){
                 lockedDraggable.enable();
                 lockedDraggable=null;
+                enableScrolling=true
                 //throwSpeed
                 TweenLite.to(throwSpeed,1,{y:0,onUpdate:function(){
                     window.scrollBy(0,-throwSpeed.y);
@@ -103,6 +107,7 @@ ZY.touchManager=(function(){
             if(lockedDraggable!=null){
                 lockedDraggable.enable();
                 lockedDraggable=null;
+                enableScrolling=true
             }
             dragFlag="NONE";
             VelocityTracker.untrack(prevPoint);
@@ -234,10 +239,11 @@ ZY.touchManager=(function(){
 			//document.addEventListener("touchstart",onTouchStart);
 			
 			//更新视图渲染
-			TweenLite.ticker.addEventListener("tick",function(){		
-							
+			TweenLite.ticker.addEventListener("tick",function(){
+
 				if((dragFlag=="PANY")&&(lockedDraggable!=null)){
-					window.scrollBy(0,-speed.y)
+
+					window.scrollBy(0,-speed.y);
 					speed.x=0;
 					speed.y=0;
 				}
