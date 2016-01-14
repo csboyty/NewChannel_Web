@@ -7,45 +7,7 @@
     <meta name="keywords" content="社会创新, 新通道, 文化产品创新, 文化产品设计，通道，侗锦" />
     <title>新通道</title>
     <link rel="stylesheet" type="text/css" href="css/apps/index.css"/>
-    <script type="text/javascript" src="js/libs/modernizr.js"></script>
-    <script type="text/javascript">
-        //加载资源
-        Modernizr.load([
-            {
-                test:Modernizr.rgba &&
-                        Modernizr.borderradius &&
-                        Modernizr.boxshadow &&
-                        Modernizr.textshadow &&
-                        Modernizr.opacity &&
-                        Modernizr.cssanimations &&
-                        Modernizr.csscolumns &&
-                        Modernizr.csstransitions &&
-                        Modernizr.generatedcontent &&
-                        Modernizr.video &&
-                        Modernizr.audio,
-                nope:["js/libs/jquery-1.10.2.min.js","js/src/uiManager.js"],
-                yep:[
-                    "js/libs/jquery-1.10.2.min.js",
-                    "js/libs/juicer-min.js",
-                    "js/libs/greensock/TweenMax.min.js",
-                    "js/libs/greensock/ScrollToPlugin.min.js",
-                    "js/src/config.js",
-                    "js/src/controllerManager.js",
-                    "js/src/dataManager.js",
-                    "js/src/uiManager.js",
-                    "js/src/music.js",
-                    "js/src/index.js",
-                    "js/src/googleAnalytics.js"
-                ],
-                callback:function(key,testResult){
-                    if(testResult!==true&&key=="js/src/uiManager.js"){
-                        ZY.uiManager.showPopOut("很抱歉，本站使用的一些HTML5特性，您的浏览器可能不支持，为了获得最佳浏览体验，"+
-                                "建议您将浏览器升级到最新版本，或选用其他兼容HTML5的浏览器，我们推荐Chrome浏览器和火狐浏览器。",true);
-                    }
-                }
-            }
-        ]);
-    </script>
+
 
 </head>
 <body>
@@ -527,6 +489,47 @@
         <div class="zy_loading_bottom_right zy_loading_item"></div>
     </div>
 </script>
+
+
+<script type="text/javascript" src="js/libs/modernizr.js"></script>
+<script type="text/javascript">
+    //加载资源
+    Modernizr.load([
+        {
+            test:Modernizr.rgba &&
+                    Modernizr.borderradius &&
+                    Modernizr.boxshadow &&
+                    Modernizr.textshadow &&
+                    Modernizr.opacity &&
+                    Modernizr.cssanimations &&
+                    Modernizr.csscolumns &&
+                    Modernizr.csstransitions &&
+                    Modernizr.generatedcontent &&
+                    Modernizr.video &&
+                    Modernizr.audio,
+            nope:["js/libs/jquery-1.10.2.min.js","js/src/uiManager.js"],
+            yep:[
+                "js/libs/jquery-1.10.2.min.js",
+                "js/libs/juicer-min.js",
+                "js/libs/greensock/TweenMax.min.js",
+                "js/libs/greensock/ScrollToPlugin.min.js",
+                "js/src/config.js",
+                "js/src/controllerManager.js",
+                "js/src/dataManager.js",
+                "js/src/uiManager.js",
+                "js/src/music.js",
+                "js/src/index.js"
+            ],
+            callback:function(key,testResult){
+                if(testResult!==true&&key=="js/src/uiManager.js"){
+                    ZY.uiManager.showPopOut("很抱歉，本站使用的一些HTML5特性，您的浏览器可能不支持，为了获得最佳浏览体验，"+
+                            "建议您将浏览器升级到最新版本，或选用其他兼容HTML5的浏览器，我们推荐Chrome浏览器和火狐浏览器。",true);
+                }
+            }
+        }
+    ]);
+</script>
+
 <!--下载音乐的target-->
 <iframe name="zy_download_music" style="display: none"></iframe>
 </body>

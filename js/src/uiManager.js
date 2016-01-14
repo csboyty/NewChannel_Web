@@ -204,7 +204,7 @@ ZY.uiManager=(function(){
          * @param {Number} zIndex 此层的css属性z-index
          */
         showBlackout:function(zIndex){
-            var wrap=$("#zy_loading_container");
+            var wrap=$("#zy_wrap");
             wrap.css("z-index",zIndex); //此句位置和下面不一样是因为可能在显示的同时改变zindex，例如显示视频时
             if(wrap.hasClass("zy_hidden")){
                 wrap.removeClass("zy_hidden");
@@ -215,7 +215,7 @@ ZY.uiManager=(function(){
          * 隐藏遮盖层
          */
         hideBlackout:function(){
-            var wrap=$("#zy_loading_container");
+            var wrap=$("#zy_wrap");
             if(!wrap.hasClass("zy_hidden")){
                 wrap.addClass("zy_hidden");
                 wrap.css("z-index",ZY.config.defaultWrapZindex);

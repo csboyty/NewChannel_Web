@@ -27,7 +27,8 @@ ZY.dataManager = {
             url:ZY.config.ajaxurl,
             type:"post",
             data:{
-                action:"zy_get_music"
+                action:"zy_get_music",
+                programId:ZY.config.categoryIds.tdId
             },
             success:function(response){
                 if(response.success){

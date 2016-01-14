@@ -12,10 +12,10 @@ ZY.config={
     siteurl:"http://www.comdesignlab.com/travel",
     categoryIds:{
         tdId:13,  //每个分类的id
-        sectionOneId:14, //艺术小作坊
-        sectionTwoId:15,  //童年的天空
-        sectionThreeId:16, //绘本欣赏
-        sectionFourId:17
+        sectionOneId:14, //风景
+        sectionTwoId:15,  //人文
+        sectionThreeId:16, //物语
+        sectionFourId:17 //社区
     },
     articleWidths:{
         sectionOneWidth:320,//每个分类的li的宽度
